@@ -167,6 +167,7 @@ class Projects extends AdminComponent
             unset($gallery[$index]);
             $project->update(['gallery' => array_values($gallery)]);
         }
+        $this->toast('Photo removed from the gallery.');
     }
 
     public function delete(int $id, ImageStore $images): void
@@ -179,6 +180,7 @@ class Projects extends AdminComponent
         ActivityLog::record('project.deleted', 'Deleted project: '.$project->getTranslation('title', 'en'));
         $project->delete();
         $this->resetForm();
+        $this->toast('Project deleted.');
     }
 
     public function cancel(): void

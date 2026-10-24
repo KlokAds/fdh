@@ -186,7 +186,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .lang-switch a.is-active { background: var(--brand-dark); color: #fff; }
 .nav-phone, .nav-wa { display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px 0 14px; font-weight: 700; transition: background .2s, color .2s; }
 .nav-phone { background: var(--amber); color: var(--amber-ink); }
-.nav-phone:hover { background: var(--brand-dark); color: #fff; }
+.nav-phone:hover { background: color-mix(in srgb, var(--amber) 85%, #fff); color: var(--amber-ink); }
 .nav-phone-icon { display: grid; place-items: center; width: 22px; }
 .nav-phone-icon .icon-fill { width: 19px; height: 19px; }
 .nav-phone-text { display: grid; line-height: 1.15; }
@@ -819,4 +819,18 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 
 @media (max-width: 860px) {
     .project-meta { padding: 14px 16px 18px; }
+}
+
+/* Filled glyphs (phone, WhatsApp) sit low and large next to text; bring them in line */
+.btn .icon-fill, .nav-phone .icon-fill, .nav-wa .icon-fill, .mobile-bar .icon-fill, .cc-icon .icon-fill { transform: translateY(-1px); }
+.btn .icon-fill { width: 16px; height: 16px; }
+
+/* Back to top */
+.to-top { position: fixed; z-index: 45; right: 22px; bottom: 92px; width: 48px; height: 48px; display: grid; place-items: center; padding: 0; border: 0; background: var(--brand-dark); color: #fff; box-shadow: 0 12px 28px -12px rgba(0, 0, 0, .5); opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity .25s, transform .25s, visibility .25s, background .2s; }
+.to-top .icon { width: 22px; height: 22px; transform: rotate(180deg); }
+.to-top.is-shown { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { background: var(--amber); color: var(--amber-ink); }
+[data-theme="dark"] .to-top { background: #1f3b61; }
+@media (max-width: 760px) {
+    .to-top { right: 14px; bottom: calc(80px + env(safe-area-inset-bottom)); width: 44px; height: 44px; }
 }

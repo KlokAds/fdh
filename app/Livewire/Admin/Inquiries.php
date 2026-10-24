@@ -80,6 +80,7 @@ class Inquiries extends AdminComponent
         validator(['status' => $status], ['status' => ['required', Rule::in(array_keys(Inquiry::STATUSES))]])->validate();
 
         Inquiry::query()->findOrFail($this->openId)->update(['status' => $status]);
+        $this->toast('Status updated.');
     }
 
     public function saveNote(): void
@@ -104,6 +105,7 @@ class Inquiries extends AdminComponent
         ActivityLog::record('inquiry.deleted', "Deleted inquiry #{$inquiry->id} from {$inquiry->name}");
         $inquiry->delete();
         $this->close();
+        $this->toast('Inquiry deleted.');
     }
 
     public function render(): View

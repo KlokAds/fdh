@@ -86,6 +86,7 @@ class Security extends AdminComponent
         $this->recoveryCodes = $twoFactor->regenerateRecoveryCodes(auth()->user());
         $this->reset('confirm_password_for_codes');
         ActivityLog::record('2fa.recovery_regenerated', 'Recovery codes regenerated');
+        $this->toast('New recovery codes created — save them now.');
     }
 
     public function hideCodes(): void

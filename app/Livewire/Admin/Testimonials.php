@@ -111,6 +111,7 @@ class Testimonials extends AdminComponent
         $testimonial = Testimonial::query()->findOrFail($this->editingId);
         $images->delete($testimonial->photo);
         $testimonial->update(['photo' => null]);
+        $this->toast('Photo removed.');
     }
 
     public function delete(int $id, ImageStore $images): void
@@ -120,6 +121,7 @@ class Testimonials extends AdminComponent
         ActivityLog::record('testimonial.deleted', 'Deleted testimonial from '.$testimonial->name);
         $testimonial->delete();
         $this->resetForm();
+        $this->toast('Testimonial deleted.');
     }
 
     public function cancel(): void

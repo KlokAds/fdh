@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Site;
 
+use App\Mail\InquiryReceivedMail;
 use App\Mail\NewInquiryMail;
 use App\Models\Inquiry;
 use App\Models\Service;
@@ -176,15 +177,22 @@ class InquiryForm extends Component
         defer(function () use ($inquiry, $recipients): void {
             app(PushNotifier::class)->newInquiry($inquiry);
 
-            if ($recipients === []) {
-                return;
+            if ($recipients !== []) {
+                try {
+                    Mail::to($recipients)->send(new NewInquiryMail($inquiry));
+                    $inquiry->forceFill(['emailed_at' => now()])->save();
+                } catch (Throwable $e) {
+                    Log::warning("Inquiry #{$inquiry->id} notification failed: ".$e->getMessage());
+                }
             }
 
-            try {
-                Mail::to($recipients)->send(new NewInquiryMail($inquiry));
-                $inquiry->forceFill(['emailed_at' => now()])->save();
-            } catch (Throwable $e) {
-                Log::warning("Inquiry #{$inquiry->id} notification failed: ".$e->getMessage());
+            // A short, branded confirmation to the visitor when they left an email address.
+            if ($inquiry->email) {
+                try {
+                    Mail::to($inquiry->email)->send(new InquiryReceivedMail($inquiry));
+                } catch (Throwable $e) {
+                    Log::warning("Inquiry #{$inquiry->id} auto-reply failed: ".$e->getMessage());
+                }
             }
         });
     }

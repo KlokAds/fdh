@@ -6,6 +6,7 @@ use App\Models\Inquiry;
 use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -21,6 +22,8 @@ class NewInquiryMail extends Mailable
     {
         return new Envelope(
             subject: 'New inquiry: '.$this->inquiry->name.($this->inquiry->service ? ' — '.$this->inquiry->service : ''),
+            // Replying from the inbox answers the visitor directly.
+            replyTo: $this->inquiry->email ? [new Address($this->inquiry->email, $this->inquiry->name)] : [],
         );
     }
 

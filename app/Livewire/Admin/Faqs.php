@@ -79,6 +79,7 @@ class Faqs extends AdminComponent
         Faq::query()->findOrFail($id)->delete();
         ActivityLog::record('faq.deleted', "Deleted FAQ #{$id}");
         $this->resetForm();
+        $this->toast('FAQ deleted.');
     }
 
     public function cancel(): void

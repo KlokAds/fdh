@@ -190,7 +190,7 @@
             </div>
             <div class="foot-bottom">
                 <span>© {{ date('Y') }} {{ site('site_name') }}. {{ __('All rights reserved.') }}</span>
-                <a href="#top">{{ __('Back to top') }} ↑</a>
+                <a href="#top" data-scroll-top>{{ __('Back to top') }} ↑</a>
             </div>
         </div>
     </footer>
@@ -204,6 +204,8 @@
         <a href="{{ route('contact') }}" wire:navigate class="mb-main"><x-icon name="mail" /><span>{{ __('Inquiry') }}</span></a>
         <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="mb-wa"><x-icon name="whatsapp" /><span>WhatsApp</span></a>
     </nav>
+
+    <button type="button" class="to-top" data-scroll-top aria-label="{{ __('Back to top') }}"><x-icon name="chevron" /></button>
 
     <a class="wa-float" href="https://wa.me/{{ site('whatsapp') }}?text={{ rawurlencode(__('Hello :site, I want to know about your services.', ['site' => site('site_name')])) }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Chat on WhatsApp') }}">
         <x-icon name="whatsapp" />

@@ -41,6 +41,21 @@ abstract class AdminComponent extends Component
     }
 
     /**
+     * Every "status" message an action flashes is shown as a toast.
+     */
+    public function dehydrate(): void
+    {
+        if (is_string($message = session()->pull('status'))) {
+            $this->toast($message);
+        }
+    }
+
+    protected function toast(string $message, string $type = 'success'): void
+    {
+        $this->dispatch('toast', type: $type, message: $message);
+    }
+
+    /**
      * Guard an individual action with an extra permission.
      */
     protected function authorizeAbility(string $permission): void

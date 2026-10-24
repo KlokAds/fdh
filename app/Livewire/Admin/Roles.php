@@ -88,6 +88,7 @@ class Roles extends AdminComponent
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         ActivityLog::record('role.two_factor', "Two-factor for role {$role->name}: ".($role->requires_two_factor ? 'required' : 'optional'));
+        $this->toast('Two-factor rule updated.');
     }
 
     public function delete(int $id): void

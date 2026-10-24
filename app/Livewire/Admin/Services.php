@@ -95,6 +95,7 @@ class Services extends AdminComponent
     {
         $service = Service::query()->findOrFail($id);
         $service->update(['is_active' => ! $service->is_active]);
+        $this->toast('Service visibility updated.');
     }
 
     public function delete(int $id): void
@@ -103,6 +104,7 @@ class Services extends AdminComponent
         ActivityLog::record('service.deleted', 'Deleted service: '.$service->getTranslation('title', 'en'));
         $service->delete();
         $this->resetForm();
+        $this->toast('Service deleted.');
     }
 
     public function cancel(): void

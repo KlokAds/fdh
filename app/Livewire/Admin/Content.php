@@ -135,6 +135,7 @@ class Content extends AdminComponent
         Setting::write([$key => '']);
         app(SampleContent::class)->forgetImage($key);
         $this->values = $this->editableValues();
+        $this->toast('Image removed — the website uses its default now.');
     }
 
     /**
@@ -154,6 +155,7 @@ class Content extends AdminComponent
 
         Setting::write([$key => '']);
         ActivityLog::record('content.updated', "Removed secret: {$key}");
+        $this->toast('Saved value cleared.');
     }
 
     /**

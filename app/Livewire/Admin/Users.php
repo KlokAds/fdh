@@ -130,6 +130,7 @@ class Users extends AdminComponent
         $this->temporaryPassword = $password;
         $this->temporaryFor = $user->email;
         ActivityLog::record('user.password_reset', "Reset password for {$user->email}");
+        $this->toast('Temporary password created — share it with the user.');
     }
 
     public function resetTwoFactor(int $id): void

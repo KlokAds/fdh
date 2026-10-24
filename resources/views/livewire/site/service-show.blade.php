@@ -21,7 +21,7 @@
                     <p class="label">{{ __('Start here') }}</p>
                     <p>{{ __('Tell us about your project and an engineer will call you back.') }}</p>
                     <a href="{{ route('contact', ['service' => $service->title]) }}" wire:navigate class="btn btn-block">{{ __('Request this service') }} <span aria-hidden="true">→</span></a>
-                    <a href="{{ site_phone_href() }}" class="link-quiet">{{ __('or call') }} {{ site('phone') }}</a>
+                    <a href="{{ site_phone_href() }}" class="btn btn-outline btn-block"><x-icon name="phone" /> {{ site('phone') }}</a>
                 </div>
                 @if ($others->isNotEmpty())
                     <div class="aside-block">

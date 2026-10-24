@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Livewire\Site\InquiryForm;
+use App\Mail\InquiryReceivedMail;
 use App\Mail\NewInquiryMail;
 use App\Models\Inquiry;
 use App\Models\Setting;
@@ -28,6 +29,27 @@ class InquiryEmailTest extends TestCase
 
         Mail::assertSent(NewInquiryMail::class, fn (NewInquiryMail $mail): bool => $mail->hasTo('office@example.com') && $mail->hasTo('engineer@example.com'));
         $this->assertNotNull(Inquiry::query()->first()->emailed_at);
+    }
+
+    public function test_visitor_with_an_email_gets_a_branded_reply_in_their_language(): void
+    {
+        Mail::fake();
+        $this->withoutDefer();
+        Setting::write(['notify_email' => 'office@example.com']);
+
+        app()->setLocale('bn');
+        $component = Livewire::test(InquiryForm::class);
+        $this->travel(5)->seconds();
+        $component->set('name', 'Karim')->set('phone', '01812345678')->set('email', 'karim@example.com')->call('submit');
+
+        Mail::assertSent(InquiryReceivedMail::class, function (InquiryReceivedMail $mail): bool {
+            $html = $mail->render();
+
+            return $mail->hasTo('karim@example.com')
+                && str_contains($html, 'FDH-00001')
+                && str_contains($html, 'আপনার অনুরোধটি আমরা পেয়েছি');
+        });
+        Mail::assertSent(NewInquiryMail::class, fn (NewInquiryMail $mail): bool => $mail->hasReplyTo('karim@example.com'));
     }
 
     public function test_no_email_when_no_address_is_set(): void

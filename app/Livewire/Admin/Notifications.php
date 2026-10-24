@@ -41,6 +41,7 @@ class Notifications extends AdminComponent
     public function removeDevice(int $id): void
     {
         PushSubscription::query()->where('user_id', auth()->id())->whereKey($id)->delete();
+        $this->toast('Device removed. It will no longer get alerts.');
     }
 
     public function render(PushNotifier $notifier): View

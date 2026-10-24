@@ -13,7 +13,7 @@
                     <p class="label">{{ __('Still have a question?') }}</p>
                     <p>{{ __('Call or message us — an engineer will answer.') }}</p>
                     <a href="{{ route('contact') }}" wire:navigate class="btn btn-block">{{ __('Ask us') }} <span aria-hidden="true">→</span></a>
-                    <a href="{{ site_phone_href() }}" class="link-quiet">{{ site('phone') }}</a>
+                    <a href="{{ site_phone_href() }}" class="btn btn-outline btn-block"><x-icon name="phone" /> {{ site('phone') }}</a>
                 </div>
             </aside>
         </div>

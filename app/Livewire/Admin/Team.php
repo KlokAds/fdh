@@ -123,6 +123,7 @@ class Team extends AdminComponent
         $member = TeamMember::query()->findOrFail($this->editingId);
         $images->delete($member->photo);
         $member->update(['photo' => null]);
+        $this->toast('Photo removed.');
     }
 
     public function delete(int $id, ImageStore $images): void
@@ -132,6 +133,7 @@ class Team extends AdminComponent
         ActivityLog::record('team.deleted', 'Deleted team member: '.$member->getTranslation('name', 'en'));
         $member->delete();
         $this->resetForm();
+        $this->toast('Team member deleted.');
     }
 
     public function cancel(): void

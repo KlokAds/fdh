@@ -102,6 +102,105 @@ document.addEventListener('click', (event) => {
     }
 });
 
+/* ---------- Toasts (admin): success and error feedback for every action ---------- */
+const TOAST_ICONS = {
+    success: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+    error: '<path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9"/>',
+    info: '<path d="M12 11v5M12 7.5h.01"/><circle cx="12" cy="12" r="9"/>',
+};
+
+export function toast(message, type = 'success') {
+    const box = document.getElementById('toasts');
+    if (!box || !message) {
+        return;
+    }
+    const item = document.createElement('div');
+    item.className = `toast toast-${type}`;
+    item.setAttribute('role', type === 'error' ? 'alert' : 'status');
+    item.innerHTML = `<svg viewBox="0 0 24 24" class="icon toast-icon" aria-hidden="true">${TOAST_ICONS[type] || TOAST_ICONS.info}</svg><p></p><button type="button" class="toast-x" aria-label="Dismiss">×</button><span class="toast-bar"></span>`;
+    item.querySelector('p').textContent = message;
+    const remove = () => {
+        item.classList.add('is-leaving');
+        setTimeout(() => item.remove(), 250);
+    };
+    item.querySelector('.toast-x').addEventListener('click', remove);
+    box.appendChild(item);
+    setTimeout(remove, type === 'error' ? 7000 : 4000);
+}
+
+function showInitialToasts() {
+    document.querySelectorAll('template[data-initial-toast]').forEach((tpl) => {
+        toast(tpl.innerHTML.trim(), tpl.dataset.type || 'success');
+        tpl.remove();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', showInitialToasts);
+document.addEventListener('livewire:navigated', showInitialToasts);
+
+document.addEventListener('livewire:init', () => {
+    window.Livewire.on('toast', (event) => {
+        const data = Array.isArray(event) ? event[0] : event;
+        toast(data?.message, data?.type || 'success');
+    });
+
+    // Errors: validation problems after an action, and failed requests (permission, expired page, server).
+    window.Livewire.hook('commit', ({ commit, succeed, fail }) => {
+        succeed(({ snapshot }) => {
+            if (!document.getElementById('toasts') || !commit.calls?.length) {
+                return;
+            }
+            let errors = {};
+            try {
+                errors = JSON.parse(snapshot).memo?.errors || {};
+            } catch {
+                errors = snapshot?.memo?.errors || {};
+            }
+            const messages = Object.values(errors).flat();
+            if (messages.length) {
+                toast(messages.length > 1 ? `${messages[0]} (and ${messages.length - 1} more)` : messages[0], 'error');
+            }
+        });
+        fail(() => {});
+    });
+    window.Livewire.hook('request', ({ fail }) => {
+        fail(({ status, preventDefault }) => {
+            if (!document.getElementById('toasts')) {
+                return;
+            }
+            const message = {
+                403: 'You do not have permission to do that.',
+                404: 'That item no longer exists. Reload the page.',
+                419: 'This page has expired. Reload the page and try again.',
+                429: 'Too many attempts. Please wait a moment.',
+            }[status] || 'Something went wrong on the server. Please try again.';
+            toast(message, 'error');
+            preventDefault();
+        });
+    });
+});
+
+/* ---------- Back to top ---------- */
+document.addEventListener('click', (event) => {
+    if (event.target.closest('[data-scroll-top]')) {
+        // The header is sticky, so an anchor to it would not move the page.
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+});
+
+let toTopTicking = false;
+window.addEventListener('scroll', () => {
+    if (toTopTicking) {
+        return;
+    }
+    toTopTicking = true;
+    requestAnimationFrame(() => {
+        document.querySelector('.to-top')?.classList.toggle('is-shown', window.scrollY > 700);
+        toTopTicking = false;
+    });
+}, { passive: true });
+
 /* ---------- Phone menu: sub-menus open as a panel over the menu ---------- */
 const phoneMenu = window.matchMedia('(max-width: 1100px)');
 

@@ -216,5 +216,20 @@
     "Contact us": "যোগাযোগ করুন",
     "Map": "ম্যাপ",
     "Back": "পেছনে",
-    "All about us": "আমাদের সম্পর্কে সব"
+    "All about us": "আমাদের সম্পর্কে সব",
+    "Thank you, :name — we have your request": "ধন্যবাদ, :name — আপনার অনুরোধ পেয়েছি",
+    "Request received": "অনুরোধ পাওয়া গেছে",
+    "An engineer will call you soon. Your request number is :number.": "শিগগিরই একজন ইঞ্জিনিয়ার আপনাকে ফোন করবেন। আপনার অনুরোধ নম্বর :number।",
+    "We have received your request. An engineer from our team will call you on :phone, usually within one working day.": "আপনার অনুরোধটি আমরা পেয়েছি। আমাদের একজন ইঞ্জিনিয়ার সাধারণত এক কর্মদিবসের মধ্যে :phone নম্বরে আপনাকে ফোন করবেন।",
+    "If it is urgent, call or message us directly — the buttons are below.": "জরুরি হলে সরাসরি ফোন বা মেসেজ করুন — নিচে বোতাম দেওয়া আছে।",
+    "What you sent us": "আপনি যা পাঠিয়েছেন",
+    "Request no.": "অনুরোধ নম্বর",
+    "General inquiry": "সাধারণ জিজ্ঞাসা",
+    "What happens next": "এরপর কী হবে",
+    "We call you to understand the land, budget and timeline.": "জমি, বাজেট ও সময় বুঝতে আমরা আপনাকে ফোন করব।",
+    "If needed, we visit the site and plan the survey and soil test.": "প্রয়োজনে সাইট পরিদর্শন করে সার্ভে ও সয়েল টেস্টের পরিকল্পনা করব।",
+    "You get a clear quotation before any work starts.": "কাজ শুরুর আগেই আপনি পরিষ্কার খরচের হিসাব পাবেন।",
+    "You get this email because this address was entered in the contact form on our website. Just reply to this email if you want to add anything.": "আমাদের ওয়েবসাইটের যোগাযোগ ফর্মে এই ইমেইল ঠিকানা দেওয়া হয়েছিল বলে আপনি এটি পাচ্ছেন। কিছু যোগ করতে চাইলে এই ইমেইলের উত্তর দিন।",
+    "We received your request — :site": "আপনার অনুরোধ পেয়েছি — :site",
+    "Service": "সেবা"
 }
