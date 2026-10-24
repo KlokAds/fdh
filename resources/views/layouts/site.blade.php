@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? site('meta_title') }}</title>
-    <meta name="description" content="{{ site('meta_description') }}">
-    <meta property="og:type" content="website">
+    @php($pageDescription = \Illuminate\Support\Str::limit(trim($description ?? '') !== '' ? $description : site('meta_description'), 160))
+    @php($pageImage = $image ?? \App\Models\Setting::imageUrl('og_image', 'images/fdh-logo.jpg'))
+    <meta name="description" content="{{ $pageDescription }}">
+    <meta property="og:type" content="{{ $ogType ?? 'website' }}">
     <meta property="og:site_name" content="{{ site('site_name') }}">
     <meta property="og:title" content="{{ $title ?? site('meta_title') }}">
-    <meta property="og:description" content="{{ site('meta_description') }}">
-    <meta property="og:image" content="{{ \App\Models\Setting::imageUrl('og_image', 'images/fdh-logo.jpg') }}">
+    <meta property="og:description" content="{{ $pageDescription }}">
+    <meta property="og:image" content="{{ $pageImage }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:locale" content="{{ app()->getLocale() === 'bn' ? 'bn_BD' : 'en_US' }}">
     <meta name="theme-color" content="#0a1628">
     <link rel="canonical" href="{{ url()->current() }}">
@@ -17,7 +21,7 @@
     @include('partials.theme-boot', ['defaultTheme' => 'device'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Anek+Bangla:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     @include('partials.brand-colors')
     @include('partials.meta-pixel')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -34,6 +38,9 @@
             'sameAs' => array_values(array_filter([site('facebook'), site('youtube'), site('linkedin')])),
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) !!}
     </script>
+    @isset($schema)
+        <script type="application/ld+json" nonce="{{ \Illuminate\Support\Facades\Vite::cspNonce() }}">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) !!}</script>
+    @endisset
 </head>
 <body class="site">
     <a href="#main" class="skip-link">{{ __('Skip to content') }}</a>

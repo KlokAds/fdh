@@ -56,6 +56,7 @@ class SampleContent
                 'slug' => $project['slug'],
                 'title' => $project['title'],
                 'category' => $project['category'],
+                'status' => $project['status'] ?? 'completed',
                 'description' => $project['description'],
                 'cover_image' => $this->images->storeFromPath(self::directory().'/'.$project['image'], 'projects'),
                 'gallery' => array_map(fn (string $file): string => $this->images->storeFromPath(self::directory().'/'.$file, 'projects'), $project['gallery'] ?? []),
@@ -198,6 +199,7 @@ class SampleContent
                 'image' => 'construction.jpg',
                 'gallery' => ['blueprint.jpg'],
                 'category' => 'Construction',
+                'status' => 'ongoing',
                 'title' => ['en' => 'RCC frame construction supervision', 'bn' => 'আরসিসি ফ্রেম নির্মাণ তত্ত্বাবধান'],
                 'description' => [
                     'en' => 'On-site supervision of a reinforced concrete frame: checking reinforcement before every casting, concrete quality and the work schedule.',

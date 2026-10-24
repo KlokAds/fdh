@@ -42,6 +42,14 @@ class Projects extends AdminComponent
 
     public string $year = '';
 
+    public string $status = 'completed';
+
+    public string $floors = '';
+
+    public string $land_katha = '';
+
+    public string $floor_area_sqft = '';
+
     public bool $is_featured = false;
 
     public bool $is_published = true;
@@ -74,6 +82,10 @@ class Projects extends AdminComponent
         $this->slug = $project->slug;
         $this->category = $project->category;
         $this->year = (string) $project->year;
+        $this->status = $project->status;
+        $this->floors = (string) $project->floors;
+        $this->land_katha = $project->land_katha !== null ? rtrim(rtrim((string) $project->land_katha, '0'), '.') : '';
+        $this->floor_area_sqft = (string) $project->floor_area_sqft;
         $this->is_featured = $project->is_featured;
         $this->is_published = $project->is_published;
         $this->sort = $project->sort;
@@ -92,6 +104,10 @@ class Projects extends AdminComponent
                 'slug' => ['required', 'alpha_dash', 'max:150', Rule::unique('projects', 'slug')->ignore($this->editingId)],
                 'category' => ['required', Rule::in(Project::CATEGORIES)],
                 'year' => 'nullable|digits:4',
+                'status' => ['required', Rule::in(array_keys(Project::STATUSES))],
+                'floors' => 'nullable|integer|min:1|max:60',
+                'land_katha' => 'nullable|numeric|min:0.5|max:9999',
+                'floor_area_sqft' => 'nullable|integer|min:100|max:5000000',
                 'is_featured' => 'boolean',
                 'is_published' => 'boolean',
                 'sort' => 'integer|min:0|max:999',
@@ -122,6 +138,10 @@ class Projects extends AdminComponent
             'slug' => $this->slug,
             'category' => $this->category,
             'year' => $this->year !== '' ? $this->year : null,
+            'status' => $this->status,
+            'floors' => $this->floors !== '' ? (int) $this->floors : null,
+            'land_katha' => $this->land_katha !== '' ? $this->land_katha : null,
+            'floor_area_sqft' => $this->floor_area_sqft !== '' ? (int) $this->floor_area_sqft : null,
             'is_featured' => $this->is_featured,
             'is_published' => $this->is_published,
             'sort' => $this->sort,
@@ -164,7 +184,7 @@ class Projects extends AdminComponent
 
     private function resetForm(): void
     {
-        $this->reset('editingId', 'showForm', 'slug', 'category', 'year', 'is_featured', 'is_published', 'sort', 'cover', 'photos');
+        $this->reset('editingId', 'showForm', 'slug', 'category', 'year', 'status', 'floors', 'land_katha', 'floor_area_sqft', 'is_featured', 'is_published', 'sort', 'cover', 'photos');
         $this->form = $this->blankTranslations(self::TRANSLATABLE);
         $this->resetErrorBag();
     }

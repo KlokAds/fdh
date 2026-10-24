@@ -14,7 +14,11 @@
             </article>
             <aside class="aside reveal">
                 <dl class="spec">
+                    <div><dt>{{ __('Status') }}</dt><dd><span @class(['status-chip', 'is-'.$project->status])>{{ __(\App\Models\Project::STATUSES[$project->status] ?? $project->status) }}</span></dd></div>
                     <div><dt>{{ __('Category') }}</dt><dd>{{ __($project->category) }}</dd></div>
+                    @if ($project->floors)<div><dt>{{ __('Storeys') }}</dt><dd>{{ \App\Support\CostCalculator::number($project->floors) }}</dd></div>@endif
+                    @if ($project->land_katha)<div><dt>{{ __('Land') }}</dt><dd>{{ app()->getLocale() === 'bn' ? \App\Support\CostCalculator::bnDigits(rtrim(rtrim((string) $project->land_katha, '0'), '.')) : rtrim(rtrim((string) $project->land_katha, '0'), '.') }} {{ __('katha') }}</dd></div>@endif
+                    @if ($project->floor_area_sqft)<div><dt>{{ __('Built area') }}</dt><dd>{{ \App\Support\CostCalculator::number($project->floor_area_sqft) }} {{ __('sq ft') }}</dd></div>@endif
                     @if ($project->location)<div><dt>{{ __('Location') }}</dt><dd>{{ $project->location }}</dd></div>@endif
                     @if ($project->year)<div><dt>{{ __('Year') }}</dt><dd>{{ $project->year }}</dd></div>@endif
                 </dl>

@@ -19,6 +19,6 @@ class Contact extends Component
 
     public function render(): View
     {
-        return view('livewire.site.contact')->title(__('Contact Us').' — '.site('site_name'));
+        return view('livewire.site.contact')->title(__('Contact Us').' — '.site('site_name'))->layoutData(['description' => site('contact_sub').' '.site('phone')]);
     }
 }

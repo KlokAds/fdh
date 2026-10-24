@@ -27,6 +27,6 @@ class Projects extends Component
             'projects' => Project::query()->published()->when($category !== '', fn ($q) => $q->where('category', $category))->get(),
             'categories' => Project::query()->where('is_published', true)->distinct()->orderBy('category')->pluck('category'),
             'active' => $category,
-        ])->title(__('Our Projects').' — '.site('site_name'));
+        ])->title(__('Our Projects').' — '.site('site_name'))->layoutData(['description' => __('A selection of homes, buildings and interiors we have designed and supervised.')]);
     }
 }

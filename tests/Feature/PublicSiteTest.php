@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Livewire\Site\InquiryForm;
 use App\Models\Inquiry;
+use App\Models\Project;
 use App\Models\Service;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +20,33 @@ class PublicSiteTest extends TestCase
     {
         parent::setUp();
         $this->seed(ContentSeeder::class);
+    }
+
+    public function test_missing_pages_show_the_branded_error_page(): void
+    {
+        $this->get('/no-such-page')->assertNotFound()->assertSee('পাতাটি খুঁজে পাওয়া যায়নি')->assertSee('হোমপেজে যান');
+    }
+
+    public function test_project_page_shows_its_facts_and_own_description(): void
+    {
+        $project = Project::factory()->create([
+            'title' => ['en' => 'Six storey home'],
+            'description' => ['en' => '<p>A <strong>six storey</strong> family home.</p>'],
+            'status' => 'ongoing',
+            'floors' => 6,
+            'land_katha' => 5,
+        ]);
+
+        $this->withSession(['locale' => 'en'])->get(route('projects.show', $project))
+            ->assertOk()
+            ->assertSee('Under construction')
+            ->assertSee('<strong>six storey</strong>', false)
+            ->assertSee('<meta name="description" content="A six storey family home.">', false);
+    }
+
+    public function test_faq_page_carries_faq_structured_data(): void
+    {
+        $this->get('/faq')->assertOk()->assertSee('"@type":"FAQPage"', false);
     }
 
     public function test_every_public_page_loads(): void

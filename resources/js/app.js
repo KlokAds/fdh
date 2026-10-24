@@ -316,6 +316,56 @@ function onPageReady() {
     bindReveals();
 }
 
+/* ---------- Count-up for hero figures (keeps Bangla or Latin digits and any text around them) ---------- */
+const BN_DIGITS = '০১২৩৪৫৬৭৮৯';
+
+function animateCount(el) {
+    const text = el.textContent.trim();
+    const match = text.match(/[0-9০-৯][0-9০-৯,]*/);
+    if (!match || el.dataset.counted) {
+        return;
+    }
+    el.dataset.counted = '1';
+    const bangla = /[০-৯]/.test(match[0]);
+    const target = Number(match[0].replace(/,/g, '').replace(/[০-৯]/g, (d) => BN_DIGITS.indexOf(d)));
+    if (!target || target > 1000000) {
+        return;
+    }
+    const [before, after] = [text.slice(0, match.index), text.slice(match.index + match[0].length)];
+    const format = (n) => {
+        const plain = n.toLocaleString('en-US');
+        return bangla ? plain.replace(/[0-9]/g, (d) => BN_DIGITS[d]) : plain;
+    };
+    const start = performance.now();
+    const step = (now) => {
+        const progress = Math.min(1, (now - start) / 1200);
+        el.textContent = before + format(Math.round(target * (1 - (1 - progress) ** 3))) + after;
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        }
+    };
+    requestAnimationFrame(step);
+}
+
+function bindCounters() {
+    const items = document.querySelectorAll('[data-count]:not([data-counted])');
+    if (!items.length || !root.classList.contains('js') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                animateCount(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+    items.forEach((el) => observer.observe(el));
+}
+
+document.addEventListener('DOMContentLoaded', bindCounters);
+document.addEventListener('livewire:navigated', bindCounters);
+
 /* ---------- Meta Pixel (loaded only when a Pixel ID is set in the admin) ---------- */
 let firstNavigation = true;
 document.addEventListener('livewire:navigated', () => {

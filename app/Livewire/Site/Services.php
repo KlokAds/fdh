@@ -14,6 +14,6 @@ class Services extends Component
     {
         return view('livewire.site.services', [
             'services' => Service::query()->active()->get(),
-        ])->title(__('Our Services').' — '.site('site_name'));
+        ])->title(__('Our Services').' — '.site('site_name'))->layoutData(['description' => site('services_sub')]);
     }
 }

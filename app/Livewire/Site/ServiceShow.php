@@ -24,6 +24,6 @@ class ServiceShow extends Component
     {
         return view('livewire.site.service-show', [
             'others' => Service::query()->active()->whereKeyNot($this->service->id)->get(),
-        ])->title($this->service->title.' — '.site('site_name'));
+        ])->title($this->service->title.' — '.site('site_name'))->layoutData(['description' => $this->service->summary]);
     }
 }

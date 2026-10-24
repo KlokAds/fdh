@@ -2,6 +2,9 @@
     @foreach (['rangpur' => ['Head Office', 'Rangpur'], 'dhaka' => ['Branch', 'Dhaka']] as $key => [$kind, $city])
         @if (site("{$key}_address"))
             <article class="office-card reveal" wire:key="office-{{ $key }}">
+                <div class="office-map">
+                    <iframe src="https://www.google.com/maps?q={{ rawurlencode(\App\Models\Setting::read("{$key}_address", 'en')) }}&amp;output=embed" title="{{ __('Map') }} — {{ __($city) }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
                 <div class="office-top">
                     <span class="cc-icon"><x-icon name="pin" /></span>
                     <span class="office-kind">{{ __($kind) }}</span>

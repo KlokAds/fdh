@@ -44,10 +44,10 @@
     --invert-bg: var(--brand-dark);
     --invert-text: #eef3f9;
 
-    --sans: 'Plus Jakarta Sans', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --display: 'Plus Jakarta Sans', 'Anek Bangla', system-ui, sans-serif;
-    --bn: 'Anek Bangla', 'Plus Jakarta Sans', sans-serif;
-    --bn-body: 'Noto Sans Bengali', 'Plus Jakarta Sans', sans-serif;
+    --sans: 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --display: 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --bn: 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --bn-body: 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --header-h: 72px;
     --gutter: clamp(16px, 4vw, 48px);
     color-scheme: light;
@@ -854,3 +854,39 @@ a.contact-card:hover .cc-go { background: var(--accent-fill); color: #fff; trans
 .section { padding: clamp(56px, 7vw, 104px) 0; }
 .section-tight { padding-top: clamp(32px, 4vw, 56px); }
 #process { background: var(--bg-alt); }
+
+/* Hind Siliguri: one familiar family for Bangla and English. It reads best with
+   normal letter spacing and a little more line height than the old display face. */
+.display, .section h2, .sec-head h2, .cta-inner h2, .foot-cta h2, .index-title, .pull, .statement { letter-spacing: -.01em; }
+.display, .hero .display { font-weight: 700; line-height: 1.12; }
+.lang-bn .display, .lang-bn .hero .display { line-height: 1.28; }
+.section h2, .sec-head h2 { font-weight: 700; line-height: 1.2; }
+.index-title, .project-meta h3, .type h3, .steps h3, .why-card h3, .dd-text b, .office-card h3 { font-weight: 600; }
+body.site { line-height: 1.7; }
+
+/* Error pages */
+.error-page { min-height: 100vh; display: grid; place-items: center; background: var(--hero-bg); background-image: linear-gradient(var(--hero-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px); background-size: 48px 48px; }
+.error-wrap { width: min(560px, calc(100% - 32px)); display: grid; justify-items: center; gap: 12px; padding: 40px 0; text-align: center; }
+.error-brand { display: flex; align-items: center; gap: 12px; font-weight: 600; margin-bottom: 18px; }
+.error-brand img { border-radius: 12px; background: #fff; }
+.error-code { margin: 0; font-size: clamp(4.5rem, 16vw, 8rem); font-weight: 700; line-height: 1; letter-spacing: -.04em; color: var(--accent-ink); }
+.error-wrap h1 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; }
+.error-text { margin: 0; color: var(--text-2); max-width: 44ch; }
+.error-en { font-size: .9rem; color: var(--muted); }
+.error-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 18px; }
+
+/* Project progress chip */
+.project-media { position: relative; }
+.status-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: .78rem; font-weight: 600; background: color-mix(in srgb, var(--ok, #1f8a4c) 14%, transparent); color: #1f8a4c; }
+.status-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.status-chip.is-ongoing { background: #fff4dc; color: #a26a00; }
+.status-chip.is-ongoing::before { animation: pulse-dot 1.6s ease-in-out infinite; }
+.status-chip.is-design { background: var(--tint); color: var(--accent-ink); }
+.project-media .status-chip { position: absolute; left: 12px; top: 12px; box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .4); }
+.project-media .status-chip.is-ongoing { background: #fff4dc; }
+.project-media .status-chip.is-design { background: #fff; }
+@keyframes pulse-dot { 50% { opacity: .35; } }
+.office-card { overflow: hidden; }
+.office-map { margin: calc(clamp(22px, 3vw, 30px) * -1) calc(clamp(22px, 3vw, 30px) * -1) 6px; aspect-ratio: 16 / 7; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.office-map iframe { width: 100%; height: 100%; border: 0; display: block; filter: saturate(.85); }
+[data-theme="dark"] .office-map iframe { filter: invert(.9) hue-rotate(180deg) saturate(.6); }

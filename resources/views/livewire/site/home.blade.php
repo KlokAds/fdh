@@ -50,7 +50,7 @@
             <dl class="facts-row">
                 @foreach (range(1, 3) as $stat)
                     @if (site("stat_{$stat}_value"))
-                        <div><dt>{{ site("stat_{$stat}_label") }}</dt><dd>{{ site("stat_{$stat}_value") }}</dd></div>
+                        <div><dt>{{ site("stat_{$stat}_label") }}</dt><dd data-count>{{ site("stat_{$stat}_value") }}</dd></div>
                     @endif
                 @endforeach
                 <div><dt>{{ __('Hotline') }}</dt><dd><a href="{{ site_phone_href() }}">{{ site('phone') }}</a></dd></div>
