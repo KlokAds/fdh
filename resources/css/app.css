@@ -159,7 +159,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .lang-bn .brand-tag { letter-spacing: 0; text-transform: none; font-size: .74rem; }
 .menu { display: flex; align-items: stretch; gap: 2px; height: 100%; }
 .menu-head, .menu-foot, .menu-ic { display: none; }
-.menu-link { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 0 14px; font-size: .97rem; font-weight: 600; color: var(--text-2); transition: color .2s; }
+.menu-link { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 0 14px; font-size: .97rem; font-weight: 600; color: var(--text-2); }
 .menu-link::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 3px; background: var(--amber); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
 .menu-link:hover, .menu-link.is-active { color: var(--text); }
 .menu-link:hover::after, .menu-link.is-active::after { transform: scaleX(1); }

@@ -24,10 +24,10 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Build files carry a content hash and uploads a random name, so a changed file always has a new
-# address: browsers may keep these for a year instead of re-checking them every week.
+# Build files carry a content hash, uploads a random name and bundled photos a ?v= version, so a
+# changed file always has a new address: browsers may keep these for a year instead of re-checking them every week.
 <IfModule mod_headers.c>
-    <FilesMatch "\.(css|js|woff2|webp)$">
+    <FilesMatch "\.(css|js|woff2|webp|jpe?g)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
 </IfModule>

@@ -8,6 +8,7 @@ use App\Http\Middleware\SetLocale;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\User;
+use App\Support\ImageStore;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
@@ -46,7 +47,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'navServices' => Service::query()->active()->get(['id', 'slug', 'title', 'summary', 'icon']),
                 'logoUrl' => Setting::imageUrl('logo', 'images/fdh-logo.jpg'),
-                'logoPath' => Setting::raw()['logo'] ?? null,
+                // The bundled logo has one small copy; an uploaded logo has the usual resized copies.
+                'logoSrcset' => ($logoPath = Setting::raw()['logo'] ?? null)
+                    ? ImageStore::srcset($logoPath)
+                    : Setting::imageUrl('logo', 'images/fdh-logo-160.webp').' 160w, '.Setting::imageUrl('logo', 'images/fdh-logo.jpg').' 304w',
             ]);
         });
 

@@ -5,6 +5,7 @@ namespace App\Livewire\Site;
 use App\Models\Faq;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\Setting;
 use App\Models\TeamMember;
 use App\Models\Testimonial;
 use Illuminate\Contracts\View\View;
@@ -22,6 +23,6 @@ class Home extends Component
             'members' => TeamMember::query()->active()->limit(4)->get(),
             'testimonials' => Testimonial::query()->active()->limit(6)->get(),
             'faqs' => Faq::query()->active()->limit(5)->get(),
-        ])->title(site('meta_title'));
+        ])->title(site('meta_title'))->layoutData(['heroPreload' => Setting::raw()['hero_image'] ?? null]);
     }
 }

@@ -20,6 +20,10 @@
     <link rel="icon" href="{{ $logoUrl }}">
     @include('partials.theme-boot', ['defaultTheme' => 'device'])
     @include('partials.font-preload')
+    @if (! empty($heroPreload) && ($heroSrcset = \App\Support\ImageStore::srcset($heroPreload)))
+        {{-- The hero photo is the largest thing on the home page: start it with the stylesheet, not after it. --}}
+        <link rel="preload" as="image" href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($heroPreload) }}" imagesrcset="{{ $heroSrcset }}" imagesizes="100vw" fetchpriority="high">
+    @endif
     @include('partials.brand-colors')
     @include('partials.meta-pixel')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -58,7 +62,7 @@
     <header class="header" id="top" data-header>
         <div class="container nav">
             <a href="{{ route('home') }}" wire:navigate class="brand" aria-label="{{ site('site_name') }}">
-                <x-site.photo :path="$logoPath" :src="$logoUrl" alt="" width="44" height="44" class="brand-logo" sizes="84px" />
+                <x-site.photo :srcset="$logoSrcset" :src="$logoUrl" alt="" width="44" height="44" class="brand-logo" sizes="84px" />
                 <span class="brand-text"><span class="brand-name">{{ site('site_name') }}</span><small class="brand-tag">{{ site('site_tagline') }}</small></span>
             </a>
 
@@ -141,7 +145,7 @@
             <div class="foot">
                 <div class="foot-brand">
                     <a href="{{ route('home') }}" wire:navigate class="foot-logo">
-                        <x-site.photo :path="$logoPath" :src="$logoUrl" alt="" width="48" height="48" loading="lazy" sizes="54px" />
+                        <x-site.photo :srcset="$logoSrcset" :src="$logoUrl" alt="" width="48" height="48" loading="lazy" sizes="54px" />
                         <span>{{ site('site_name') }}<small>{{ site('site_tagline') }}</small></span>
                     </a>
                     <p>{{ site('meta_description') }}</p>

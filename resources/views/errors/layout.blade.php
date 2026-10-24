@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
     <title>@yield('code') · {{ config('app.name') }}</title>
-    <link rel="icon" href="{{ asset('images/fdh-logo.jpg') }}">
+    <link rel="icon" href="{{ asset('images/fdh-logo.jpg').'?v='.@filemtime(public_path('images/fdh-logo.jpg')) }}">
     @include('partials.font-preload')
     @vite(['resources/css/app.css'])
 </head>
 <body class="site error-page">
     <main class="error-wrap">
-        <a href="{{ url('/') }}" class="error-brand"><img src="{{ asset('images/fdh-logo.jpg') }}" alt="" width="56" height="56"><span>{{ config('app.name') }}</span></a>
+        <a href="{{ url('/') }}" class="error-brand"><img src="{{ asset('images/fdh-logo.jpg').'?v='.@filemtime(public_path('images/fdh-logo.jpg')) }}" alt="" width="56" height="56"><span>{{ config('app.name') }}</span></a>
         <p class="error-code">@yield('code')</p>
         <h1>@yield('title_bn')</h1>
         <p class="error-text">@yield('text_bn')</p>

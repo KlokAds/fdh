@@ -18,6 +18,9 @@ class ImageStore
      */
     public const VARIANT_WIDTHS = [160, 480, 960, 1440];
 
+    /** Lower than the original's 82: small copies are seen on small screens, where the difference does not show. */
+    public const VARIANT_QUALITY = 68;
+
     /**
      * Validation rules for every admin image upload.
      *
@@ -74,7 +77,7 @@ class ImageStore
             }
 
             $copy = ImageManager::usingDriver(Driver::class)->decodePath($source)->scaleDown(width: $width);
-            $disk->put(self::variantPath($path, $width), (string) $copy->encode(new WebpEncoder(quality: 76, strip: true)));
+            $disk->put(self::variantPath($path, $width), (string) $copy->encode(new WebpEncoder(quality: self::VARIANT_QUALITY, strip: true)));
             $written++;
         }
 
