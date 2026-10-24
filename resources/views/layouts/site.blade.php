@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" data-theme="light" @class(['lang-bn' => app()->getLocale() === 'bn'])>
+<html lang="{{ app()->getLocale() }}" data-default-theme="device" @class(['lang-bn' => app()->getLocale() === 'bn'])>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

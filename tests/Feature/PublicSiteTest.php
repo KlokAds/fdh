@@ -46,12 +46,19 @@ class PublicSiteTest extends TestCase
 
     public function test_faq_page_carries_faq_structured_data(): void
     {
-        $this->get('/faq')->assertOk()->assertSee('"@type":"FAQPage"', false);
+        $this->get('/qa')->assertOk()->assertSee('"@type":"FAQPage"', false);
+    }
+
+    public function test_old_long_addresses_redirect_to_the_short_ones(): void
+    {
+        $this->get('/services')->assertRedirect('/sv')->assertStatus(301);
+        $this->get('/services/building-design')->assertRedirect('/sv/building-design');
+        $this->get('/contact')->assertRedirect('/ct');
     }
 
     public function test_every_public_page_loads(): void
     {
-        foreach (['/', '/about', '/services', '/services/building-design', '/projects', '/team', '/faq', '/contact', '/sitemap.xml', '/robots.txt'] as $url) {
+        foreach (['/', '/ab', '/sv', '/sv/building-design', '/pt', '/tm', '/qa', '/ct', '/sitemap.xml', '/robots.txt'] as $url) {
             $this->get($url)->assertOk();
         }
     }
@@ -60,7 +67,7 @@ class PublicSiteTest extends TestCase
     {
         Service::query()->where('slug', 'cost-estimation')->update(['is_active' => false]);
 
-        $this->get('/services/cost-estimation')->assertNotFound();
+        $this->get('/sv/cost-estimation')->assertNotFound();
     }
 
     public function test_language_switch_shows_bangla_content_with_english_fallback(): void
@@ -79,7 +86,7 @@ class PublicSiteTest extends TestCase
             'is_active' => true,
         ]);
 
-        $this->get('/services')->assertSee('English Only Service');
+        $this->get('/sv')->assertSee('English Only Service');
     }
 
     public function test_unknown_language_is_rejected(): void

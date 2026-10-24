@@ -22,7 +22,7 @@
         <p class="error-text error-en">@yield('title_en') — @yield('text_en')</p>
         <div class="error-actions">
             <a href="{{ url('/') }}" class="btn">হোমপেজে যান</a>
-            <a href="{{ url('/contact') }}" class="btn btn-outline">যোগাযোগ করুন</a>
+            <a href="{{ url('/ct') }}" class="btn btn-outline">যোগাযোগ করুন</a>
         </div>
     </main>
 </body>

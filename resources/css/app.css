@@ -665,12 +665,13 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
     .menu-anim .menu { transition: transform .3s ease; }
     .menu.is-open { transform: none; }
     .menu-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; margin-bottom: 6px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .85rem; font-weight: 600; }
+    .menu > * { flex-shrink: 0; }
     .menu-link { padding: 14px 6px; font-size: 1.05rem; border-bottom: 1px solid var(--line); height: auto; }
     .menu-link::after { display: none; }
     .menu-link.is-active { color: var(--link); }
     .menu-ic { display: block; width: 20px; height: 20px; color: var(--link); }
     .has-dd { flex-wrap: wrap; border-bottom: 1px solid var(--line); }
-    .has-dd > .menu-link { flex: 1; border-bottom: 0; }
+    .has-dd > .menu-link { flex: 1; height: auto; border-bottom: 0; }
     .dd-toggle { width: 44px; height: 44px; }
     .has-dd:hover .dd-toggle .icon { transform: none; }
     .has-dd.is-open .dd-toggle .icon { transform: rotate(180deg); }
@@ -771,3 +772,19 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
     .figures-grid { grid-template-columns: 1fr 1fr; }
     .figure { padding: 18px 16px; }
 }
+
+/* Dark theme: navy controls would vanish on the dark page, so they use a lifted navy */
+[data-theme="dark"] .btn:not(.btn-outline):not(.btn-light):not(.btn-ghost-light):not(.btn-wa):not(.btn-amber),
+[data-theme="dark"] .cc-icon,
+[data-theme="dark"] .lang-switch a.is-active,
+[data-theme="dark"] .filter.is-active,
+[data-theme="dark"] .seg button.is-active,
+[data-theme="dark"] .help-card,
+[data-theme="dark"] .figure-call { background: #1f3b61; border-color: #1f3b61; color: #fff; }
+[data-theme="dark"] .btn:not(.btn-outline):not(.btn-light):not(.btn-ghost-light):not(.btn-wa):not(.btn-amber):hover { background: #2a4d7d; border-color: #2a4d7d; }
+[data-theme="dark"] .header { box-shadow: 0 1px 0 rgba(255, 255, 255, .06); }
+[data-theme="dark"] .brand-logo, [data-theme="dark"] .foot-logo img { box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); }
+[data-theme="dark"] .split-band, [data-theme="dark"] .section-navy, [data-theme="dark"] .calc-result { background: #0d1d33; }
+[data-theme="dark"] .figures-grid { box-shadow: 0 30px 60px -36px rgba(0, 0, 0, .8); }
+[data-theme="dark"] .project-card, [data-theme="dark"] .service-tile { background: var(--surface); }
+[data-theme="dark"] a.service-tile:hover { background: #1f3b61; }

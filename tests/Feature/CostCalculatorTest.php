@@ -27,16 +27,16 @@ class CostCalculatorTest extends TestCase
 
     public function test_calculator_stays_hidden_until_enabled_with_a_rate(): void
     {
-        $this->get('/cost-calculator')->assertNotFound();
-        $this->get('/')->assertDontSee('/cost-calculator');
+        $this->get('/cc')->assertNotFound();
+        $this->get('/')->assertDontSee(route('calculator').'"', false);
 
         // Turned on but no rate entered: still hidden, so the site never shows a made-up price.
         Setting::write(['calc_enabled' => 'yes']);
-        $this->get('/cost-calculator')->assertNotFound();
+        $this->get('/cc')->assertNotFound();
 
         $this->enable();
-        $this->get('/cost-calculator')->assertOk();
-        $this->get('/')->assertSee('/cost-calculator');
+        $this->get('/cc')->assertOk();
+        $this->get('/')->assertSee(route('calculator').'"', false);
     }
 
     public function test_estimate_uses_bangladeshi_land_units_and_admin_rates(): void
@@ -86,6 +86,7 @@ class CostCalculatorTest extends TestCase
 
     public function test_result_link_prefills_the_contact_form(): void
     {
-        $this->get('/contact?estimate='.rawurlencode('Calculator: 3 katha'))->assertSee('Calculator: 3 katha');
+        $this->get('/ct?estimate='.rawurlencode('Calculator: 3 katha'))->assertSee('Calculator: 3 katha');
+        $this->get('/contact?estimate=x')->assertRedirect('/ct?estimate=x');
     }
 }

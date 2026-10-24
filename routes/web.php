@@ -8,18 +8,26 @@ use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\SeoController;
 use App\Livewire\Admin;
 use App\Livewire\Site;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::livewire('/', Site\Home::class)->name('home');
-Route::livewire('/about', Site\About::class)->name('about');
-Route::livewire('/services', Site\Services::class)->name('services');
-Route::livewire('/services/{service}', Site\ServiceShow::class)->name('services.show');
-Route::livewire('/projects', Site\Projects::class)->name('projects');
-Route::livewire('/projects/{project}', Site\ProjectShow::class)->name('projects.show');
-Route::livewire('/cost-calculator', Site\Calculator::class)->name('calculator');
-Route::livewire('/team', Site\Team::class)->name('team');
-Route::livewire('/faq', Site\Faq::class)->name('faq');
-Route::livewire('/contact', Site\Contact::class)->name('contact');
+Route::livewire('/ab', Site\About::class)->name('about');
+Route::livewire('/sv', Site\Services::class)->name('services');
+Route::livewire('/sv/{service}', Site\ServiceShow::class)->name('services.show');
+Route::livewire('/pt', Site\Projects::class)->name('projects');
+Route::livewire('/pt/{project}', Site\ProjectShow::class)->name('projects.show');
+Route::livewire('/cc', Site\Calculator::class)->name('calculator');
+Route::livewire('/tm', Site\Team::class)->name('team');
+Route::livewire('/qa', Site\Faq::class)->name('faq');
+Route::livewire('/ct', Site\Contact::class)->name('contact');
+
+// The earlier, longer addresses keep working: shared links and search results move to the short ones.
+foreach (['about' => 'ab', 'services' => 'sv', 'projects' => 'pt', 'cost-calculator' => 'cc', 'team' => 'tm', 'faq' => 'qa', 'contact' => 'ct'] as $old => $new) {
+    Route::get("/{$old}", fn (Request $request) => redirect("/{$new}".($request->getQueryString() ? '?'.$request->getQueryString() : ''), 301));
+}
+Route::get('/services/{slug}', fn (string $slug) => redirect("/sv/{$slug}", 301))->where('slug', '[A-Za-z0-9\-]+');
+Route::get('/projects/{slug}', fn (string $slug) => redirect("/pt/{$slug}", 301))->where('slug', '[A-Za-z0-9\-]+');
 
 Route::get('/lang/{locale}', LocaleController::class)->middleware('throttle:30,1')->name('locale');
 
