@@ -788,3 +788,69 @@ a.contact-card:hover .cc-go { background: var(--accent-fill); color: #fff; trans
     .rt-img.rt-left, .rt-img.rt-right { float: none; width: 100%; margin: 18px 0; }
     .rt-img.rt-sm { width: 60%; }
 }
+
+/* =========================================================
+   Mobile & tablet pass (kept last so it wins over earlier rules)
+   ========================================================= */
+.mobile-bar { display: none; }
+@media (max-width: 1100px) {
+    .why-card:nth-child(even) { margin: 0; }
+}
+@media (max-width: 860px) {
+    .why { grid-template-columns: 1fr; gap: 36px; }
+    .why-badge { max-width: none; }
+    .principal { grid-template-columns: 1fr; }
+    .principal-photo:has(.principal-logo) { display: none; }
+    .split-2:has(.help-card) > .reveal:first-child { display: contents; }
+    .split-2:has(.help-card) .help-card { order: 3; max-width: none; margin-top: 0; }
+    .split-2:has(.help-card) .faq-list { order: 2; }
+}
+@media (max-width: 760px) {
+    /* Sticky quick-contact bar replaces the floating WhatsApp bubble on phones. */
+    .wa-float { display: none; }
+    body.site { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+    .mobile-bar { position: fixed; z-index: 60; left: 0; right: 0; bottom: 0; display: flex; gap: 6px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); background: var(--head-solid); border-top: 1px solid var(--head-line); box-shadow: 0 -10px 30px -20px rgba(10, 22, 40, .45); }
+    .mobile-bar a { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 48px; border-radius: 12px; font-size: .74rem; font-weight: 600; color: var(--head-text); background: var(--surface-2); }
+    .mobile-bar .icon, .mobile-bar .icon-fill { width: 19px; height: 19px; }
+    .mobile-bar .mb-wa { background: #25d366; color: #fff; }
+    .mobile-bar .mb-ms { background: #0084ff; color: #fff; }
+    .mobile-bar .mb-main { background: var(--accent-fill); color: #fff; }
+    .menu-open .mobile-bar { display: none; }
+
+    /* Projects: swipe instead of a very long list. */
+    .section .project-grid { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 18px; scrollbar-width: none; }
+    .section .project-grid::-webkit-scrollbar { display: none; }
+    .section .project-grid > .project-card { flex: 0 0 80%; scroll-snap-align: start; }
+
+    /* Process: compact rows. */
+    .steps { gap: 10px; }
+    .steps li { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; padding: 16px; }
+    .steps-top { grid-row: span 2; flex-direction: column; justify-content: flex-start; gap: 8px; }
+    .steps-top .steps-num { padding: 2px 8px; font-size: .7rem; }
+    .steps h3 { margin: 2px 0 .25em; }
+
+    /* Building types: two compact columns. */
+    .types { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .type { grid-template-columns: 1fr; padding: 16px; gap: 10px; }
+    .type-icon { grid-row: auto; width: 42px; height: 42px; }
+    .type h3 { font-size: 1rem; }
+    .type p { font-size: .85rem; }
+
+    /* Approach cards: one column, tighter. */
+    .why-cards { grid-template-columns: 1fr; gap: 10px; }
+    .why-card { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 18px; }
+    .why-card .why-icon { grid-row: span 2; width: 42px; height: 42px; }
+    .why-card h3 { margin: 0; }
+
+    /* Footer link lists side by side. */
+    .foot { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+    .foot-brand, .foot-contact { grid-column: 1 / -1; }
+    .foot-bottom { padding-bottom: 6px; }
+}
+@media (min-width: 561px) { .form .row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cselect, .cselect-trigger { width: 100%; min-width: 0; }
+
+/* Tighter vertical rhythm */
+.section { padding: clamp(56px, 7vw, 104px) 0; }
+.section-tight { padding-top: clamp(32px, 4vw, 56px); }
+#process { background: var(--bg-alt); }

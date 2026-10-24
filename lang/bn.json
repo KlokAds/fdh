@@ -22,7 +22,7 @@
     "Built area per floor": "প্রতি তলার আয়তন",
     "Calculate cost": "খরচ হিসাব করুন",
     "Calculator: :land :unit land, :floors floors, :level finishing — about :low to :high.": "হিসাব: :land :unit জমি, :floors তলা, :level ফিনিশিং — আনুমানিক :low থেকে :high।",
-    "Call": "কল করুন",
+    "Call": "কল",
     "Call or message us — an engineer will answer.": "কল বা মেসেজ করুন — একজন ইঞ্জিনিয়ার উত্তর দেবেন।",
     "Call us": "কল করুন",
     "Call, WhatsApp or send the form — whatever is easiest for you.": "কল, হোয়াটসঅ্যাপ বা ফর্ম — আপনার জন্য যেটা সহজ।",
@@ -191,5 +191,8 @@
     "Engineers and architects behind your project": "আপনার প্রকল্পের প্রকৌশলী ও স্থপতিরা",
     "Approval, soil test, cost and timeline": "অনুমোদন, সয়েল টেস্ট, খরচ ও সময়",
     "Talk to the engineer directly": "সরাসরি ইঞ্জিনিয়ারের সাথে কথা বলুন",
-    "Call or WhatsApp for a quick answer, or send your details with the form and we will call you back.": "দ্রুত উত্তরের জন্য কল বা হোয়াটসঅ্যাপ করুন, অথবা ফর্মে তথ্য দিন — আমরা আপনাকে ফোন করব।"
+    "Call or WhatsApp for a quick answer, or send your details with the form and we will call you back.": "দ্রুত উত্তরের জন্য কল বা হোয়াটসঅ্যাপ করুন, অথবা ফর্মে তথ্য দিন — আমরা আপনাকে ফোন করব।",
+    "Messenger": "মেসেঞ্জার",
+    "Inquiry": "জিজ্ঞাসা",
+    "Quick contact": "দ্রুত যোগাযোগ"
 }

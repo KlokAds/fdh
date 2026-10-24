@@ -173,6 +173,16 @@
         </div>
     </footer>
 
+    @php($messengerPage = preg_match('#facebook\.com/([A-Za-z0-9.\-]+)/?$#', site('facebook'), $fbMatch) ? $fbMatch[1] : null)
+    <nav class="mobile-bar" aria-label="{{ __('Quick contact') }}">
+        <a href="{{ site_phone_href() }}"><x-icon name="phone" /><span>{{ __('Call') }}</span></a>
+        <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="mb-wa"><x-icon name="whatsapp" /><span>WhatsApp</span></a>
+        @if ($messengerPage)
+            <a href="https://m.me/{{ $messengerPage }}" target="_blank" rel="noopener noreferrer" class="mb-ms"><x-icon name="chat" /><span>{{ __('Messenger') }}</span></a>
+        @endif
+        <a href="{{ route('contact') }}" wire:navigate class="mb-main"><x-icon name="mail" /><span>{{ __('Inquiry') }}</span></a>
+    </nav>
+
     <a class="wa-float" href="https://wa.me/{{ site('whatsapp') }}?text={{ rawurlencode(__('Hello :site, I want to know about your services.', ['site' => site('site_name')])) }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Chat on WhatsApp') }}">
         <x-icon name="whatsapp" />
     </a>
