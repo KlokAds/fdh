@@ -9,6 +9,7 @@ use App\Livewire\Admin\Users;
 use App\Models\User;
 use App\Support\TwoFactor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use PragmaRX\Google2FA\Google2FA;
 use Spatie\Permission\Models\Role;
@@ -74,6 +75,27 @@ class AdminAuthenticationTest extends TestCase
         Livewire::actingAs($owner)->test(Users::class)->call('delete', $hidden->id)->assertNotFound();
 
         $this->assertModelExists($hidden);
+        Livewire::actingAs($hidden)->test(Users::class)->assertDontSee('Support Account');
+    }
+
+    public function test_an_admin_can_choose_the_new_users_password(): void
+    {
+        Livewire::actingAs($this->admin())->test(Users::class)
+            ->call('create')
+            ->set('name', 'Site Engineer')
+            ->set('email', 'engineer@example.com')
+            ->set('password', 'short')
+            ->call('save')
+            ->assertHasErrors('password')
+            ->set('password', 'Rangpur-Site-2026')
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSet('temporaryPassword', null);
+
+        $user = User::query()->where('email', 'engineer@example.com')->firstOrFail();
+        $this->assertTrue(Hash::check('Rangpur-Site-2026', $user->password));
+        $this->assertFalse((bool) $user->must_change_password);
+        $this->assertTrue($user->hasRole('Editor'));
     }
 
     public function test_admin_with_two_factor_must_pass_the_challenge(): void

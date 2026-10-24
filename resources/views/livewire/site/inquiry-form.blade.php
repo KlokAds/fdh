@@ -1,10 +1,26 @@
 <div class="form-wrap reveal">
     @if ($sent)
-        <div class="form form-success" role="status">
-            <p class="label">{{ __('Received') }}</p>
-            <h3>{{ __('Thank you!') }}</h3>
-            <p>{{ __('We’ve received your request and will call you soon. For a faster reply, message us on WhatsApp.') }}</p>
-            <a href="{{ $this->whatsappLink() }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><x-icon name="whatsapp" class="ic" /> {{ __('Continue on WhatsApp') }}</a>
+        <div class="form-success" role="status">
+            <div class="done-head">
+                <svg class="done-mark" viewBox="0 0 52 52" aria-hidden="true"><path d="M14 27.5 22.5 36 39 17" /></svg>
+                <div>
+                    <p class="done-kicker">{{ __('Received') }}</p>
+                    <h3>{{ $name !== '' ? __('Thank you, :name!', ['name' => \Illuminate\Support\Str::limit($name, 30)]) : __('Thank you!') }}</h3>
+                </div>
+            </div>
+            @if ($reference)
+                <p class="done-ref"><span>{{ __('Request number') }}</span><b>{{ $reference }}</b></p>
+            @endif
+            <p class="done-lead">{{ __('We’ve received your request and will call you soon. For a faster reply, message us on WhatsApp.') }}</p>
+            <ol class="done-steps">
+                <li><b>{{ __('The engineer reads your details') }}</b><span>{{ __('Your land, plan and the service you chose.') }}</span></li>
+                <li><b>{{ __('We call you back') }}</b><span>{{ site('office_hours') }}</span></li>
+                <li><b>{{ __('Free first consultation') }}</b><span>{{ __('At our office, on the phone or at your site.') }}</span></li>
+            </ol>
+            <div class="done-actions">
+                <a href="{{ $this->whatsappLink() }}" target="_blank" rel="noopener noreferrer" class="btn btn-wa"><x-icon name="whatsapp" /> {{ __('Continue on WhatsApp') }}</a>
+                <a href="{{ site_phone_href() }}" class="btn btn-outline"><x-icon name="phone" /> {{ site('phone') }}</a>
+            </div>
         </div>
     @else
         <form class="form" wire:submit="submit" novalidate>

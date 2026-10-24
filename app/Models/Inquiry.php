@@ -39,6 +39,14 @@ class Inquiry extends Model
     /**
      * Record the first time anyone saw this inquiry, and how.
      */
+    /**
+     * The request number the visitor sees on screen and in the auto-reply, e.g. FDH-00012.
+     */
+    public function reference(): string
+    {
+        return 'FDH-'.str_pad((string) $this->id, 5, '0', STR_PAD_LEFT);
+    }
+
     public function markAsRead(string $via): void
     {
         if ($this->read_at === null) {

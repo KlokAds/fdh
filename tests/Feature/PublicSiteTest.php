@@ -114,7 +114,9 @@ class PublicSiteTest extends TestCase
             ->set('service', 'Building Design')
             ->call('submit')
             ->assertHasNoErrors()
-            ->assertSet('sent', true);
+            ->assertSet('sent', true)
+            ->assertSee('Thank you, Rahim Uddin!')
+            ->assertSee('FDH-'.str_pad((string) Inquiry::query()->max('id'), 5, '0', STR_PAD_LEFT));
 
         $this->assertDatabaseHas('inquiries', ['name' => 'Rahim Uddin', 'phone' => '01712345678', 'locale' => 'en']);
     }

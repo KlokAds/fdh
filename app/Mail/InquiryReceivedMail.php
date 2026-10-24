@@ -39,7 +39,7 @@ class InquiryReceivedMail extends Mailable
             view: 'mail.inquiry-received',
             with: [
                 'lang' => $this->locale,
-                'number' => 'FDH-'.str_pad((string) $this->inquiry->id, 5, '0', STR_PAD_LEFT),
+                'number' => $this->inquiry->reference(),
             ],
         );
     }

@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\WithPagination;
@@ -31,6 +32,9 @@ class Users extends AdminComponent
     public string $email = '';
 
     public string $role = '';
+
+    /** Optional: left empty, a strong temporary password is generated (new users) or the current one is kept (edits). */
+    public string $password = '';
 
     /** Shown once after creating a user or resetting a password. */
     public ?string $temporaryPassword = null;
@@ -64,6 +68,7 @@ class Users extends AdminComponent
             'name' => 'required|string|max:100',
             'email' => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($this->editingId)],
             'role' => ['required', Rule::exists('roles', 'name')->where('guard_name', 'web')],
+            'password' => ['nullable', 'string', 'max:128', Password::defaults()],
         ], [
             // Same wording whoever owns the address, so hidden support accounts stay invisible.
             'email.unique' => 'This email address cannot be used.',
@@ -73,21 +78,34 @@ class Users extends AdminComponent
 
         if ($this->editingId) {
             $user = $this->findUser($this->editingId);
-            $user->fill(['name' => strip_tags($this->name), 'email' => $this->email])->save();
+            $user->fill(['name' => strip_tags($this->name), 'email' => $this->email]);
+            if ($this->password !== '') {
+                $user->password = $this->password;
+                $user->must_change_password = false;
+            }
+            $user->save();
             $user->syncRoles([$this->role]);
-            ActivityLog::record('user.updated', "Updated {$user->email} (role: {$this->role})");
-            session()->flash('status', 'User updated.');
+            if ($this->password !== '') {
+                DB::table('sessions')->where('user_id', $user->id)->delete();
+            }
+            ActivityLog::record('user.updated', "Updated {$user->email} (role: {$this->role})".($this->password !== '' ? ', password changed' : ''));
+            $this->toast($this->password !== '' ? 'User updated and the new password saved.' : 'User updated.');
         } else {
-            $password = $this->generatePassword();
+            $chosen = $this->password !== '';
+            $password = $chosen ? $this->password : $this->generatePassword();
             $user = new User(['name' => strip_tags($this->name), 'email' => $this->email, 'password' => $password]);
             $user->is_active = true;
-            $user->must_change_password = true;
+            // A generated password is temporary; one the admin chose is kept until the user changes it.
+            $user->must_change_password = ! $chosen;
             $user->save();
             $user->assignRole($this->role);
 
-            $this->temporaryPassword = $password;
-            $this->temporaryFor = $user->email;
+            if (! $chosen) {
+                $this->temporaryPassword = $password;
+                $this->temporaryFor = $user->email;
+            }
             ActivityLog::record('user.created', "Created {$user->email} (role: {$this->role})");
+            $this->toast("{$user->email} can now sign in.");
         }
 
         $this->resetForm(keepTemporary: true);
@@ -212,12 +230,12 @@ class Users extends AdminComponent
     }
 
     /**
-     * Hidden support accounts cannot be seen or changed by anyone who is not hidden themselves.
+     * Hidden support accounts never appear here, not even to themselves, so they cannot be changed from this page.
      */
     private function findUser(int $id): User
     {
         return User::query()
-            ->when(! auth()->user()->is_hidden, fn ($query) => $query->where('is_hidden', false))
+            ->where('is_hidden', false)
             ->findOrFail($id);
     }
 
@@ -234,7 +252,7 @@ class Users extends AdminComponent
 
     private function resetForm(bool $keepTemporary = false): void
     {
-        $this->reset('editingId', 'showForm', 'name', 'email', 'role');
+        $this->reset('editingId', 'showForm', 'name', 'email', 'role', 'password');
         if (! $keepTemporary) {
             $this->reset('temporaryPassword', 'temporaryFor');
         }
@@ -252,7 +270,7 @@ class Users extends AdminComponent
         return view('livewire.admin.users', [
             'users' => $this->paginateWithinRange(User::query()
                 ->with('roles')
-                ->when(! auth()->user()->is_hidden, fn ($query) => $query->where('is_hidden', false))
+                ->where('is_hidden', false)
                 ->orderByDesc('is_active')
                 ->orderBy('name'), 15),
             'roles' => $roles->values(),

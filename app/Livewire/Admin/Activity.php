@@ -19,7 +19,7 @@ class Activity extends AdminComponent
         return view('livewire.admin.activity', [
             'logs' => ActivityLog::query()
                 ->with('user:id,name')
-                ->when(! auth()->user()->is_hidden, fn ($query) => $query->where(fn ($query) => $query->whereNull('user_id')->orWhereDoesntHave('user', fn ($users) => $users->where('is_hidden', true))))
+                ->where(fn ($query) => $query->whereNull('user_id')->orWhereDoesntHave('user', fn ($users) => $users->where('is_hidden', true)))
                 ->latest('id')
                 ->paginate(30),
         ]);

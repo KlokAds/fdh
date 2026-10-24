@@ -22,9 +22,11 @@
                     <x-ui.select label="Role" model="role" placeholder="Select a role" :selected="$role" :options="$roles->combine($roles)->all()" />
                     @error('role') <span class="err">{{ $message }}</span> @enderror
                 </div>
-                @unless ($editingId)
-                    <p class="muted small">A strong temporary password is generated for you to share. No password is ever emailed.</p>
-                @endunless
+                <label class="narrow-field">{{ $editingId ? 'New password' : 'Password' }}
+                    <input type="password" wire:model="password" autocomplete="new-password" maxlength="128" placeholder="{{ $editingId ? 'Leave empty to keep the current one' : 'Leave empty to generate one' }}">
+                    @error('password') <span class="err">{{ $message }}</span> @enderror
+                    <span class="muted small">At least 12 characters with upper and lower case letters, a number and a symbol.{{ $editingId ? ' Saving a new one signs them out.' : ' Left empty, a strong temporary password is shown once for you to share; they change it at first sign-in.' }} No password is ever emailed.</span>
+                </label>
                 <div class="row-actions"><button type="submit" class="btn btn-primary">{{ $editingId ? 'Save changes' : 'Create user' }}</button> <button type="button" class="btn btn-ghost" wire:click="cancel">Cancel</button></div>
             </form>
         </section>
@@ -43,7 +45,7 @@
             <table class="table">
                 <thead><tr><th>User</th><th>Role</th><th>Security</th><th>Last sign-in</th><th class="right">Actions</th></tr></thead>
                 <tbody>
-                    @foreach ($users as $user)
+                    @forelse ($users as $user)
                         <tr wire:key="u-{{ $user->id }}" @class(['is-muted' => ! $user->is_active])>
                             <td><b>{{ $user->name }}</b> @if ($user->id === auth()->id())<span class="pill">You</span>@endif<br><span class="muted small">{{ $user->email }}</span></td>
                             <td>{{ $user->roles->pluck('name')->implode(', ') ?: '—' }}</td>
@@ -72,7 +74,9 @@
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr><td colspan="5" class="muted">No other admin users yet. Use “+ Add user” to give someone access; edit and delete buttons appear on each user's row.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

@@ -231,5 +231,12 @@
     "You get a clear quotation before any work starts.": "কাজ শুরুর আগেই আপনি পরিষ্কার খরচের হিসাব পাবেন।",
     "You get this email because this address was entered in the contact form on our website. Just reply to this email if you want to add anything.": "আমাদের ওয়েবসাইটের যোগাযোগ ফর্মে এই ইমেইল ঠিকানা দেওয়া হয়েছিল বলে আপনি এটি পাচ্ছেন। কিছু যোগ করতে চাইলে এই ইমেইলের উত্তর দিন।",
     "We received your request — :site": "আপনার অনুরোধ পেয়েছি — :site",
-    "Service": "সেবা"
+    "Service": "সেবা",
+    "Thank you, :name!": "ধন্যবাদ, :name!",
+    "Request number": "অনুরোধ নম্বর",
+    "The engineer reads your details": "ইঞ্জিনিয়ার আপনার তথ্য দেখবেন",
+    "Your land, plan and the service you chose.": "আপনার জমি, পরিকল্পনা আর যে সেবা বেছে নিয়েছেন।",
+    "We call you back": "আমরা আপনাকে কল করব",
+    "Free first consultation": "প্রথম পরামর্শ ফ্রি",
+    "At our office, on the phone or at your site.": "অফিসে, ফোনে বা আপনার সাইটে।"
 }

@@ -454,9 +454,28 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 .form-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .form-actions .btn { min-width: 200px; }
 .form-note { color: var(--muted); font-size: .85rem; }
-.form-success { padding: 8px 0; }
-.form-success h3 { font-size: 1.8rem; margin-bottom: .4em; }
-.form-success p { color: var(--text-2); max-width: 44ch; }
+/* Sent: a receipt with the request number and what happens next */
+.form-success { display: grid; gap: 22px; }
+.done-head { display: flex; align-items: center; gap: 18px; }
+.done-mark { flex: none; width: 58px; height: 58px; background: var(--amber); }
+.done-mark path { fill: none; stroke: var(--amber-ink); stroke-width: 4.5; stroke-linecap: square; stroke-dasharray: 40; stroke-dashoffset: 40; animation: done-draw .5s .25s cubic-bezier(.6, 0, .3, 1) forwards; }
+@keyframes done-draw { to { stroke-dashoffset: 0; } }
+.done-kicker { margin: 0 0 2px; font-size: .85rem; font-weight: 600; color: var(--link); }
+.form-success h3 { margin: 0; font-size: clamp(1.5rem, 2.4vw, 1.85rem); }
+.done-ref { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; padding: 12px 16px; border: 1px dashed var(--line-strong); background: var(--surface-2); font-size: .9rem; color: var(--muted); }
+.done-ref b { font-size: 1.1rem; letter-spacing: .08em; color: var(--text); font-variant-numeric: tabular-nums; }
+.done-lead { margin: 0; color: var(--text-2); max-width: 46ch; }
+.done-steps { list-style: none; margin: 0; padding: 0; display: grid; counter-reset: done; }
+.done-steps li { position: relative; display: grid; gap: 2px; padding: 0 0 18px 48px; counter-increment: done; }
+.done-steps li::before { content: counter(done); position: absolute; left: 0; top: 0; width: 32px; height: 32px; display: grid; place-items: center; background: var(--brand-dark); color: #fff; font-weight: 700; font-size: .9rem; }
+.done-steps li:not(:last-child)::after { content: ''; position: absolute; left: 15px; top: 36px; bottom: 4px; width: 2px; background: var(--line-strong); }
+.done-steps li:last-child { padding-bottom: 0; }
+.done-steps b { font-size: 1rem; line-height: 1.4; padding-top: 4px; }
+.done-steps span { font-size: .9rem; color: var(--muted); }
+.done-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.done-actions .btn { flex: 1 1 210px; justify-content: center; }
+[data-theme="dark"] .done-steps li::before { background: #1f3b61; }
+@media (prefers-reduced-motion: reduce) { .done-mark path { animation: none; stroke-dashoffset: 0; } }
 .field { display: grid; gap: 8px; min-width: 0; }
 .cselect { position: relative; width: 100%; min-width: 0; }
 .cselect-trigger { list-style: none; display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; min-height: 52px; padding: .5em .9em .5em .5em; border: 1px solid var(--line-strong); background: var(--field); cursor: pointer; user-select: none; transition: border-color .2s, box-shadow .2s; }

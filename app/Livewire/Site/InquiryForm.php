@@ -42,6 +42,10 @@ class InquiryForm extends Component
 
     public bool $sent = false;
 
+    /** Request number shown after sending (none for silently dropped bot submissions). */
+    #[Locked]
+    public ?string $reference = null;
+
     public function mount(?string $service = null, ?string $message = null): void
     {
         $this->message = mb_substr(strip_tags(trim((string) $message)), 0, 500);
@@ -131,6 +135,7 @@ class InquiryForm extends Component
         $this->notifyOffice($inquiry);
         $this->trackLead($inquiry);
 
+        $this->reference = $inquiry->reference();
         $this->sent = true;
     }
 

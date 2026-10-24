@@ -25,9 +25,13 @@
             <a href="{{ route('admin.inquiries', ['status' => 'mine']) }}" wire:navigate class="stat"><b>{{ $myInquiries }}</b><span>Assigned to me (open)</span></a>
             <a href="{{ route('admin.inquiries') }}" wire:navigate class="stat"><b>{{ $totalInquiries }}</b><span>Total inquiries</span></a>
         @endif
-        <div class="stat"><b>{{ $projects }}</b><span>Projects</span></div>
-        <div class="stat"><b>{{ $services }}</b><span>Active services</span></div>
-        <div class="stat"><b>{{ $team }}</b><span>Team members</span></div>
+        @foreach ([['projects', $projects, 'Projects', 'projects.manage'], ['services', $services, 'Active services', 'services.manage'], ['team', $team, 'Team page profiles', 'team.manage']] as [$page, $count, $label, $ability])
+            @can($ability)
+                <a href="{{ route('admin.'.$page) }}" wire:navigate class="stat"><b>{{ $count }}</b><span>{{ $label }}</span></a>
+            @else
+                <div class="stat"><b>{{ $count }}</b><span>{{ $label }}</span></div>
+            @endcan
+        @endforeach
         @if ($failedLogins !== null)
             <a href="{{ route('admin.activity') }}" wire:navigate @class(['stat', 'stat-danger' => $failedLogins > 0])><b>{{ $failedLogins }}</b><span>Failed sign-ins (24h)</span></a>
         @endif
