@@ -23,34 +23,17 @@
                 </div>
                 <label>URL slug <small class="muted">(auto from English title)</small><input wire:model="slug" maxlength="150">@error('slug') <span class="err">{{ $message }}</span> @enderror</label>
 
-                <div class="row">
-                    <label>Cover photo {{ $editingId ? '(leave empty to keep current)' : '*' }}
-                        <input type="file" wire:model="cover" accept="image/jpeg,image/png,image/webp">
-                        <span wire:loading wire:target="cover" class="muted small">Uploading…</span>
-                        @error('cover') <span class="err">{{ $message }}</span> @enderror
-                    </label>
-                    <label>Add gallery photos (up to 12)
-                        <input type="file" wire:model="photos" accept="image/jpeg,image/png,image/webp" multiple>
-                        <span wire:loading wire:target="photos" class="muted small">Uploading…</span>
-                        @error('photos') <span class="err">{{ $message }}</span> @enderror
-                        @error('photos.*') <span class="err">{{ $message }}</span> @enderror
-                    </label>
-                </div>
-                <p class="muted small">JPG, PNG or WebP · max 5 MB each · photos are resized, converted to WebP and stripped of location data automatically.</p>
+                <x-admin.image-upload model="cover" :label="'Cover photo'.($editingId ? '' : ' *')" :upload="$cover" :current="$current?->coverUrl()" :wide="true" />
 
-                @if ($current && ($current->coverUrl() || $current->gallery))
-                    <div class="thumbs">
-                        @if ($current->coverUrl())
-                            <figure><img src="{{ $current->coverUrl() }}" alt=""><figcaption>Cover</figcaption></figure>
-                        @endif
-                        @foreach ($current->galleryUrls() as $url)
-                            <figure wire:key="gal-{{ $loop->index }}">
-                                <img src="{{ $url }}" alt="">
-                                <button type="button" class="thumb-x" wire:click="removePhoto({{ $loop->index }})" wire:confirm="Remove this photo?" aria-label="Remove photo">✕</button>
-                            </figure>
-                        @endforeach
-                    </div>
-                @endif
+                <x-admin.image-upload model="photos" label="Gallery photos (up to 12)" :upload="$photos" :multiple="true" hint="JPG, PNG or WebP · max 5 MB each · resized, converted to WebP and stripped of location data automatically">
+                    @foreach ($current?->galleryUrls() ?? [] as $url)
+                        <figure class="up-tile" wire:key="gal-{{ $loop->index }}">
+                            <img src="{{ $url }}" alt="">
+                            <span class="up-tag"><x-icon name="check" /> Saved</span>
+                            <button type="button" class="up-x" wire:click="removePhoto({{ $loop->index }})" wire:confirm="Remove this photo?" aria-label="Remove this photo" title="Remove"><x-icon name="close" /></button>
+                        </figure>
+                    @endforeach
+                </x-admin.image-upload>
 
                 <div class="checks-row">
                     <label class="check"><input type="checkbox" wire:model="is_published"> Published on website</label>

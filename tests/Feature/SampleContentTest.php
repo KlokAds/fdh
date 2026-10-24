@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Livewire\Admin\Content;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\Projects;
 use App\Models\Project;
 use App\Models\Setting;
 use App\Support\SampleContent;
@@ -51,6 +52,24 @@ class SampleContentTest extends TestCase
             ->assertHasNoErrors();
 
         $this->assertFalse(app(SampleContent::class)->isSampleImage('hero_image'));
+    }
+
+    public function test_picked_images_preview_and_can_be_discarded_before_saving(): void
+    {
+        $super = $this->admin();
+
+        $content = Livewire::actingAs($super)->test(Content::class, ['tab' => 'hero'])
+            ->set('uploads.hero_image', UploadedFile::fake()->image('hero.jpg', 1600, 900))
+            ->assertSee('saves with the form');
+        $content->call('discardUpload', 'uploads.hero_image')->assertSet('uploads', [])->assertDontSee('saves with the form');
+
+        Livewire::actingAs($super)->test(Projects::class)
+            ->call('create')
+            ->set('photos', [UploadedFile::fake()->image('a.jpg'), UploadedFile::fake()->image('b.jpg')])
+            ->call('discardUpload', 'photos', 0)
+            ->assertCount('photos', 1)
+            ->call('discardUpload', 'is_published')
+            ->assertForbidden();
     }
 
     public function test_remove_all_samples_keeps_real_content(): void

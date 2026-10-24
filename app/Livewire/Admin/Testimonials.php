@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Livewire\Admin\Concerns\EditsTranslations;
 use App\Models\ActivityLog;
 use App\Models\Testimonial;
@@ -15,11 +16,14 @@ use Livewire\WithFileUploads;
 #[Title('Testimonials')]
 class Testimonials extends AdminComponent
 {
-    use EditsTranslations, WithFileUploads;
+    use DiscardsUploads, EditsTranslations, WithFileUploads;
 
     protected ?string $permission = 'testimonials.manage';
 
     private const TRANSLATABLE = ['subtitle', 'quote'];
+
+    /** @var list<string> */
+    protected array $uploadFields = ['photo'];
 
     #[Locked]
     public ?int $editingId = null;
@@ -100,6 +104,13 @@ class Testimonials extends AdminComponent
         session()->flash('status', 'Testimonial saved.');
     }
 
+    public function removePhoto(ImageStore $images): void
+    {
+        $testimonial = Testimonial::query()->findOrFail($this->editingId);
+        $images->delete($testimonial->photo);
+        $testimonial->update(['photo' => null]);
+    }
+
     public function delete(int $id, ImageStore $images): void
     {
         $testimonial = Testimonial::query()->findOrFail($id);
@@ -125,6 +136,7 @@ class Testimonials extends AdminComponent
     {
         return view('livewire.admin.testimonials', [
             'testimonials' => Testimonial::query()->orderBy('sort')->latest('id')->get(),
+            'current' => $this->editingId ? Testimonial::query()->find($this->editingId) : null,
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Livewire\Admin\Concerns\EditsTranslations;
 use App\Models\ActivityLog;
 use App\Models\TeamMember;
@@ -15,11 +16,14 @@ use Livewire\WithFileUploads;
 #[Title('Team members')]
 class Team extends AdminComponent
 {
-    use EditsTranslations, WithFileUploads;
+    use DiscardsUploads, EditsTranslations, WithFileUploads;
 
     protected ?string $permission = 'team.manage';
 
     private const TRANSLATABLE = ['name', 'designation', 'bio'];
+
+    /** @var list<string> */
+    protected array $uploadFields = ['photo'];
 
     #[Locked]
     public ?int $editingId = null;

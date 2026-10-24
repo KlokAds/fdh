@@ -261,12 +261,36 @@ button.pill { cursor: pointer; }
 .ap-media { aspect-ratio: 4 / 3; background: linear-gradient(135deg, var(--brand-dark), color-mix(in srgb, var(--brand-dark) 70%, var(--accent))); }
 .ap-media img { width: 100%; height: 100%; object-fit: cover; }
 .ap-body { padding: 12px 14px 14px; display: grid; gap: 6px; }
-.thumbs { display: flex; flex-wrap: wrap; gap: 10px; }
-.thumbs figure { position: relative; margin: 0; width: 110px; }
-.thumbs img { width: 110px; height: 82px; object-fit: cover; border-radius: 8px; background: #fff; }
-.thumbs figcaption { font-size: .72rem; color: var(--muted); }
-.thumb-x { position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%; border: 0; background: rgba(10, 22, 40, .85); color: #fff; font-size: .75rem; }
 .image-field { display: grid; gap: 10px; }
+
+/* Image upload: drop zone, previews with a remove button */
+.up { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.up .field-label { font-size: .88rem; font-weight: 600; color: var(--text-2); }
+.up-drop { position: relative; display: grid; justify-items: center; gap: 6px; padding: 28px 20px; text-align: center; border: 1.5px dashed var(--field-border); border-radius: 14px; background: var(--card-2); cursor: pointer; transition: border-color .2s, background .2s; }
+.up-drop:hover, .up-drop:focus-within { border-color: var(--accent); background: var(--info-bg); }
+.up-drop input, .up-add input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.up-drop-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: var(--info-bg); color: var(--accent); margin-bottom: 4px; }
+.up-drop-icon .icon { width: 22px; height: 22px; }
+.up-drop b { font-size: .92rem; font-weight: 600; color: var(--text); }
+.up-drop small { color: var(--muted); font-size: .8rem; }
+.up-drop .up-note { color: var(--text-2); }
+.up-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.up-wide .up-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.up-tile { position: relative; margin: 0; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--card-2) repeating-conic-gradient(var(--line-soft) 0 25%, transparent 0 50%) 0 0 / 16px 16px; box-shadow: 0 8px 20px -16px rgba(10, 22, 40, .45); }
+.up-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.up-tile.is-new { border-color: var(--accent); box-shadow: 0 0 0 2px var(--info-bg); }
+.up-tag { position: absolute; left: 8px; bottom: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; background: rgba(10, 22, 40, .78); color: #fff; font-size: .7rem; font-weight: 600; backdrop-filter: blur(4px); }
+.up-tag .icon { width: 12px; height: 12px; color: #6fe3a1; }
+.up-tag-new { background: var(--accent); }
+.up-x { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .95); color: var(--danger); cursor: pointer; box-shadow: 0 4px 12px -4px rgba(0, 0, 0, .4); transition: background .15s, color .15s, transform .15s; }
+.up-x:hover { background: var(--danger); color: #fff; transform: scale(1.06); }
+.up-x .icon { width: 15px; height: 15px; stroke-width: 2.4; }
+.up-add { display: grid; place-content: center; justify-items: center; gap: 6px; border-style: dashed; border-width: 1.5px; border-color: var(--field-border); background: var(--card-2); color: var(--muted); font-size: .85rem; font-weight: 600; cursor: pointer; box-shadow: none; transition: border-color .2s, color .2s, background .2s; }
+.up-add:hover, .up-add:focus-within { border-color: var(--accent); color: var(--accent); background: var(--info-bg); }
+.up-add .icon { width: 22px; height: 22px; }
+.up-loading { display: none; align-items: center; gap: 8px; color: var(--accent); font-size: .85rem; font-weight: 600; }
+.up-spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--info-bg); border-top-color: var(--accent); animation: up-spin .7s linear infinite; }
+@keyframes up-spin { to { transform: rotate(360deg); } }
 .people { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
 .person { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 12px; }
 .person > div:nth-child(2) { display: grid; }

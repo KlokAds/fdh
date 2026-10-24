@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Models\ActivityLog;
 use App\Models\Setting;
 use App\Support\ImageStore;
@@ -18,7 +19,7 @@ use Livewire\WithFileUploads;
 #[Title('Website content & settings')]
 class Content extends AdminComponent
 {
-    use WithFileUploads;
+    use DiscardsUploads, WithFileUploads;
 
     #[Url]
     public string $tab = '';

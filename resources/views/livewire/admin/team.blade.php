@@ -18,18 +18,9 @@
                     <label>LinkedIn URL<input type="url" wire:model="linkedin" maxlength="255">@error('linkedin') <span class="err">{{ $message }}</span> @enderror</label>
                 </div>
                 <div class="row">
-                    <label>Photo <small class="muted">(square works best)</small>
-                        <input type="file" wire:model="photo" accept="image/jpeg,image/png,image/webp">
-                        <span wire:loading wire:target="photo" class="muted small">Uploading…</span>
-                        @error('photo') <span class="err">{{ $message }}</span> @enderror
-                    </label>
+                    <x-admin.image-upload model="photo" label="Photo (square works best)" :upload="$photo" :current="$current?->photoUrl()" :remove-saved="$current?->photoUrl() ? 'removePhoto' : null" />
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                 </div>
-                @if ($current?->photoUrl())
-                    <div class="thumbs">
-                        <figure><img src="{{ $current->photoUrl() }}" alt=""><button type="button" class="thumb-x" wire:click="removePhoto" wire:confirm="Remove this photo?" aria-label="Remove photo">✕</button></figure>
-                    </div>
-                @endif
                 <label class="check"><input type="checkbox" wire:model="is_active"> Show on website</label>
                 <div class="row-actions"><button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="save,photo">Save team member</button></div>
             </form>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Livewire\Admin\Concerns\EditsTranslations;
 use App\Models\ActivityLog;
 use App\Models\Project;
@@ -18,11 +19,14 @@ use Livewire\WithPagination;
 #[Title('Projects')]
 class Projects extends AdminComponent
 {
-    use EditsTranslations, WithFileUploads, WithPagination;
+    use DiscardsUploads, EditsTranslations, WithFileUploads, WithPagination;
 
     protected ?string $permission = 'projects.manage';
 
     private const TRANSLATABLE = ['title', 'location', 'description'];
+
+    /** @var list<string> */
+    protected array $uploadFields = ['cover', 'photos'];
 
     #[Locked]
     public ?int $editingId = null;

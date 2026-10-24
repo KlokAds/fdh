@@ -13,23 +13,18 @@
                         <x-admin.tr-field model="values" :field="$key" :label="$field['label']" :type="$field['type']" :required="true" :max="$field['type'] === 'textarea' ? 3000 : 255" :rows="$field['type'] === 'textarea' ? 4 : 2" />
                     @elseif ($field['type'] === 'image')
                         <div class="image-field">
-                            <label>{{ $field['label'] }}
-                                <input type="file" wire:model="uploads.{{ $key }}" accept="image/jpeg,image/png,image/webp">
-                                <span wire:loading wire:target="uploads.{{ $key }}" class="muted small">Uploading…</span>
-                                @error("uploads.{$key}") <span class="err">{{ $message }}</span> @enderror
-                            </label>
+                            <x-admin.image-upload
+                                model="uploads.{{ $key }}"
+                                :label="$field['label']"
+                                :upload="$uploads[$key] ?? null"
+                                :current="! empty($values[$key]) ? \Illuminate\Support\Facades\Storage::disk('public')->url($values[$key]) : null"
+                                :remove-saved="! empty($values[$key]) ? 'removeImage' : null"
+                                :remove-arg="$key"
+                                empty-note="Nothing uploaded — the website uses its default image."
+                                :wide="in_array($key, ['hero_image', 'og_image'], true)"
+                            />
                             @if ($samples->isSampleImage($key))
                                 <p class="badge badge-warn">Sample photo — upload your own to replace it</p>
-                            @endif
-                            @if (! empty($values[$key]))
-                                <div class="thumbs">
-                                    <figure>
-                                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($values[$key]) }}" alt="">
-                                        <button type="button" class="thumb-x" wire:click="removeImage('{{ $key }}')" wire:confirm="Remove this image and use the default?" aria-label="Remove image">✕</button>
-                                    </figure>
-                                </div>
-                            @else
-                                <p class="muted small">Using the default image.</p>
                             @endif
                         </div>
                     @elseif ($field['type'] === 'secret')
