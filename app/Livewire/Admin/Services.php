@@ -69,7 +69,7 @@ class Services extends AdminComponent
         $this->validate(array_merge(
             $this->translationRules('title', true, 120),
             $this->translationRules('summary', true, 300),
-            $this->translationRules('description', false, 5000),
+            $this->translationRules('description', false, 15000),
             $this->translationRules('features', false, 500),
             [
                 'slug' => ['required', 'alpha_dash', 'max:120', Rule::unique('services', 'slug')->ignore($this->editingId)],
@@ -81,7 +81,7 @@ class Services extends AdminComponent
 
         $service = $this->editingId ? Service::query()->findOrFail($this->editingId) : new Service;
         foreach (self::TRANSLATABLE as $field) {
-            $service->setTranslations($field, $this->cleanTranslations($this->form[$field] ?? []));
+            $service->setTranslations($field, $this->cleanTranslations($this->form[$field] ?? [], rich: $field === 'description'));
         }
         $service->fill(['slug' => $this->slug, 'icon' => $this->icon, 'sort' => $this->sort, 'is_active' => $this->is_active])->save();
 

@@ -33,6 +33,15 @@
     @case('renovation')
         <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 21h18M5 21V11l6-4 6 4v3M9 21v-5h3M14.5 21l5-5a1.4 1.4 0 0 0-2-2l-5 5-.5 2.5z"/></svg>
         @break
+    @case('align-left')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><rect x="3" y="5" width="8" height="7" rx="1"/><path d="M14 6h7M14 10h7M3 16h18M3 20h12"/></svg>
+        @break
+    @case('align-center')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><rect x="7" y="4" width="10" height="8" rx="1"/><path d="M3 16h18M6 20h12"/></svg>
+        @break
+    @case('align-right')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><rect x="13" y="5" width="8" height="7" rx="1"/><path d="M3 6h7M3 10h7M3 16h18M9 20h12"/></svg>
+        @break
     @case('edit')
         <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4zM13.5 6.5l4 4"/></svg>
         @break

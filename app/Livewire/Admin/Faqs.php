@@ -58,13 +58,13 @@ class Faqs extends AdminComponent
     {
         $this->validate(array_merge(
             $this->translationRules('question', true, 255),
-            $this->translationRules('answer', true, 3000),
+            $this->translationRules('answer', true, 8000),
             ['sort' => 'integer|min:0|max:999', 'is_active' => 'boolean'],
         ), [], array_merge($this->translationAttributes('question', 'Question'), $this->translationAttributes('answer', 'Answer')));
 
         $faq = $this->editingId ? Faq::query()->findOrFail($this->editingId) : new Faq;
         foreach (self::TRANSLATABLE as $field) {
-            $faq->setTranslations($field, $this->cleanTranslations($this->form[$field] ?? []));
+            $faq->setTranslations($field, $this->cleanTranslations($this->form[$field] ?? [], rich: $field === 'answer'));
         }
         $faq->fill(['sort' => $this->sort, 'is_active' => $this->is_active])->save();
 

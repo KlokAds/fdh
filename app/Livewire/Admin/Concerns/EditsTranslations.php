@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Concerns;
 
+use App\Support\RichText;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -65,9 +66,13 @@ trait EditsTranslations
      * @param  array<string, string>  $values
      * @return array<string, string>
      */
-    protected function cleanTranslations(array $values): array
+    protected function cleanTranslations(array $values, bool $rich = false): array
     {
-        return array_filter(array_map(fn ($value): string => trim(strip_tags((string) $value)), $values), fn (string $value): bool => $value !== '');
+        $clean = $rich
+            ? fn ($value): string => RichText::clean((string) $value)
+            : fn ($value): string => trim(strip_tags((string) $value));
+
+        return array_filter(array_map($clean, $values), fn (string $value): bool => $value !== '');
     }
 
     /**

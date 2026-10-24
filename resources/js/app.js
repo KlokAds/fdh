@@ -1,3 +1,4 @@
+import { syncEditors } from './editor';
 import { bindPushCard } from './push';
 
 /*
@@ -331,12 +332,17 @@ window.addEventListener('fdh-lead', (event) => {
 });
 
 document.addEventListener('DOMContentLoaded', onPageReady);
+document.addEventListener('DOMContentLoaded', syncEditors);
+document.addEventListener('livewire:navigated', syncEditors);
 document.addEventListener('livewire:navigated', onPageReady);
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 
 // Elements re-rendered by Livewire (e.g. filtering projects) should appear immediately.
 document.addEventListener('livewire:init', () => {
+    // Editors pick up values Livewire sets after a response (e.g. opening another item to edit).
+    window.Livewire.hook('commit', ({ succeed }) => succeed(() => setTimeout(syncEditors, 0)));
     window.Livewire.hook('morphed', () => {
+        syncEditors();
         requestAnimationFrame(() => document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => el.classList.add('is-visible')));
     });
 });

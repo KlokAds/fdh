@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EditorImageController;
 use App\Http\Controllers\InquiryEmailController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\LogoutController;
@@ -55,6 +56,7 @@ Route::prefix(config('fdh.admin_path'))->name('admin.')->group(function (): void
             Route::livewire('/team', Admin\Team::class)->middleware('can:team.manage')->name('team');
             Route::livewire('/faqs', Admin\Faqs::class)->middleware('can:faqs.manage')->name('faqs');
             Route::livewire('/testimonials', Admin\Testimonials::class)->middleware('can:testimonials.manage')->name('testimonials');
+            Route::post('/editor-image', [EditorImageController::class, 'store'])->middleware('throttle:30,1')->name('editor-image');
             Route::livewire('/media', Admin\Media::class)->middleware('can:media.manage')->name('media');
             Route::livewire('/users', Admin\Users::class)->middleware('can:users.manage')->name('users');
             Route::livewire('/roles', Admin\Roles::class)->middleware('can:users.manage')->name('roles');

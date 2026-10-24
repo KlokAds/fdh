@@ -2,7 +2,9 @@
 
 namespace App\Support;
 
+use App\Models\Faq;
 use App\Models\Project;
+use App\Models\Service;
 use App\Models\Setting;
 use App\Models\TeamMember;
 use App\Models\Testimonial;
@@ -15,7 +17,7 @@ use RuntimeException;
 class MediaLibrary
 {
     /** Folders on the public disk that hold admin uploads. */
-    public const FOLDERS = ['site' => 'Website', 'projects' => 'Projects', 'team' => 'Team', 'testimonials' => 'Testimonials'];
+    public const FOLDERS = ['site' => 'Website', 'projects' => 'Projects', 'team' => 'Team', 'testimonials' => 'Testimonials', 'editor' => 'Text editor'];
 
     /**
      * @return list<array{path: string, url: string, folder: string, size: int, modified: int, usedBy: list<string>}>
@@ -64,8 +66,39 @@ class MediaLibrary
             }
         }
 
-        foreach (Project::query()->get(['id', 'title', 'cover_image', 'gallery']) as $project) {
+        foreach (SiteContent::fields() as $key => $field) {
+            if ($field['type'] === 'rich') {
+                foreach ((array) ($settings[$key] ?? []) as $html) {
+                    foreach (RichText::imagePaths((string) $html) as $path) {
+                        $usage[$path][] = 'Settings · '.$field['label'];
+                    }
+                }
+            }
+        }
+
+        foreach (Service::query()->get(['id', 'title', 'description']) as $service) {
+            foreach ($service->getTranslations('description') as $html) {
+                foreach (RichText::imagePaths($html) as $path) {
+                    $usage[$path][] = 'Service text · '.$service->getTranslation('title', 'en');
+                }
+            }
+        }
+
+        foreach (Faq::query()->get(['id', 'question', 'answer']) as $faq) {
+            foreach ($faq->getTranslations('answer') as $html) {
+                foreach (RichText::imagePaths($html) as $path) {
+                    $usage[$path][] = 'FAQ · '.$faq->getTranslation('question', 'en');
+                }
+            }
+        }
+
+        foreach (Project::query()->get(['id', 'title', 'cover_image', 'gallery', 'description']) as $project) {
             $title = $project->getTranslation('title', 'en');
+            foreach ($project->getTranslations('description') as $html) {
+                foreach (RichText::imagePaths($html) as $path) {
+                    $usage[$path][] = "Project text · {$title}";
+                }
+            }
             if ($project->cover_image) {
                 $usage[$project->cover_image][] = "Project cover · {$title}";
             }

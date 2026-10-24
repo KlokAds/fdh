@@ -10,7 +10,7 @@
             @foreach ($fields as $key => $field)
                 <div wire:key="field-{{ $key }}">
                     @if (! empty($field['translatable']))
-                        <x-admin.tr-field model="values" :field="$key" :label="$field['label']" :type="$field['type']" :required="true" :max="$field['type'] === 'textarea' ? 3000 : 255" :rows="$field['type'] === 'textarea' ? 4 : 2" />
+                        <x-admin.tr-field model="values" :field="$key" :label="$field['label']" :type="$field['type']" :required="true" :max="match ($field['type']) { 'rich' => 15000, 'textarea' => 3000, default => 255 }" :rows="$field['type'] === 'textarea' ? 4 : 2" />
                     @elseif ($field['type'] === 'image')
                         <div class="image-field">
                             <x-admin.image-upload

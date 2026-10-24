@@ -10,11 +10,7 @@
     <section class="section">
         <div class="container detail">
             <article class="prose reveal">
-                @foreach (preg_split('/\n\s*\n/', (string) $project->description) as $paragraph)
-                    @if (trim($paragraph) !== '')
-                        <p>{{ $paragraph }}</p>
-                    @endif
-                @endforeach
+                {{ \App\Support\RichText::render($project->description) }}
             </article>
             <aside class="aside reveal">
                 <dl class="spec">

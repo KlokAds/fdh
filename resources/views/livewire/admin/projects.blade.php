@@ -8,7 +8,7 @@
             <form wire:submit="save" class="stack">
                 <x-admin.tr-field field="title" label="Title" :required="true" max="150" />
                 <x-admin.tr-field field="location" label="Location" max="150" />
-                <x-admin.tr-field field="description" label="Description" hint="blank line = new paragraph" max="5000" type="textarea" rows="5" />
+                <x-admin.tr-field field="description" label="Description" max="15000" type="rich" />
                 <div class="row row-3">
                     <label>Category *
                         <x-ui.select model="category" :selected="$category" :options="array_combine($categories, $categories)" />

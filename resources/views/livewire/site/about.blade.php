@@ -12,9 +12,7 @@
             <div class="reveal">
                 <p class="label">{{ __('The practice') }}</p>
                 <div class="prose">
-                    @foreach (preg_split('/\n\s*\n/', site('about_body')) as $paragraph)
-                        <p>{{ $paragraph }}</p>
-                    @endforeach
+                    {{ \App\Support\RichText::render(site('about_body')) }}
                 </div>
             </div>
             <div class="principal-card reveal">

@@ -6,6 +6,7 @@ use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Models\ActivityLog;
 use App\Models\Setting;
 use App\Support\ImageStore;
+use App\Support\RichText;
 use App\Support\SampleContent;
 use App\Support\SiteContent;
 use Illuminate\Contracts\View\View;
@@ -71,7 +72,9 @@ class Content extends AdminComponent
         foreach ($fields as $key => $field) {
             if (! empty($field['translatable'])) {
                 foreach ($locales as $index => $locale) {
-                    $rules["values.{$key}.{$locale}"] = ($index === 0 && ($field['default']['en'] ?? '') !== '' ? 'required' : 'nullable').'|string|max:'.($field['type'] === 'textarea' ? 3000 : 255);
+                    $rules["values.{$key}.{$locale}"] = ($index === 0 && ($field['default']['en'] ?? '') !== '' ? 'required' : 'nullable').'|string|max:'.match ($field['type']) {
+                        'rich' => 15000, 'textarea' => 3000, default => 255
+                    };
                     $attributes["values.{$key}.{$locale}"] = $field['label']." ({$locale})";
                 }
             } elseif ($field['type'] === 'secret') {
@@ -96,7 +99,7 @@ class Content extends AdminComponent
         foreach ($fields as $key => $field) {
             if (! empty($field['translatable'])) {
                 $toSave[$key] = array_filter(
-                    array_map(fn ($value): string => trim(strip_tags((string) $value)), array_intersect_key((array) ($this->values[$key] ?? []), array_flip($locales))),
+                    array_map(fn ($value): string => $field['type'] === 'rich' ? RichText::clean((string) $value) : trim(strip_tags((string) $value)), array_intersect_key((array) ($this->values[$key] ?? []), array_flip($locales))),
                     fn (string $value): bool => $value !== '',
                 );
             } elseif ($field['type'] === 'secret') {

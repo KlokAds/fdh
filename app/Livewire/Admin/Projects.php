@@ -87,7 +87,7 @@ class Projects extends AdminComponent
         $this->validate(array_merge(
             $this->translationRules('title', true, 150),
             $this->translationRules('location', false, 150),
-            $this->translationRules('description', false, 5000),
+            $this->translationRules('description', false, 15000),
             [
                 'slug' => ['required', 'alpha_dash', 'max:150', Rule::unique('projects', 'slug')->ignore($this->editingId)],
                 'category' => ['required', Rule::in(Project::CATEGORIES)],
@@ -104,7 +104,7 @@ class Projects extends AdminComponent
         $project = $this->editingId ? Project::query()->findOrFail($this->editingId) : new Project;
 
         foreach (self::TRANSLATABLE as $field) {
-            $project->setTranslations($field, $this->cleanTranslations($this->form[$field] ?? []));
+            $project->setTranslations($field, $this->cleanTranslations($this->form[$field] ?? [], rich: $field === 'description'));
         }
 
         if ($this->cover) {

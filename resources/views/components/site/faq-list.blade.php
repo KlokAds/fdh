@@ -4,9 +4,7 @@
         <details class="faq reveal" wire:key="faq-{{ $faq->id }}">
             <summary><span>{{ $faq->question }}</span><x-icon name="plus" class="faq-icon" /></summary>
             <div class="faq-answer">
-                @foreach (preg_split('/\n\s*\n/', (string) $faq->answer) as $paragraph)
-                    <p>{{ $paragraph }}</p>
-                @endforeach
+                {{ \App\Support\RichText::render($faq->answer) }}
             </div>
         </details>
     @endforeach

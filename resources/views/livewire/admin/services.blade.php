@@ -8,7 +8,7 @@
             <form wire:submit="save" class="stack">
                 <x-admin.tr-field field="title" label="Title" :required="true" max="120" />
                 <x-admin.tr-field field="summary" label="Short summary" :required="true" max="300" type="textarea" rows="2" />
-                <x-admin.tr-field field="description" label="Full description" hint="blank line = new paragraph" max="5000" type="textarea" rows="6" />
+                <x-admin.tr-field field="description" label="Full description" max="15000" type="rich" />
                 <x-admin.tr-field field="features" label="Features" hint="comma separated" max="500" />
                 <div class="row row-3">
                     <label>URL slug <small class="muted">(auto from English title)</small><input wire:model="slug" maxlength="120">@error('slug') <span class="err">{{ $message }}</span> @enderror</label>

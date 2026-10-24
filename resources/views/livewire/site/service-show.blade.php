@@ -4,11 +4,7 @@
     <section class="section section-flush">
         <div class="container detail">
             <article class="prose reveal">
-                @foreach (preg_split('/\n\s*\n/', (string) $service->description) as $paragraph)
-                    @if (trim($paragraph) !== '')
-                        <p>{{ $paragraph }}</p>
-                    @endif
-                @endforeach
+                {{ \App\Support\RichText::render($service->description) }}
 
                 @if ($service->featureList())
                     <h2 class="h-small">{{ __('What’s included') }}</h2>

@@ -8,6 +8,7 @@ use App\Livewire\Admin\Media;
 use App\Livewire\Admin\Projects;
 use App\Models\Project;
 use App\Models\Setting;
+use App\Support\MediaLibrary;
 use App\Support\SampleContent;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -90,6 +91,21 @@ class SampleContentTest extends TestCase
         Storage::disk('public')->assertExists($used);
 
         $this->actingAs($this->admin('Sales'))->get(route('admin.media'))->assertForbidden();
+    }
+
+    public function test_editor_photos_upload_and_count_as_used(): void
+    {
+        $url = $this->actingAs($this->admin('Editor'))
+            ->post(route('admin.editor-image'), ['image' => UploadedFile::fake()->image('plan.jpg', 800, 600)])
+            ->assertOk()
+            ->json('url');
+        $path = 'editor/'.basename($url);
+        Storage::disk('public')->assertExists($path);
+
+        $this->actingAs($this->admin('Sales'))->post(route('admin.editor-image'), ['image' => UploadedFile::fake()->image('x.jpg', 800, 600)])->assertForbidden();
+
+        Project::factory()->create(['description' => ['en' => '<p>Plan</p><img src="'.$url.'" class="rt-md rt-left">']]);
+        $this->assertArrayHasKey($path, app(MediaLibrary::class)->usage());
     }
 
     public function test_remove_all_samples_keeps_real_content(): void
