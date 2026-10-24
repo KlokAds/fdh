@@ -162,10 +162,9 @@
                     <a href="{{ route('home') }}" wire:navigate>{{ __('Home') }}</a>
                     <a href="{{ route('about') }}" wire:navigate>{{ __('About') }}</a>
                     <a href="{{ route('projects') }}" wire:navigate>{{ __('Projects') }}</a>
-                    @if ($calculatorOn)<a href="{{ route('calculator') }}" wire:navigate>{{ __('Cost calculator') }}</a>@endif
-                    <a href="{{ route('team') }}" wire:navigate>{{ __('Team') }}</a>
-                    <a href="{{ route('faq') }}" wire:navigate>{{ __('FAQ') }}</a>
-                    <a href="{{ route('contact') }}" wire:navigate>{{ __('Contact') }}</a>
+                    <a href="{{ route('faq') }}" wire:navigate>{{ __('Questions') }}</a>
+                    <a href="{{ route('team') }}" wire:navigate>{{ __('Our Team') }}</a>
+                    <a href="{{ route('contact') }}" wire:navigate>{{ __('Contact us') }}</a>
                 </nav>
                 <nav class="foot-col" aria-label="{{ __('Our services') }}">
                     <h4>{{ __('Our services') }}</h4>

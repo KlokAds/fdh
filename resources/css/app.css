@@ -614,10 +614,7 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 .foot-col h4::after { content: ''; position: absolute; left: 0; bottom: -1px; width: 36px; height: 3px; background: var(--amber); }
 .foot-col a, .foot-col p { justify-self: stretch; margin: 0; padding: 7px 0; color: var(--on-navy-muted); transition: color .2s, padding .2s; }
 .foot-col > a, .foot-col nav > a { display: flex; align-items: center; gap: 10px; }
-nav.foot-col > a::before { content: ''; width: 6px; height: 6px; flex: none; border-top: 2px solid var(--amber); border-right: 2px solid var(--amber); transform: rotate(45deg); opacity: .7; transition: opacity .2s; }
-nav.foot-col > a:hover { color: #fff; padding-left: 4px; }
-nav.foot-col > a:hover::before { opacity: 1; }
-.foot-contact a:hover { color: #fff; }
+.foot-contact a:hover, nav.foot-col > a:hover { color: #fff; }
 .foot-contact a, .foot-contact p { display: flex; gap: 12px; align-items: flex-start; }
 .foot-contact .icon, .foot-contact .icon-fill { width: 17px; height: 17px; margin-top: 3px; color: var(--amber); }
 .foot-contact b { display: block; color: #fff; font-size: .95rem; font-weight: 600; }
