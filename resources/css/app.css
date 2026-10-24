@@ -44,7 +44,7 @@
     --r-md: 2px;
     --r-lg: 2px;
 
-    --sans: 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --sans: 'Noto Sans Bengali', 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --display: var(--sans);
     --bn: var(--sans);
     --bn-body: var(--sans);
@@ -370,6 +370,7 @@ a.service-tile:hover .service-more .icon { transform: translateX(4px); }
 .principal-photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 .principal-photo img.principal-logo { width: 62%; height: auto; object-fit: contain; }
 .principal-photo:has(.principal-logo) { background: #fff; border: 1px solid var(--line); }
+.principal-photo:has(.principal-logo)::before { display: none; }
 .principal-copy .btn { margin-top: 30px; }
 .pull { position: relative; margin: 0 0 26px; padding-left: 0; font-size: clamp(1.35rem, 2.3vw, 1.9rem); font-weight: 600; line-height: 1.45; color: var(--text); }
 .pull::before { content: '“'; display: block; height: .55em; font-size: 4.5em; line-height: .8; color: var(--amber); }
@@ -403,7 +404,9 @@ a.service-tile:hover .service-more .icon { transform: translateX(4px); }
 .faq-q { flex: 1; font-size: 1.06rem; font-weight: 600; line-height: 1.45; transition: color .2s; }
 .faq summary:hover .faq-q { color: var(--link); }
 .faq-icon { width: 34px !important; height: 34px !important; padding: 8px; border: 1px solid var(--line); color: var(--text); transition: transform .25s, background .2s, color .2s, border-color .2s; }
-.faq[open] .faq-icon { transform: rotate(45deg); background: var(--amber); border-color: var(--amber); color: var(--amber-ink); }
+.faq-icon path { transform-box: fill-box; transform-origin: center; transition: transform .25s; }
+.faq[open] .faq-icon { background: var(--amber); border-color: var(--amber); color: var(--amber-ink); }
+.faq[open] .faq-icon path { transform: rotate(45deg); }
 .faq-answer { padding: 0 52px 24px 44px; color: var(--text-2); }
 .faq-answer p:last-child { margin: 0; }
 
@@ -724,6 +727,8 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
     .figure dd { font-size: 1.6rem; }
     .service-grid { grid-template-columns: 1fr; }
     .service-tile { min-height: 0; }
+    .service-features { display: none; }
+    .service-no { font-size: 2.6rem; }
     .section .project-grid { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 16px; scrollbar-width: none; }
     .section .project-grid::-webkit-scrollbar { display: none; }
     .section .project-grid > .project-card { flex: 0 0 80%; scroll-snap-align: start; }

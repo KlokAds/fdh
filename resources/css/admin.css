@@ -24,8 +24,8 @@
     --danger-bg: #fdf0ee;
     --info-bg: #e3f1fb;
     --radius: 14px;
-    --sans: 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --serif: 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --sans: 'Noto Sans Bengali', 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --serif: 'Noto Sans Bengali', 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
     color-scheme: light;
 }
 :root[data-theme="dark"] {
