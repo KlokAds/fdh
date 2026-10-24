@@ -22,7 +22,7 @@ class SampleContent
      *
      * @var array<string, string>
      */
-    private const IMAGES = ['hero_image' => 'hero.jpg', 'about_image' => 'blueprint.jpg'];
+    private const IMAGES = ['hero_image' => 'site.jpg', 'about_image' => 'blueprint.jpg', 'why_image' => 'engineers.jpg'];
 
     public function __construct(private ImageStore $images) {}
 

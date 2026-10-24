@@ -1,16 +1,24 @@
 <div>
-    {{-- HERO --}}
+    {{-- HERO: site photo under a navy wash, headline on the left, the logo skyline on the right --}}
     <section class="hero">
-        <div class="hero-grid" aria-hidden="true"></div>
+        @if (\App\Models\Setting::raw()['hero_image'] ?? '')
+            <img class="hero-photo" src="{{ \App\Models\Setting::imageUrl('hero_image', 'images/fdh-logo.jpg') }}" alt="" fetchpriority="high">
+        @endif
+        <div class="hero-shade" aria-hidden="true"></div>
         <div class="container hero-inner">
             <div class="hero-copy">
                 <p class="kicker reveal">{{ site('hero_eyebrow') }}</p>
                 <h1 class="display reveal">{{ site('hero_title_start') }} <em>{{ site('hero_title_highlight') }}</em> {{ site('hero_title_end') }}</h1>
                 <p class="lead reveal">{{ site('hero_lead') }}</p>
                 <div class="hero-actions reveal">
-                    <a href="{{ route('contact') }}" wire:navigate class="btn">{{ site('hero_cta') }} <span aria-hidden="true">→</span></a>
-                    <a href="{{ site_phone_href() }}" class="link-quiet">{{ __('or call') }} {{ site('phone') }}</a>
+                    <a href="{{ route('contact') }}" wire:navigate class="btn btn-amber">{{ site('hero_cta') }} <x-icon name="arrow" /></a>
+                    <a href="{{ site_phone_href() }}" class="btn btn-ghost-light"><x-icon name="phone" /> {{ site('phone') }}</a>
                 </div>
+                <ul class="hero-trust reveal">
+                    <li><x-icon name="check" /> {{ __('BNBC-compliant design') }}</li>
+                    <li><x-icon name="check" /> {{ __('RAJUK / City Corp approval') }}</li>
+                    <li><x-icon name="check" /> {{ __('Engineer on site') }}</li>
+                </ul>
             </div>
 
             {{-- Animated skyline drawn after the FDH logo: towers rise in on page load. --}}
@@ -45,53 +53,40 @@
                 </svg>
             </div>
         </div>
+    </section>
 
+    {{-- KEY FIGURES: solid blocks that sit on the hero's lower edge --}}
+    <section class="figures" aria-label="{{ __('Key figures') }}">
         <div class="container">
-            <dl class="facts-row">
+            <dl class="figures-grid">
                 @foreach (range(1, 3) as $stat)
                     @if (site("stat_{$stat}_value"))
-                        <div><dt>{{ site("stat_{$stat}_label") }}</dt><dd data-count>{{ site("stat_{$stat}_value") }}</dd></div>
+                        <div class="figure figure-{{ $loop->iteration }} reveal">
+                            <dd data-count>{{ site("stat_{$stat}_value") }}</dd>
+                            <dt>{{ site("stat_{$stat}_label") }}</dt>
+                        </div>
                     @endif
                 @endforeach
-                <div><dt>{{ __('Hotline') }}</dt><dd><a href="{{ site_phone_href() }}">{{ site('phone') }}</a></dd></div>
+                <div class="figure figure-call reveal">
+                    <dd><a href="{{ site_phone_href() }}">{{ site('phone') }}</a></dd>
+                    <dt>{{ __('Hotline') }} · {{ site('office_hours') }}</dt>
+                </div>
             </dl>
         </div>
     </section>
 
-    @if (\App\Models\Setting::raw()['hero_image'] ?? '')
-        <figure class="hero-figure reveal">
-            <img src="{{ \App\Models\Setting::imageUrl('hero_image', 'images/fdh-logo.jpg') }}" alt="{{ site('site_name') }}">
-        </figure>
-    @endif
-
     {{-- SERVICES --}}
     <section class="section" id="services">
         <div class="container">
-            <header class="sec-head reveal">
-                <p class="label">{{ __('Services') }}</p>
+            <header class="sec-head sec-head-split reveal">
                 <div>
+                    <p class="label">{{ __('Services') }}</p>
                     <h2>{{ site('services_title') }}</h2>
-                    <p class="sub">{{ site('services_sub') }}</p>
                 </div>
+                <p class="sub">{{ site('services_sub') }}</p>
             </header>
 
-            <ol class="index-list">
-                @foreach ($services as $service)
-                    <li wire:key="svc-{{ $service->id }}" class="reveal">
-                        <a href="{{ route('services.show', $service) }}" wire:navigate class="index-row">
-                            <span class="index-num">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                            <span class="index-title">{{ $service->title }}</span>
-                            <span class="index-text">
-                                {{ $service->summary }}
-                                @if ($service->featureList())
-                                    <small>{{ implode(' · ', $service->featureList()) }}</small>
-                                @endif
-                            </span>
-                            <span class="index-arrow" aria-hidden="true">→</span>
-                        </a>
-                    </li>
-                @endforeach
-            </ol>
+            <x-site.service-tiles :services="$services" />
         </div>
     </section>
 
@@ -104,21 +99,49 @@
                     <h2>{{ __('How much will your building cost?') }}</h2>
                     <p class="sub">{{ __('Land in katha, shotok or sq ft — get an approximate cost in a minute.') }}</p>
                 </div>
-                <a href="{{ route('calculator') }}" wire:navigate class="btn">{{ __('Calculate cost') }} <span aria-hidden="true">→</span></a>
+                <a href="{{ route('calculator') }}" wire:navigate class="btn btn-amber">{{ __('Calculate cost') }} <x-icon name="arrow" /></a>
             </div>
         </section>
     @endif
 
-    {{-- PROJECTS (only real ones) --}}
+    {{-- APPROACH: photo half and navy half --}}
+    <section class="split-band">
+        <div class="split-photo">
+            @if (\App\Models\Setting::raw()['why_image'] ?? '')
+                <img src="{{ \App\Models\Setting::imageUrl('why_image', 'images/fdh-logo.jpg') }}" alt="" loading="lazy">
+            @endif
+        </div>
+        <div class="split-copy">
+            <div class="split-copy-inner reveal">
+                <p class="label">{{ __('Approach') }}</p>
+                <h2>{{ site('why_title') }}</h2>
+                <p class="sub">{{ site('why_sub') }}</p>
+                <ol class="point-list">
+                    @foreach (range(1, 4) as $n)
+                        <li wire:key="why-{{ $n }}">
+                            <span class="point-no">{{ app()->getLocale() === 'bn' ? \App\Support\CostCalculator::bnDigits('0'.$n) : '0'.$n }}</span>
+                            <div>
+                                <h3>{{ site("why_{$n}_title") }}</h3>
+                                <p>{{ site("why_{$n}_text") }}</p>
+                            </div>
+                        </li>
+                    @endforeach
+                </ol>
+                <a href="{{ route('contact') }}" wire:navigate class="btn btn-amber">{{ site('hero_cta') }} <x-icon name="arrow" /></a>
+            </div>
+        </div>
+    </section>
+
+    {{-- PROJECTS --}}
     @if ($projects->isNotEmpty())
-        <section class="section section-tight">
+        <section class="section">
             <div class="container">
-                <header class="sec-head reveal">
-                    <p class="label">{{ __('Projects') }}</p>
-                    <div class="sec-head-row">
+                <header class="sec-head sec-head-split reveal">
+                    <div>
+                        <p class="label">{{ __('Projects') }}</p>
                         <h2>{{ site('projects_title') }}</h2>
-                        <a href="{{ route('projects') }}" wire:navigate class="link-arrow">{{ __('All projects') }} →</a>
                     </div>
+                    <a href="{{ route('projects') }}" wire:navigate class="btn btn-outline">{{ __('All projects') }} <x-icon name="arrow" /></a>
                 </header>
                 <div class="project-grid">
                     @foreach ($projects as $project)
@@ -129,38 +152,10 @@
         </section>
     @endif
 
-    {{-- WHY --}}
-    <section class="section section-navy">
-        <div class="container why">
-            <div class="why-intro reveal">
-                <p class="label">{{ __('Approach') }}</p>
-                <h2 class="statement">{{ site('why_title') }}</h2>
-                <p class="sub">{{ site('why_sub') }}</p>
-                <div class="why-badge">
-                    <span class="why-badge-icon"><x-icon name="shield" /></span>
-                    <span><b>{{ site('md_name') }}</b><small>{{ site('md_title') }}</small></span>
-                </div>
-                <div class="why-actions">
-                    <a href="{{ route('contact') }}" wire:navigate class="btn btn-light">{{ site('hero_cta') }} <span aria-hidden="true">→</span></a>
-                    <a href="{{ site_phone_href() }}" class="link-quiet">{{ __('or call') }} {{ site('phone') }}</a>
-                </div>
-            </div>
-            <ol class="why-cards">
-                @foreach (['shield', 'layers', 'chart', 'pin'] as $whyIcon)
-                    <li class="why-card reveal" wire:key="why-{{ $loop->iteration }}">
-                        <span class="why-icon"><x-icon :name="$whyIcon" /></span>
-                        <h3>{{ site("why_{$loop->iteration}_title") }}</h3>
-                        <p>{{ site("why_{$loop->iteration}_text") }}</p>
-                    </li>
-                @endforeach
-            </ol>
-        </div>
-    </section>
-
     <x-site.process />
 
     {{-- BUILDING TYPES --}}
-    <section class="section section-tight">
+    <section class="section">
         <div class="container">
             <header class="sec-head reveal">
                 <p class="label">{{ __('Scope') }}</p>
@@ -170,7 +165,7 @@
                 @foreach (range(1, 6) as $n)
                     @if (site("type_{$n}_title"))
                         <div class="type reveal" wire:key="type-{{ $n }}">
-                            <span class="type-icon"><x-icon :name="['home', 'duplex', 'apartment', 'shop', 'interior', 'renovation'][$n - 1]" /></span>
+                            <x-icon :name="['home', 'duplex', 'apartment', 'shop', 'interior', 'renovation'][$n - 1]" class="type-icon" />
                             <h3>{{ site("type_{$n}_title") }}</h3>
                             <p>{{ site("type_{$n}_text") }}</p>
                         </div>
@@ -186,20 +181,18 @@
             <figure class="principal-photo reveal">
                 @if (\App\Models\Setting::raw()['md_photo'] ?? '')
                     <img src="{{ \App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg') }}" alt="{{ site('md_name') }}" loading="lazy">
-                    <figcaption class="principal-badge">
-                        <span class="principal-badge-icon"><x-icon name="shield" /></span>
-                        <span><b>{{ site('md_name') }}</b><small>{{ site('md_title') }}</small></span>
-                    </figcaption>
                 @else
                     <img src="{{ \App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg') }}" alt="" class="principal-logo" loading="lazy">
                 @endif
             </figure>
-            <div class="reveal">
+            <div class="principal-copy reveal">
                 <p class="label">{{ __('Principal') }}</p>
-                <p class="pull">{{ site('about_lead') }}</p>
-                <p class="principal-name">{{ site('md_name') }}</p>
-                <p class="muted">{{ site('md_title') }}</p>
-                <a href="{{ route('about') }}" wire:navigate class="link-arrow">{{ __('About the practice') }} →</a>
+                <blockquote class="pull">{{ site('about_lead') }}</blockquote>
+                <div class="principal-sign">
+                    <b>{{ site('md_name') }}</b>
+                    <span>{{ site('md_title') }}</span>
+                </div>
+                <a href="{{ route('about') }}" wire:navigate class="btn btn-outline">{{ __('About the practice') }} <x-icon name="arrow" /></a>
             </div>
         </div>
     </section>
@@ -215,8 +208,8 @@
                 <div class="quotes">
                     @foreach ($testimonials as $testimonial)
                         <figure class="quote reveal" wire:key="t-{{ $testimonial->id }}">
-                            <blockquote>“{{ $testimonial->quote }}”</blockquote>
-                            <figcaption><b>{{ $testimonial->name }}</b>@if ($testimonial->subtitle) · {{ $testimonial->subtitle }}@endif</figcaption>
+                            <blockquote>{{ $testimonial->quote }}</blockquote>
+                            <figcaption><b>{{ $testimonial->name }}</b>@if ($testimonial->subtitle)<span>{{ $testimonial->subtitle }}</span>@endif</figcaption>
                         </figure>
                     @endforeach
                 </div>
@@ -226,22 +219,21 @@
 
     {{-- FAQ --}}
     @if ($faqs->isNotEmpty())
-        <section class="section faq-section">
+        <section class="section">
             <div class="container faq-layout">
                 <div class="faq-intro reveal">
                     <p class="label">{{ __('FAQ') }}</p>
                     <h2>{{ site('faq_title') }}</h2>
                     <p class="sub">{{ __('Answers to what landowners ask us most — design, approval, soil test and cost.') }}</p>
                     <div class="help-card">
-                        <span class="help-icon"><x-icon name="chat" /></span>
                         <h3>{{ __('Still have a question?') }}</h3>
                         <p>{{ __('Call or send a WhatsApp message — we are happy to help with your plan.') }}</p>
                         <div class="help-actions">
-                            <a href="{{ site_phone_href() }}" class="btn btn-light btn-sm"><x-icon name="phone" /> {{ site('phone') }}</a>
+                            <a href="{{ site_phone_href() }}" class="btn btn-amber btn-sm"><x-icon name="phone" /> {{ site('phone') }}</a>
                             <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-wa"><x-icon name="whatsapp" /> WhatsApp</a>
                         </div>
                     </div>
-                    <a href="{{ route('faq') }}" wire:navigate class="btn btn-outline faq-more">{{ __('See all questions') }} <x-icon name="arrow" /></a>
+                    <a href="{{ route('faq') }}" wire:navigate class="text-link faq-more">{{ __('See all questions') }} <x-icon name="arrow" /></a>
                 </div>
                 <x-site.faq-list :faqs="$faqs" :open-first="true" />
             </div>
@@ -251,7 +243,7 @@
     {{-- CONTACT --}}
     <section class="section section-alt" id="contact">
         <div class="container split-2">
-            <div class="reveal">
+            <div class="reveal contact-intro">
                 <p class="label">{{ __('Contact') }}</p>
                 <h2>{{ site('contact_title') }}</h2>
                 <p class="sub">{{ site('contact_sub') }}</p>

@@ -7,9 +7,11 @@
         @if ($project->status && $project->status !== 'completed')
             <span @class(['status-chip', 'is-'.$project->status])>{{ __(\App\Models\Project::STATUSES[$project->status] ?? '') }}</span>
         @endif
+        <span class="project-go" aria-hidden="true"><x-icon name="arrow" /></span>
     </div>
     <div class="project-meta">
+        <span class="project-cat">{{ __($project->category) }}</span>
         <h3>{{ $project->title }}</h3>
-        <p>{{ collect([__($project->category), $project->floors ? \App\Support\CostCalculator::number($project->floors).' '.__('storey') : null, $project->location, $project->year])->filter()->implode(' · ') }}</p>
+        <p>{{ collect([$project->floors ? \App\Support\CostCalculator::number($project->floors).' '.__('storey') : null, $project->location, $project->year])->filter()->implode(' · ') }}</p>
     </div>
 </a>

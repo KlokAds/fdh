@@ -26,6 +26,7 @@ class SiteContent
                     'site_tagline' => self::tr('Tagline (under the logo)', 'Design & Consultancy', 'ডিজাইন ও কনসালটেন্সি'),
                     'logo' => ['type' => 'image', 'label' => 'Logo', 'size' => '512 × 512 px · square, transparent PNG', 'default' => ''],
                     'accent_color' => ['type' => 'color', 'label' => 'Accent colour (buttons, links)', 'default' => '#1596dc'],
+                    'highlight_color' => ['type' => 'color', 'label' => 'Highlight colour (main buttons, numbers)', 'default' => '#f2a900'],
                     'brand_dark' => ['type' => 'color', 'label' => 'Brand dark colour (header, hero, footer)', 'default' => '#0a1628'],
                     'default_locale' => ['type' => 'select', 'label' => 'Default language for new visitors', 'default' => 'bn', 'options' => ['en' => 'English', 'bn' => 'বাংলা']],
                 ],
@@ -112,7 +113,7 @@ class SiteContent
             'why' => [
                 'label' => 'Home: why choose us',
                 'permission' => 'content.manage',
-                'fields' => self::repeat('why', [
+                'fields' => ['why_image' => ['type' => 'image', 'label' => 'Photo beside the points (engineers at work suits best)', 'size' => '1400 × 1200 px · landscape', 'default' => '']] + self::repeat('why', [
                     ['Safe structures', 'Designs checked by an IEB-certified civil engineer, following BNBC code.', 'নিরাপদ কাঠামো', 'বিএনবিসি কোড অনুযায়ী, আইইবি সনদপ্রাপ্ত সিভিল ইঞ্জিনিয়ার দ্বারা যাচাইকৃত ডিজাইন।'],
                     ['One-stop service', 'Design, approval, survey, estimate and supervision — one responsible team.', 'ওয়ান-স্টপ সেবা', 'ডিজাইন, অনুমোদন, সার্ভে, খরচ নির্ধারণ ও তত্ত্বাবধান — একটি দায়িত্বশীল দল।'],
                     ['Transparent budget', 'Realistic cost estimates up front, so you can plan with confidence.', 'স্বচ্ছ বাজেট', 'শুরুতেই বাস্তবসম্মত খরচের হিসাব, যাতে আপনি নিশ্চিন্তে পরিকল্পনা করতে পারেন।'],

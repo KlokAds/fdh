@@ -45,11 +45,23 @@
 <body class="site">
     <a href="#main" class="skip-link">{{ __('Skip to content') }}</a>
 
+    <div class="topbar">
+        <div class="container topbar-inner">
+            <span><x-icon name="pin" /> {{ __('Rangpur') }} · {{ __('Dhaka') }}</span>
+            @if (site('office_hours'))<span class="topbar-hide-sm"><x-icon name="clock" /> {{ site('office_hours') }}</span>@endif
+            <span class="topbar-end">
+                <a href="mailto:{{ site('email') }}" class="topbar-hide-sm"><x-icon name="mail" /> {{ site('email') }}</a>
+                @if (site('facebook'))<a href="{{ site('facebook') }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><x-icon name="facebook" /></a>@endif
+                @if (site('youtube'))<a href="{{ site('youtube') }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><x-icon name="youtube" /></a>@endif
+            </span>
+        </div>
+    </div>
+
     <header class="header" id="top" data-header>
         <div class="container nav">
             <a href="{{ route('home') }}" wire:navigate class="brand" aria-label="{{ site('site_name') }}">
-                <img src="{{ $logoUrl }}" alt="" width="36" height="36" class="brand-logo">
-                <span class="brand-name">{{ site('site_name') }}</span>
+                <img src="{{ $logoUrl }}" alt="" width="44" height="44" class="brand-logo">
+                <span class="brand-text"><span class="brand-name">{{ site('site_name') }}</span><small class="brand-tag">{{ site('site_tagline') }}</small></span>
             </a>
 
             <nav class="menu" id="menu" aria-label="{{ __('Main menu') }}">
