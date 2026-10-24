@@ -90,19 +90,6 @@
         </div>
     </section>
 
-    {{-- COST CALCULATOR teaser (only when the admin turned it on and set rates) --}}
-    @if (\App\Support\CostCalculator::isAvailable())
-        <section class="calc-band">
-            <div class="container calc-band-inner reveal">
-                <div>
-                    <p class="label">{{ __('Cost calculator') }}</p>
-                    <h2>{{ __('How much will your building cost?') }}</h2>
-                    <p class="sub">{{ __('Land in katha, shotok or sq ft — get an approximate cost in a minute.') }}</p>
-                </div>
-                <a href="{{ route('calculator') }}" wire:navigate class="btn btn-amber">{{ __('Calculate cost') }} <x-icon name="arrow" /></a>
-            </div>
-        </section>
-    @endif
 
     {{-- APPROACH: photo half and navy half --}}
     <section class="split-band">
@@ -119,7 +106,7 @@
                 <ol class="point-list">
                     @foreach (range(1, 4) as $n)
                         <li wire:key="why-{{ $n }}">
-                            <span class="point-no">{{ app()->getLocale() === 'bn' ? \App\Support\CostCalculator::bnDigits('0'.$n) : '0'.$n }}</span>
+                            <span class="point-no">{{ app()->getLocale() === 'bn' ? \App\Support\BanglaNumber::digits('0'.$n) : '0'.$n }}</span>
                             <div>
                                 <h3>{{ site("why_{$n}_title") }}</h3>
                                 <p>{{ site("why_{$n}_text") }}</p>

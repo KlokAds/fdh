@@ -11,7 +11,6 @@ use App\Models\Faq;
 use App\Models\Inquiry;
 use App\Models\Project;
 use App\Models\Setting;
-use App\Support\CostCalculator;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -65,12 +64,6 @@ class ReviewFixesTest extends TestCase
             ->assertHasNoErrors('phone');
 
         $this->assertSame('01712345678', Inquiry::query()->first()?->phone);
-    }
-
-    public function test_amounts_just_under_a_crore_read_as_one_crore(): void
-    {
-        $this->assertSame('৳ 1 crore', CostCalculator::taka(9_996_000, 'en'));
-        $this->assertSame('৳ 99.9 lakh', CostCalculator::taka(9_990_000, 'en'));
     }
 
     public function test_language_switch_never_redirects_off_site(): void

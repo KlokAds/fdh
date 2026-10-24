@@ -12,7 +12,7 @@
                 @php($step = $loop->iteration)
                 <li class="reveal" wire:key="step-{{ $step }}">
                     <div class="step-head">
-                        <span class="step-no">{{ app()->getLocale() === 'bn' ? \App\Support\CostCalculator::bnDigits('0'.$step) : '0'.$step }}</span>
+                        <span class="step-no">{{ app()->getLocale() === 'bn' ? \App\Support\BanglaNumber::digits('0'.$step) : '0'.$step }}</span>
                         <x-icon :name="$stepIcon" class="step-icon" />
                     </div>
                     <h3>{{ site("process_{$step}_title") }}</h3>

@@ -12,6 +12,6 @@
     <div class="project-meta">
         <span class="project-cat">{{ __($project->category) }}</span>
         <h3>{{ $project->title }}</h3>
-        <p>{{ collect([$project->floors ? \App\Support\CostCalculator::number($project->floors).' '.__('storey') : null, $project->location, $project->year])->filter()->implode(' · ') }}</p>
+        <p>{{ collect([$project->floors ? \App\Support\BanglaNumber::number($project->floors).' '.__('storey') : null, $project->location, $project->year])->filter()->implode(' · ') }}</p>
     </div>
 </a>

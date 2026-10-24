@@ -9,7 +9,7 @@
                 <p class="sub">{{ __('Call or WhatsApp for a quick answer, or send your details with the form and we will call you back.') }}</p>
                 @include('livewire.site.partials.contact-list')
             </div>
-            <livewire:site.inquiry-form :service="$service" :message="$estimate" />
+            <livewire:site.inquiry-form :service="$service" />
         </div>
     </section>
 

@@ -133,19 +133,6 @@ class SiteContent
                     'md_title' => self::tr('Managing director — title', 'Managing Director · BSc in Civil Engineering (IEB)', 'ব্যবস্থাপনা পরিচালক · বিএসসি ইন সিভিল ইঞ্জিনিয়ারিং (আইইবি)'),
                 ],
             ],
-            'calculator' => [
-                'label' => 'Cost calculator',
-                'permission' => 'settings.manage',
-                'fields' => [
-                    'calc_enabled' => ['type' => 'select', 'label' => 'Show the cost calculator on the website', 'default' => 'no', 'options' => ['no' => 'No — hidden', 'yes' => 'Yes — show it']],
-                    'calc_rate_standard' => ['type' => 'text', 'label' => 'Standard finishing — construction cost per sq ft (৳)', 'default' => '', 'rules' => 'nullable|integer|min:100|max:100000'],
-                    'calc_rate_premium' => ['type' => 'text', 'label' => 'Premium finishing — cost per sq ft (৳, optional)', 'default' => '', 'rules' => 'nullable|integer|min:100|max:100000'],
-                    'calc_rate_luxury' => ['type' => 'text', 'label' => 'Luxury finishing — cost per sq ft (৳, optional)', 'default' => '', 'rules' => 'nullable|integer|min:100|max:100000'],
-                    'calc_coverage' => ['type' => 'text', 'label' => 'Typical ground coverage of the plot (%)', 'default' => '60', 'rules' => 'required|integer|min:20|max:100'],
-                    'calc_range' => ['type' => 'text', 'label' => 'Show the result as a range of ± (%)', 'default' => '10', 'rules' => 'required|integer|min:0|max:50'],
-                    'calc_note' => self::tr('Note under the result', 'This is an approximate construction cost for planning only. Land price, approval, design and soil-test fees, and market price changes are not included. Contact us for an exact estimate (BOQ).', 'এটি শুধু পরিকল্পনার জন্য আনুমানিক নির্মাণ খরচ। জমির দাম, অনুমোদন, ডিজাইন ও সয়েল টেস্ট ফি এবং বাজারদরের পরিবর্তন এতে ধরা হয়নি। সঠিক হিসাবের (বিওকিউ) জন্য আমাদের সাথে যোগাযোগ করুন।', 'textarea'),
-                ],
-            ],
             'tracking' => [
                 'label' => 'Facebook / Meta tracking',
                 'permission' => 'settings.manage',

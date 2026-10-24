@@ -17,13 +17,12 @@ Route::livewire('/sv', Site\Services::class)->name('services');
 Route::livewire('/sv/{service}', Site\ServiceShow::class)->name('services.show');
 Route::livewire('/pt', Site\Projects::class)->name('projects');
 Route::livewire('/pt/{project}', Site\ProjectShow::class)->name('projects.show');
-Route::livewire('/cc', Site\Calculator::class)->name('calculator');
 Route::livewire('/tm', Site\Team::class)->name('team');
 Route::livewire('/qa', Site\Faq::class)->name('faq');
 Route::livewire('/ct', Site\Contact::class)->name('contact');
 
 // The earlier, longer addresses keep working: shared links and search results move to the short ones.
-foreach (['about' => 'ab', 'services' => 'sv', 'projects' => 'pt', 'cost-calculator' => 'cc', 'team' => 'tm', 'faq' => 'qa', 'contact' => 'ct'] as $old => $new) {
+foreach (['about' => 'ab', 'services' => 'sv', 'projects' => 'pt', 'team' => 'tm', 'faq' => 'qa', 'contact' => 'ct'] as $old => $new) {
     Route::get("/{$old}", fn (Request $request) => redirect("/{$new}".($request->getQueryString() ? '?'.$request->getQueryString() : ''), 301));
 }
 Route::get('/services/{slug}', fn (string $slug) => redirect("/sv/{$slug}", 301))->where('slug', '[A-Za-z0-9\-]+');

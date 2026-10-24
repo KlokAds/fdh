@@ -8,7 +8,6 @@ use App\Http\Middleware\SetLocale;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\User;
-use App\Support\CostCalculator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
@@ -47,7 +46,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'navServices' => Service::query()->active()->get(['id', 'slug', 'title', 'summary', 'icon']),
                 'logoUrl' => Setting::imageUrl('logo', 'images/fdh-logo.jpg'),
-                'calculatorOn' => CostCalculator::isAvailable(),
             ]);
         });
 

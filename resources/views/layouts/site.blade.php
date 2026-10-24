@@ -88,9 +88,6 @@
                     </div>
                 </div>
                 <a href="{{ route('projects') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="apartment" class="menu-ic" />{{ __('Projects') }}</a>
-                @if ($calculatorOn)
-                    <a href="{{ route('calculator') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="estimate" class="menu-ic" />{{ __('Cost calculator') }}</a>
-                @endif
                 <div class="has-dd" data-dropdown>
                     <a href="{{ route('about') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="users" class="menu-ic" />{{ __('About') }}</a>
                     <button type="button" class="dd-toggle" data-dropdown-toggle aria-expanded="false" aria-label="{{ __('More about us') }}"><x-icon name="chevron" /></button>

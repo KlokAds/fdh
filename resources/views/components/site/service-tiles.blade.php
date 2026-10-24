@@ -3,7 +3,7 @@
     @foreach ($services as $service)
         @php($number = str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT))
         <a href="{{ route('services.show', $service) }}" wire:navigate class="service-tile reveal" wire:key="svc-{{ $service->id }}">
-            <span class="service-no">{{ app()->getLocale() === 'bn' ? \App\Support\CostCalculator::bnDigits($number) : $number }}</span>
+            <span class="service-no">{{ app()->getLocale() === 'bn' ? \App\Support\BanglaNumber::digits($number) : $number }}</span>
             <x-icon :name="$service->icon ?: 'building'" class="service-icon" />
             <h3>{{ $service->title }}</h3>
             <p>{{ $service->summary }}</p>
