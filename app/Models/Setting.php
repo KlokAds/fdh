@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Support\SiteContent;
 use Database\Factories\SettingFactory;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -93,7 +93,14 @@ class Setting extends Model
     {
         $path = self::raw()[$key] ?? '';
 
-        return is_string($path) && $path !== '' ? Storage::disk('public')->url($path) : asset($fallback);
+        if (is_string($path) && $path !== '') {
+            return Storage::disk('public')->url($path);
+        }
+
+        // Bundled images change with releases; the version keeps CDNs from serving an old copy.
+        $file = public_path($fallback);
+
+        return asset($fallback).(is_file($file) ? '?v='.filemtime($file) : '');
     }
 
     /**
