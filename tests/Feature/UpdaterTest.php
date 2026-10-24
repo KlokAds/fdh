@@ -128,6 +128,11 @@ class UpdaterTest extends TestCase
         Http::fake();
 
         $this->actingAs($this->admin('Admin'))->get(route('admin.system-update'))->assertForbidden();
-        $this->actingAs($this->admin())->get(route('admin.system-update'))->assertOk()->assertSee('development copy');
+        // Even the client's Super Admin does not see it; only the hidden support account does.
+        $this->actingAs($this->admin())->get(route('admin.system-update'))->assertNotFound();
+
+        $support = $this->admin();
+        $support->forceFill(['is_hidden' => true])->save();
+        $this->actingAs($support)->get(route('admin.system-update'))->assertOk()->assertSee('development copy');
     }
 }

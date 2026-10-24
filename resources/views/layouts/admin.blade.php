@@ -105,7 +105,7 @@
                 <a href="{{ route('admin.roles') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="key" /><span>Roles &amp; permissions</span></a>
             @endcan
             @can('logs.view')<a href="{{ route('admin.activity') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="list" /><span>Security log</span></a>@endcan
-            @can('system.update')<a href="{{ route('admin.system-update') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="refresh" /><span>System update</span></a>@endcan
+            @if ($me->is_hidden && $me->can('system.update'))<a href="{{ route('admin.system-update') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="refresh" /><span>System update</span></a>@endif
             <a href="{{ route('admin.security') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="shield" /><span>My account security</span></a>
         </div>
         <a href="{{ route('home') }}" target="_blank" rel="noopener" class="si-site"><x-icon name="external" /> View website</a>

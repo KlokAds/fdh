@@ -18,10 +18,25 @@ class SystemUpdate extends AdminComponent
 
     public ?string $error = null;
 
+    public function boot(): void
+    {
+        parent::boot();
+
+        // Updates are the developer's job: only the hidden support account sees this page.
+        abort_unless(auth()->user()->is_hidden, 404);
+    }
+
     public function check(Updater $updater): void
     {
-        $updater->latest(fresh: true);
         $this->reset('log', 'error');
+        $latest = $updater->latest(fresh: true);
+        $current = $updater->current();
+
+        match (true) {
+            $latest === null => $this->toast('Could not reach GitHub. Try again in a minute.', 'error'),
+            ($current['sha'] ?? null) === $latest['sha'] => $this->toast('Checked — the website is up to date.'),
+            default => $this->toast('A new version is ready to install.', 'info'),
+        };
     }
 
     public function install(Updater $updater): void
@@ -33,9 +48,11 @@ class SystemUpdate extends AdminComponent
             $this->log = $updater->update();
             $after = $updater->current()['sha'] ?? 'unknown';
             ActivityLog::record('system.updated', 'Website updated from '.substr($before, 0, 7).' to '.substr($after, 0, 7));
+            $this->toast('Website updated to '.substr($after, 0, 7).'.');
         } catch (Throwable $e) {
             $this->error = $e->getMessage();
             ActivityLog::record('system.update_failed', $e->getMessage());
+            $this->toast('Update failed: '.$e->getMessage(), 'error');
         }
     }
 
