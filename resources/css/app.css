@@ -185,7 +185,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .nav-phone-icon .icon-fill { width: 19px; height: 19px; }
 .nav-phone-text { display: grid; line-height: 1.15; }
 .nav-phone-text small { font-size: .7rem; font-weight: 600; opacity: .75; }
-.nav-phone-text b { font-size: 1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.nav-phone-text b { font-size: 1.02rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .nav-wa { background: #1fae54; color: #fff; font-size: .95rem; }
 .nav-wa:hover { background: #179447; }
 .nav-wa .icon-fill { width: 20px; height: 20px; }
@@ -650,7 +650,7 @@ nav.foot-col > a:hover::before { opacity: 1; }
    Responsive
    ========================================================= */
 @media (max-width: 1240px) {
-    .nav-phone-text small, .nav-wa span { display: none; }
+    .nav-wa span { display: none; }
     .nav-wa { padding: 0 14px; }
     .menu-link { padding: 0 10px; }
 }

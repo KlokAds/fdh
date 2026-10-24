@@ -116,10 +116,10 @@
                 </div>
                 <a href="{{ site_phone_href() }}" class="nav-phone" aria-label="{{ __('Call us') }} {{ site('phone') }}">
                     <span class="nav-phone-icon"><x-icon name="phone" /></span>
-                    <span class="nav-phone-text"><small>{{ __('Call us') }}</small><b>{{ site('phone') }}</b></span>
+                    <span class="nav-phone-text"><b>{{ site('phone') }}</b></span>
                 </a>
-                <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="nav-wa" aria-label="{{ __('Chat on WhatsApp') }}">
-                    <x-icon name="whatsapp" /><span>WhatsApp</span>
+                <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="nav-wa" aria-label="{{ __('Get free advice') }} — WhatsApp">
+                    <x-icon name="whatsapp" /><span>{{ __('Get free advice') }}</span>
                 </a>
                 <button type="button" class="burger" data-menu-toggle aria-label="{{ __('Open menu') }}" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
             </div>
