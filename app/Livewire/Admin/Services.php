@@ -10,11 +10,12 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
+use Livewire\WithPagination;
 
 #[Title('Services')]
 class Services extends AdminComponent
 {
-    use EditsTranslations;
+    use EditsTranslations, WithPagination;
 
     protected ?string $permission = 'services.manage';
 
@@ -118,7 +119,7 @@ class Services extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.services', [
-            'services' => Service::query()->orderBy('sort')->orderBy('id')->get(),
+            'services' => Service::query()->orderBy('sort')->orderBy('id')->paginate(15),
             'icons' => Service::ICONS,
         ]);
     }

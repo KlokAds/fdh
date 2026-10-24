@@ -98,6 +98,110 @@ document.addEventListener('click', (event) => {
     }
 });
 
+/* ---------- Confirm modal (replaces the browser's confirm box) ---------- */
+let confirmTarget = null;
+
+function closeConfirm() {
+    const modal = document.getElementById('confirm-modal');
+    if (modal) {
+        modal.hidden = true;
+    }
+    confirmTarget?.focus();
+}
+
+// Capture phase: runs before Livewire's wire:click, which only fires once the user agrees.
+document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-confirm]');
+    const modal = document.getElementById('confirm-modal');
+    if (!trigger || !modal) {
+        return;
+    }
+    if (trigger.dataset.confirmed === '1') {
+        delete trigger.dataset.confirmed;
+        return;
+    }
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    confirmTarget = trigger;
+    modal.querySelector('#confirm-text').textContent = trigger.dataset.confirm;
+    modal.hidden = false;
+    modal.querySelector('[data-confirm-ok]').focus();
+}, true);
+
+document.addEventListener('click', (event) => {
+    if (event.target.closest('[data-confirm-cancel]')) {
+        closeConfirm();
+    } else if (event.target.closest('[data-confirm-ok]') && confirmTarget) {
+        const target = confirmTarget;
+        closeConfirm();
+        target.dataset.confirmed = '1';
+        target.click();
+    }
+});
+
+/* ---------- Styled select (drives a hidden native select) ---------- */
+function closeUiSelects(except = null) {
+    document.querySelectorAll('[data-ui-select].is-open').forEach((box) => {
+        if (box !== except) {
+            box.classList.remove('is-open');
+            box.querySelector('[data-ui-select-toggle]')?.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+function chooseUiOption(option) {
+    const box = option.closest('[data-ui-select]');
+    const native = box.querySelector('select');
+    native.value = option.dataset.value;
+    native.dispatchEvent(new Event('input', { bubbles: true }));
+    native.dispatchEvent(new Event('change', { bubbles: true }));
+    box.querySelectorAll('[role="option"]').forEach((o) => o.setAttribute('aria-selected', String(o === option)));
+    const value = box.querySelector('.ui-select-value');
+    value.textContent = option.textContent.trim();
+    value.classList.toggle('is-placeholder', option.dataset.value === '');
+    closeUiSelects();
+    box.querySelector('[data-ui-select-toggle]').focus();
+}
+
+document.addEventListener('click', (event) => {
+    const toggle = event.target.closest('[data-ui-select-toggle]');
+    if (toggle) {
+        const box = toggle.closest('[data-ui-select]');
+        const open = !box.classList.contains('is-open');
+        closeUiSelects(box);
+        box.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        if (open) {
+            (box.querySelector('[aria-selected="true"]') || box.querySelector('[role="option"]'))?.focus();
+        }
+        return;
+    }
+    const option = event.target.closest('[data-ui-select] [role="option"]');
+    if (option) {
+        chooseUiOption(option);
+        return;
+    }
+    closeUiSelects();
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        closeUiSelects();
+        if (!document.getElementById('confirm-modal')?.hidden) {
+            closeConfirm();
+        }
+        return;
+    }
+    const option = event.target.closest?.('[data-ui-select] [role="option"]');
+    if (!option || !['ArrowDown', 'ArrowUp'].includes(event.key)) {
+        return;
+    }
+    event.preventDefault();
+    const options = [...option.closest('[data-ui-select]').querySelectorAll('[role="option"]')];
+    const next = options[options.indexOf(option) + (event.key === 'ArrowDown' ? 1 : -1)];
+    next?.focus();
+});
+
 /* ---------- Custom select (service dropdown) ---------- */
 function closeSelects(except = null) {
     document.querySelectorAll('[data-cselect][open]').forEach((d) => {

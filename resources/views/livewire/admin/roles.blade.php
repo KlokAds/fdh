@@ -3,7 +3,7 @@
         <section class="card">
             <div class="card-head">
                 <h2>{{ $editingId ? 'Edit role' : 'New role' }}</h2>
-                <button type="button" class="link-btn" wire:click="cancel">Cancel ✕</button>
+                <button type="button" class="close-btn" wire:click="cancel" title="Close" aria-label="Close form"><x-icon name="close" /></button>
             </div>
             <form wire:submit="save" class="stack">
                 <label class="narrow-field">Role name *<input wire:model="name" maxlength="50">@error('name') <span class="err">{{ $message }}</span> @enderror</label>
@@ -22,7 +22,7 @@
                     @endforeach
                 </div>
                 @error('selected.*') <span class="err">{{ $message }}</span> @enderror
-                <div class="row-actions"><button type="submit" class="btn btn-primary">Save role</button></div>
+                <div class="row-actions"><button type="submit" class="btn btn-primary">Save role</button> <button type="button" class="btn btn-ghost" wire:click="cancel">Cancel</button></div>
             </form>
         </section>
     @endif
@@ -64,8 +64,8 @@
                             <td>{{ $role->users_count }}</td>
                             <td class="right nowrap">
                                 @unless ($role->name === $superRole)
-                                    <button type="button" class="btn btn-ghost btn-sm" wire:click="edit({{ $role->id }})">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $role->id }})" wire:confirm="Delete the role {{ $role->name }}?">Delete</button>
+                                    <button type="button" class="act-btn" wire:click="edit({{ $role->id }})" title="Edit" aria-label="Edit"><x-icon name="edit" /></button>
+                                    <button type="button" class="act-btn act-danger" wire:click="delete({{ $role->id }})" data-confirm="Delete the role {{ $role->name }}?" title="Delete" aria-label="Delete"><x-icon name="trash" /></button>
                                 @endunless
                             </td>
                         </tr>

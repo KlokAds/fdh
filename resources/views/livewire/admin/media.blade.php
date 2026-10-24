@@ -13,14 +13,9 @@
                 @endforeach
             </div>
             <div class="row-actions">
-                <select wire:model.live="folder" class="select-sm" aria-label="Folder">
-                    <option value="">All folders</option>
-                    @foreach ($folders as $key => $name)
-                        <option value="{{ $key }}">{{ $name }}</option>
-                    @endforeach
-                </select>
+                <x-ui.select model="folder" :live="true" :small="true" label="Folder" placeholder="All folders" :selected="$folder" :options="$folders" />
                 @if ($unusedCount)
-                    <button type="button" class="btn btn-danger btn-sm" wire:click="deleteAllUnused" wire:confirm="Delete all {{ $unusedCount }} unused photos? Photos used on the website are never touched.">Delete all unused</button>
+                    <button type="button" class="btn btn-danger btn-sm" wire:click="deleteAllUnused" data-confirm="Delete all {{ $unusedCount }} unused photos? Photos used on the website are never touched.">Delete all unused</button>
                 @endif
             </div>
         </div>
@@ -40,7 +35,7 @@
                             <img src="{{ $file['url'] }}" alt="" loading="lazy">
                         </a>
                         @if ($file['usedBy'] === [])
-                            <button type="button" class="up-x" wire:click="delete(@js($file['path']))" wire:confirm="Delete this unused photo?" aria-label="Delete photo" title="Delete"><x-icon name="close" /></button>
+                            <button type="button" class="up-x" wire:click="delete(@js($file['path']))" data-confirm="Delete this unused photo?" aria-label="Delete photo" title="Delete"><x-icon name="close" /></button>
                             <span class="up-tag up-tag-warn">Unused</span>
                         @else
                             <span class="up-tag"><x-icon name="check" /> In use</span>

@@ -3,7 +3,7 @@
         <section class="card">
             <div class="card-head">
                 <h2>{{ $editingId ? 'Edit team member' : 'New team member' }}</h2>
-                <button type="button" class="link-btn" wire:click="cancel">Cancel ✕</button>
+                <button type="button" class="close-btn" wire:click="cancel" title="Close" aria-label="Close form"><x-icon name="close" /></button>
             </div>
             <form wire:submit="save" class="stack">
                 <x-admin.tr-field field="name" label="Name" :required="true" max="100" />
@@ -22,7 +22,7 @@
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                 </div>
                 <label class="check"><input type="checkbox" wire:model="is_active"> Show on website</label>
-                <div class="row-actions"><button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="save,photo">Save team member</button></div>
+                <div class="row-actions"><button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="save,photo">Save team member</button> <button type="button" class="btn btn-ghost" wire:click="cancel">Cancel</button></div>
             </form>
         </section>
     @endif
@@ -48,12 +48,13 @@
                             <span class="muted small">{{ $member->getTranslation('designation', 'en') }}{{ $member->is_active ? '' : ' · Hidden' }}</span>
                         </div>
                         <div class="row-actions">
-                            <button type="button" class="btn btn-ghost btn-sm" wire:click="edit({{ $member->id }})">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $member->id }})" wire:confirm="Delete this team member?">Delete</button>
+                            <button type="button" class="act-btn" wire:click="edit({{ $member->id }})" title="Edit" aria-label="Edit"><x-icon name="edit" /></button>
+                            <button type="button" class="act-btn act-danger" wire:click="delete({{ $member->id }})" data-confirm="Delete this team member?" title="Delete" aria-label="Delete"><x-icon name="trash" /></button>
                         </div>
                     </article>
                 @endforeach
             </div>
         @endif
+        {{ $members->links('livewire.admin.partials.pagination') }}
     </section>
 </div>

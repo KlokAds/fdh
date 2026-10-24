@@ -12,11 +12,12 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 #[Title('Testimonials')]
 class Testimonials extends AdminComponent
 {
-    use DiscardsUploads, EditsTranslations, WithFileUploads;
+    use DiscardsUploads, EditsTranslations, WithFileUploads, WithPagination;
 
     protected ?string $permission = 'testimonials.manage';
 
@@ -135,7 +136,7 @@ class Testimonials extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.testimonials', [
-            'testimonials' => Testimonial::query()->orderBy('sort')->latest('id')->get(),
+            'testimonials' => Testimonial::query()->orderBy('sort')->latest('id')->paginate(15),
             'current' => $this->editingId ? Testimonial::query()->find($this->editingId) : null,
         ]);
     }

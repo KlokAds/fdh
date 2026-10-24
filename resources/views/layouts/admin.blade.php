@@ -53,6 +53,20 @@
     </aside>
     <div class="sidebar-backdrop" data-sidebar-toggle></div>
 
+    {{-- Styled replacement for the browser's confirm() box; driven by data-confirm in app.js. --}}
+    <div class="modal" id="confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-text" hidden>
+        <div class="modal-backdrop" data-confirm-cancel></div>
+        <div class="modal-card">
+            <span class="modal-icon"><x-icon name="alert" /></span>
+            <h2 id="confirm-title">Are you sure?</h2>
+            <p id="confirm-text"></p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-ghost" data-confirm-cancel>Cancel</button>
+                <button type="button" class="btn btn-danger-solid" data-confirm-ok>Yes, continue</button>
+            </div>
+        </div>
+    </div>
+
     <div class="admin-main">
         <header class="topbar">
             <button type="button" class="burger" data-sidebar-toggle aria-label="Toggle menu" aria-controls="sidebar"><span></span><span></span><span></span></button>

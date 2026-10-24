@@ -8,11 +8,12 @@ use App\Models\Faq;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
+use Livewire\WithPagination;
 
 #[Title('FAQs')]
 class Faqs extends AdminComponent
 {
-    use EditsTranslations;
+    use EditsTranslations, WithPagination;
 
     protected ?string $permission = 'faqs.manage';
 
@@ -94,7 +95,7 @@ class Faqs extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.faqs', [
-            'faqs' => Faq::query()->orderBy('sort')->orderBy('id')->get(),
+            'faqs' => Faq::query()->orderBy('sort')->orderBy('id')->paginate(15),
         ]);
     }
 }

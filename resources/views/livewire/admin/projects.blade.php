@@ -3,7 +3,7 @@
         <section class="card">
             <div class="card-head">
                 <h2>{{ $editingId ? 'Edit project' : 'New project' }}</h2>
-                <button type="button" class="link-btn" wire:click="cancel">Cancel ✕</button>
+                <button type="button" class="close-btn" wire:click="cancel" title="Close" aria-label="Close form"><x-icon name="close" /></button>
             </div>
             <form wire:submit="save" class="stack">
                 <x-admin.tr-field field="title" label="Title" :required="true" max="150" />
@@ -11,11 +11,7 @@
                 <x-admin.tr-field field="description" label="Description" hint="blank line = new paragraph" max="5000" type="textarea" rows="5" />
                 <div class="row row-3">
                     <label>Category *
-                        <select wire:model="category">
-                            @foreach ($categories as $category)
-                                <option value="{{ $category }}">{{ $category }}</option>
-                            @endforeach
-                        </select>
+                        <x-ui.select model="category" :selected="$category" :options="array_combine($categories, $categories)" />
                         @error('category') <span class="err">{{ $message }}</span> @enderror
                     </label>
                     <label>Year<input wire:model="year" maxlength="4" inputmode="numeric" placeholder="2026">@error('year') <span class="err">{{ $message }}</span> @enderror</label>
@@ -30,7 +26,7 @@
                         <figure class="up-tile" wire:key="gal-{{ $loop->index }}">
                             <img src="{{ $url }}" alt="">
                             <span class="up-tag"><x-icon name="check" /> Saved</span>
-                            <button type="button" class="up-x" wire:click="removePhoto({{ $loop->index }})" wire:confirm="Remove this photo?" aria-label="Remove this photo" title="Remove"><x-icon name="close" /></button>
+                            <button type="button" class="up-x" wire:click="removePhoto({{ $loop->index }})" data-confirm="Remove this photo?" aria-label="Remove this photo" title="Remove"><x-icon name="close" /></button>
                         </figure>
                     @endforeach
                 </x-admin.image-upload>
@@ -43,7 +39,7 @@
                     <button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="save,cover,photos">
                         <span wire:loading.remove wire:target="save">Save project</span>
                         <span wire:loading wire:target="save">Saving…</span>
-                    </button>
+                    </button> <button type="button" class="btn btn-ghost" wire:click="cancel">Cancel</button>
                 </div>
             </form>
         </section>
@@ -67,8 +63,8 @@
                             <b>{{ $project->getTranslation('title', 'en') }} @if ($project->is_sample)<span class="pill pill-new">Sample — replace</span>@endif</b>
                             <span class="muted small">{{ $project->category }} · {{ $project->is_published ? 'Published' : 'Draft' }}{{ $project->is_featured ? ' · ★ Featured' : '' }}</span>
                             <div class="row-actions">
-                                <button type="button" class="btn btn-ghost btn-sm" wire:click="edit({{ $project->id }})">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $project->id }})" wire:confirm="Delete this project and its photos?">Delete</button>
+                                <button type="button" class="act-btn" wire:click="edit({{ $project->id }})" title="Edit" aria-label="Edit"><x-icon name="edit" /></button>
+                                <button type="button" class="act-btn act-danger" wire:click="delete({{ $project->id }})" data-confirm="Delete this project and its photos?" title="Delete" aria-label="Delete"><x-icon name="trash" /></button>
                             </div>
                         </div>
                     </article>

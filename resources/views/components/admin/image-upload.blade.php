@@ -40,7 +40,7 @@
                     <img src="{{ $current }}" alt="">
                     <span class="up-tag"><x-icon name="check" /> Saved</span>
                     @if ($removeSaved)
-                        <button type="button" class="up-x" wire:click="{{ $removeSaved }}{{ $removeArg !== null ? "('{$removeArg}')" : '' }}" wire:confirm="Remove this image?" aria-label="Remove this image" title="Remove"><x-icon name="close" /></button>
+                        <button type="button" class="up-x" wire:click="{{ $removeSaved }}{{ $removeArg !== null ? "('{$removeArg}')" : '' }}" data-confirm="Remove this image?" aria-label="Remove this image" title="Remove"><x-icon name="close" /></button>
                     @endif
                 </figure>
             @endif

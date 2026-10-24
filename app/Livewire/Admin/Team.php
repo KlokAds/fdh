@@ -12,11 +12,12 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 #[Title('Team members')]
 class Team extends AdminComponent
 {
-    use DiscardsUploads, EditsTranslations, WithFileUploads;
+    use DiscardsUploads, EditsTranslations, WithFileUploads, WithPagination;
 
     protected ?string $permission = 'team.manage';
 
@@ -147,7 +148,7 @@ class Team extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.team', [
-            'members' => TeamMember::query()->orderBy('sort')->orderBy('id')->get(),
+            'members' => TeamMember::query()->orderBy('sort')->orderBy('id')->paginate(16),
             'current' => $this->editingId ? TeamMember::query()->find($this->editingId) : null,
         ]);
     }

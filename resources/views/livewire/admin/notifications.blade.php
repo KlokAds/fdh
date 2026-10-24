@@ -44,7 +44,7 @@
                             <b>{{ \Illuminate\Support\Str::limit($device->device ?: 'Unknown browser', 60) }}</b>
                             <small class="muted">Added {{ $device->created_at->diffForHumans() }}{{ $device->last_used_at ? ' · last alert '.$device->last_used_at->diffForHumans() : '' }}</small>
                         </span>
-                        <button type="button" class="btn btn-danger btn-sm" wire:click="removeDevice({{ $device->id }})" wire:confirm="Stop notifications on this device?">Remove</button>
+                        <button type="button" class="btn btn-danger btn-sm" wire:click="removeDevice({{ $device->id }})" data-confirm="Stop notifications on this device?">Remove</button>
                     </li>
                 @endforeach
             </ul>

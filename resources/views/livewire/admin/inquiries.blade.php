@@ -1,14 +1,7 @@
 <div class="stack-lg">
     <div class="toolbar">
         <input type="search" wire:model.live.debounce.400ms="search" placeholder="Search name, phone, location…" maxlength="100">
-        <select wire:model.live="status">
-            <option value="">All statuses</option>
-            <option value="unread">Unread</option>
-            <option value="mine">Assigned to me</option>
-            @foreach (\App\Models\Inquiry::STATUSES as $value => $label)
-                <option value="{{ $value }}">{{ $label }}</option>
-            @endforeach
-        </select>
+        <x-ui.select model="status" :live="true" label="Filter by status" placeholder="All statuses" :selected="$status" :options="['unread' => 'Unread', 'mine' => 'Assigned to me'] + \App\Models\Inquiry::STATUSES" />
     </div>
 
     <div @class(['split', 'has-detail' => $current])>
@@ -41,7 +34,7 @@
             <section class="card detail-card">
                 <div class="card-head">
                     <h2>{{ $current->name }}</h2>
-                    <button type="button" class="link-btn" wire:click="close">Close ✕</button>
+                    <button type="button" class="close-btn" wire:click="close" title="Close" aria-label="Close"><x-icon name="close" /></button>
                 </div>
                 <dl class="facts">
                     <dt>Phone</dt><dd><a href="tel:{{ $current->phone }}">{{ $current->phone }}</a> · <a href="https://wa.me/{{ preg_replace('/^0/', '880', preg_replace('/\D/', '', $current->phone)) }}" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></dd>
@@ -66,12 +59,7 @@
                     </div>
                     <form wire:submit="saveNote" class="stack">
                         <label>Assigned to
-                            <select wire:model="assignee">
-                                <option value="">Nobody</option>
-                                @foreach ($staff as $member)
-                                    <option value="{{ $member->id }}">{{ $member->name }}</option>
-                                @endforeach
-                            </select>
+                            <x-ui.select model="assignee" placeholder="Nobody" :selected="$assignee" :options="$staff->pluck('name', 'id')->all()" />
                             @error('assignee') <span class="err">{{ $message }}</span> @enderror
                         </label>
                         <label>Internal note
@@ -81,7 +69,7 @@
                         <div class="row-actions">
                             <button type="submit" class="btn btn-primary btn-sm">Save</button>
                             @can('inquiries.delete')
-                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete" wire:confirm="Delete this inquiry permanently?">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete" data-confirm="Delete this inquiry permanently?">Delete</button>
                             @endcan
                         </div>
                     </form>

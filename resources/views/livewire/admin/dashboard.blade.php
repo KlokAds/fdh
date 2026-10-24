@@ -14,7 +14,7 @@
                 <p class="muted">They make the site look complete until your own content is ready. Upload real photos (Content &amp; settings, Projects) — each upload replaces its sample — or remove them all at once before launch.</p>
             </div>
             @can('settings.manage')
-                <button type="button" class="btn btn-danger btn-sm" wire:click="removeSamples" wire:confirm="Remove all sample photos and sample projects from the website?">Remove all samples</button>
+                <button type="button" class="btn btn-danger btn-sm" wire:click="removeSamples" data-confirm="Remove all sample photos and sample projects from the website?">Remove all samples</button>
             @endcan
         </section>
     @endif

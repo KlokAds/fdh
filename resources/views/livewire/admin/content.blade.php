@@ -35,7 +35,7 @@
                             @error("secrets.{$key}") <span class="err">{{ $message }}</span> @enderror
                         </label>
                         @if (! empty($savedSecrets[$key]))
-                            <p class="muted small">A value is saved (hidden for security). <button type="button" class="link-btn" wire:click="clearSecret('{{ $key }}')" wire:confirm="Remove the saved value?">Remove it</button></p>
+                            <p class="muted small">A value is saved (hidden for security). <button type="button" class="link-btn" wire:click="clearSecret('{{ $key }}')" data-confirm="Remove the saved value?">Remove it</button></p>
                         @endif
                     @elseif ($field['type'] === 'color')
                         <label>{{ $field['label'] }}
@@ -47,11 +47,7 @@
                         </label>
                     @elseif ($field['type'] === 'select')
                         <label>{{ $field['label'] }}
-                            <select wire:model="values.{{ $key }}">
-                                @foreach ($field['options'] as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            <x-ui.select model="values.{{ $key }}" :options="$field['options']" :selected="$values[$key] ?? null" />
                             @error("values.{$key}") <span class="err">{{ $message }}</span> @enderror
                         </label>
                     @else

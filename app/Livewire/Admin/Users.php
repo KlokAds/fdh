@@ -10,11 +10,14 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
+use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 
 #[Title('Admin users')]
 class Users extends AdminComponent
 {
+    use WithPagination;
+
     protected ?string $permission = 'users.manage';
 
     #[Locked]
@@ -246,7 +249,7 @@ class Users extends AdminComponent
                 ->when(! auth()->user()->is_hidden, fn ($query) => $query->where('is_hidden', false))
                 ->orderByDesc('is_active')
                 ->orderBy('name')
-                ->get(),
+                ->paginate(15),
             'roles' => $roles->values(),
         ]);
     }

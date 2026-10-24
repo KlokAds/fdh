@@ -29,7 +29,7 @@
             <div class="row-actions">
                 @if ($behind)
                     <button type="button" class="btn btn-primary" wire:click="install" wire:loading.attr="disabled"
-                        wire:confirm="Install the update now? The website shows a short maintenance notice for about a minute.">
+                        data-confirm="Install the update now? The website shows a short maintenance notice for about a minute.">
                         <span wire:loading.remove wire:target="install">Update now</span>
                         <span wire:loading wire:target="install">Updating… keep this page open</span>
                     </button>
