@@ -73,9 +73,9 @@ class Login extends Component
         session()->regenerate();
         session()->put('admin.last_activity', time());
         $user->forceFill(['last_login_at' => now(), 'last_login_ip' => request()->ip()])->save();
-        ActivityLog::record('login.success', 'Signed in (2FA not yet set up)', $user->id);
+        ActivityLog::record('login.success', 'Signed in without 2FA', $user->id);
 
-        return $this->redirectRoute('admin.security');
+        return $user->needsSecuritySetup() ? $this->redirectRoute('admin.security') : $this->redirectRoute('admin.dashboard');
     }
 
     public function render(): View

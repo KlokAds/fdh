@@ -42,7 +42,7 @@ class Users extends AdminComponent
 
     public function edit(int $id): void
     {
-        $user = User::query()->findOrFail($id);
+        $user = $this->findUser($id);
         $this->guardTarget($user);
         $this->resetForm();
         $this->editingId = $user->id;
@@ -65,7 +65,7 @@ class Users extends AdminComponent
         $this->guardRoleChange();
 
         if ($this->editingId) {
-            $user = User::query()->findOrFail($this->editingId);
+            $user = $this->findUser($this->editingId);
             $user->fill(['name' => strip_tags($this->name), 'email' => $this->email])->save();
             $user->syncRoles([$this->role]);
             ActivityLog::record('user.updated', "Updated {$user->email} (role: {$this->role})");
@@ -88,7 +88,7 @@ class Users extends AdminComponent
 
     public function toggleActive(int $id): void
     {
-        $user = User::query()->findOrFail($id);
+        $user = $this->findUser($id);
         $this->guardTarget($user);
         abort_if($user->id === auth()->id(), 403, 'You cannot deactivate your own account.');
 
@@ -110,7 +110,7 @@ class Users extends AdminComponent
 
     public function resetPassword(int $id): void
     {
-        $user = User::query()->findOrFail($id);
+        $user = $this->findUser($id);
         $this->guardTarget($user);
         abort_if($user->id === auth()->id(), 403, 'Use Account security to change your own password.');
 
@@ -127,7 +127,7 @@ class Users extends AdminComponent
 
     public function resetTwoFactor(int $id): void
     {
-        $user = User::query()->findOrFail($id);
+        $user = $this->findUser($id);
         $this->guardTarget($user);
         abort_if($user->id === auth()->id(), 403);
 
@@ -145,7 +145,7 @@ class Users extends AdminComponent
 
     public function delete(int $id): void
     {
-        $user = User::query()->findOrFail($id);
+        $user = $this->findUser($id);
         $this->guardTarget($user);
         abort_if($user->id === auth()->id(), 403, 'You cannot delete your own account.');
 
@@ -180,7 +180,7 @@ class Users extends AdminComponent
     {
         $actor = auth()->user();
         $superRole = config('fdh.super_role');
-        $target = $this->editingId ? User::query()->findOrFail($this->editingId) : null;
+        $target = $this->editingId ? $this->findUser($this->editingId) : null;
 
         if ($target && $target->id === $actor->id && ! $target->hasRole($this->role)) {
             abort(403, 'You cannot change your own role.');
@@ -200,6 +200,16 @@ class Users extends AdminComponent
     private function guardTarget(User $user): void
     {
         abort_if($user->isSuperAdmin() && ! auth()->user()->isSuperAdmin(), 403, 'Only a Super Admin can manage a Super Admin account.');
+    }
+
+    /**
+     * Hidden support accounts cannot be seen or changed by anyone who is not hidden themselves.
+     */
+    private function findUser(int $id): User
+    {
+        return User::query()
+            ->when(! auth()->user()->is_hidden, fn ($query) => $query->where('is_hidden', false))
+            ->findOrFail($id);
     }
 
     private function activeSuperAdmins(): int
@@ -231,7 +241,12 @@ class Users extends AdminComponent
         }
 
         return view('livewire.admin.users', [
-            'users' => User::query()->with('roles')->orderByDesc('is_active')->orderBy('name')->get(),
+            'users' => User::query()
+                ->with('roles')
+                ->when(! auth()->user()->is_hidden, fn ($query) => $query->where('is_hidden', false))
+                ->orderByDesc('is_active')
+                ->orderBy('name')
+                ->get(),
             'roles' => $roles->values(),
         ]);
     }

@@ -71,6 +71,21 @@ class Roles extends AdminComponent
         session()->flash('status', 'Role saved.');
     }
 
+    /**
+     * Make two-factor authentication mandatory, or optional, for everyone holding the role.
+     */
+    public function toggleTwoFactor(int $id): void
+    {
+        $role = Role::query()->findOrFail($id);
+        abort_if($role->name === config('fdh.super_role') && ! auth()->user()->isSuperAdmin(), 403, 'Only a Super Admin can change the Super Admin role.');
+
+        $role->requires_two_factor = ! $role->requires_two_factor;
+        $role->save();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        ActivityLog::record('role.two_factor', "Two-factor for role {$role->name}: ".($role->requires_two_factor ? 'required' : 'optional'));
+    }
+
     public function delete(int $id): void
     {
         $role = Role::query()->withCount('users')->findOrFail($id);

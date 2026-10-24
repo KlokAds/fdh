@@ -38,7 +38,7 @@
         @error('list') <p class="alert alert-error">{{ $message }}</p> @enderror
         <div class="table-wrap">
             <table class="table">
-                <thead><tr><th>Role</th><th>Permissions</th><th>Users</th><th class="right">Actions</th></tr></thead>
+                <thead><tr><th>Role</th><th>Permissions</th><th>Two-factor</th><th>Users</th><th class="right">Actions</th></tr></thead>
                 <tbody>
                     @foreach ($roles as $role)
                         <tr wire:key="r-{{ $role->id }}">
@@ -52,6 +52,13 @@
                                     @empty
                                         <span class="muted">None</span>
                                     @endforelse
+                                @endif
+                            </td>
+                            <td class="nowrap">
+                                @if ($role->name !== $superRole || auth()->user()->isSuperAdmin())
+                                    <button type="button" @class(['pill', 'pill-closed' => $role->requires_two_factor]) wire:click="toggleTwoFactor({{ $role->id }})" title="Click to change">{{ $role->requires_two_factor ? 'Required' : 'Optional' }}</button>
+                                @else
+                                    <span @class(['pill', 'pill-closed' => $role->requires_two_factor])>{{ $role->requires_two_factor ? 'Required' : 'Optional' }}</span>
                                 @endif
                             </td>
                             <td>{{ $role->users_count }}</td>

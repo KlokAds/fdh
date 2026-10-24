@@ -40,7 +40,7 @@
             </form>
         @else
             <p class="badge badge-warn">Not enabled</p>
-            <p class="muted">Two-factor authentication is required for all admins. It protects the panel even if your password is stolen.</p>
+            <p class="muted">{{ auth()->user()->requiresTwoFactor() ? 'Your role requires two-factor authentication.' : 'Two-factor authentication is optional for your role, but recommended.' }} It protects the panel even if your password is stolen.</p>
             <button type="button" class="btn btn-primary" wire:click="startSetup">Set up two-factor authentication</button>
         @endif
     </section>

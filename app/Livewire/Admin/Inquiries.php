@@ -122,7 +122,7 @@ class Inquiries extends AdminComponent
         return view('livewire.admin.inquiries', [
             'inquiries' => $inquiries,
             'current' => $this->openId ? Inquiry::query()->with('assignee:id,name')->find($this->openId) : null,
-            'staff' => User::query()->where('is_active', true)->orderBy('name')->get(['id', 'name']),
+            'staff' => User::query()->where('is_active', true)->where('is_hidden', false)->orderBy('name')->get(['id', 'name']),
         ]);
     }
 }

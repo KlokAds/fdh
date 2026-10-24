@@ -27,7 +27,7 @@ abstract class AdminComponent extends Component
         abort_unless($user !== null && $user->canAccessAdmin(), 403);
 
         if ($this->requiresSecureAccount()) {
-            abort_unless($user->hasTwoFactorEnabled() && ! $user->must_change_password, 403);
+            abort_if($user->needsSecuritySetup(), 403);
         }
 
         if ($this->permission !== null) {

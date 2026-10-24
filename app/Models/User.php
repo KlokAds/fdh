@@ -23,6 +23,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'is_hidden' => 'boolean',
             'must_change_password' => 'boolean',
             'two_factor_secret' => 'encrypted',
             'two_factor_recovery_codes' => 'encrypted:array',
@@ -42,6 +43,22 @@ class User extends Authenticatable
     public function isSuperAdmin(): bool
     {
         return $this->hasRole(config('fdh.super_role'));
+    }
+
+    /**
+     * Two-factor authentication is mandatory only when one of the user's roles demands it.
+     */
+    public function requiresTwoFactor(): bool
+    {
+        return $this->roles->contains(fn ($role): bool => (bool) $role->requires_two_factor);
+    }
+
+    /**
+     * Whether the account still has a required setup step (temporary password or mandatory 2FA).
+     */
+    public function needsSecuritySetup(): bool
+    {
+        return $this->must_change_password || ($this->requiresTwoFactor() && ! $this->hasTwoFactorEnabled());
     }
 
     public function hasTwoFactorEnabled(): bool

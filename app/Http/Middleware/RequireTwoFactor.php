@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 class RequireTwoFactor
 {
     /**
-     * Admins must replace a temporary password and turn on two-factor authentication
-     * before using any other admin page.
+     * Admins must replace a temporary password, and turn on two-factor authentication when
+     * their role requires it, before using any other admin page.
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -21,7 +21,7 @@ class RequireTwoFactor
                 ->with('status', 'Please choose a new password to replace your temporary one.');
         }
 
-        if (! $user?->hasTwoFactorEnabled()) {
+        if ($user?->requiresTwoFactor() && ! $user->hasTwoFactorEnabled()) {
             return redirect()->route('admin.security')
                 ->with('status', 'Please set up two-factor authentication to secure your account.');
         }
