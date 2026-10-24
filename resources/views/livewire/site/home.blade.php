@@ -186,6 +186,10 @@
             <figure class="principal-photo reveal">
                 @if (\App\Models\Setting::raw()['md_photo'] ?? '')
                     <img src="{{ \App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg') }}" alt="{{ site('md_name') }}" loading="lazy">
+                    <figcaption class="principal-badge">
+                        <span class="principal-badge-icon"><x-icon name="shield" /></span>
+                        <span><b>{{ site('md_name') }}</b><small>{{ site('md_title') }}</small></span>
+                    </figcaption>
                 @else
                     <img src="{{ \App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg') }}" alt="" class="principal-logo" loading="lazy">
                 @endif

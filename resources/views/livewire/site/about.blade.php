@@ -20,7 +20,7 @@
                     @if (\App\Models\Setting::raw()['md_photo'] ?? '')
                         <img src="{{ \App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg') }}" alt="{{ site('md_name') }}" loading="lazy">
                     @else
-                        <span class="principal-initial" aria-hidden="true">{{ mb_substr(preg_replace('/^(Engr\.|ইঞ্জি\.)\s*/u', '', site('md_name')) ?: 'F', 0, 1) }}</span>
+                        <img src="{{ \App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg') }}" alt="" class="principal-logo" loading="lazy">
                     @endif
                 </div>
                 <p class="principal-name">{{ site('md_name') }}</p>
