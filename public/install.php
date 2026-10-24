@@ -180,11 +180,11 @@ $field = static function (string $name, string $label, array $o = []) use ($e, $
     ol.steps li.done { color: var(--ok); }
     .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: grid; gap: 16px; }
     h1 { font-size: 1.35rem; margin: 0; } p { margin: 0; } .muted { color: var(--muted); }
-    label { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; } label em { font-weight: 400; color: var(--muted); }
+    label { display: grid; gap: 6px; align-content: start; font-weight: 600; font-size: .9rem; } label em { font-weight: 400; color: var(--muted); }
     label small { font-weight: 400; color: var(--muted); }
     input[type=text], input[type=password], input[type=email], input[type=url], input:not([type]) { font: inherit; padding: .7em .85em; border-radius: 9px; border: 1px solid var(--line); background: var(--bg); color: var(--text); width: 100%; }
     input:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; } @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; } @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
     .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 500; } .check input { margin-top: 4px; }
     .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
     .checks li { display: flex; gap: 10px; padding: 8px 10px; border-radius: 8px; background: var(--ok-bg); color: var(--ok); font-size: .9rem; }
