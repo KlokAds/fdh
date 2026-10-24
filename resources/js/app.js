@@ -309,12 +309,38 @@ window.addEventListener('scroll', () => requestAnimationFrame(() => {
 }), { passive: true });
 
 function onPageReady() {
+    // wire:navigate copies the new page's <html> attributes, which drops classes added here.
+    if (!navigator.webdriver) {
+        root.classList.add('js');
+    }
     bindPushCard();
     applyTheme();
     setMenu(false, false);
     updateHeader();
     bindReveals();
 }
+
+/* ---------- Brand lockup: the tagline ends exactly under the name ---------- */
+function fitBrandTags() {
+    document.querySelectorAll('.brand-text').forEach((brand) => {
+        const name = brand.querySelector('.brand-name');
+        const tag = brand.querySelector('.brand-tag');
+        if (!name || !tag || !tag.offsetParent) {
+            return;
+        }
+        tag.style.letterSpacing = '0px';
+        const letters = [...tag.textContent.trim()].length;
+        const gap = (name.getBoundingClientRect().width - tag.getBoundingClientRect().width) / Math.max(1, letters - 1);
+        // Never squeeze letters together; a very long tagline simply stays at its natural width.
+        tag.style.letterSpacing = `${Math.max(0, Math.min(gap, 8))}px`;
+        tag.style.marginRight = `-${Math.max(0, Math.min(gap, 8))}px`;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', fitBrandTags);
+document.addEventListener('livewire:navigated', fitBrandTags);
+window.addEventListener('resize', fitBrandTags);
+document.fonts?.ready.then(fitBrandTags);
 
 /* ---------- Count-up for hero figures (keeps Bangla or Latin digits and any text around them) ---------- */
 const BN_DIGITS = '০১২৩৪৫৬৭৮৯';
