@@ -545,3 +545,13 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .row-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 1100px) { .row-4 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 860px) { .row-4 { grid-template-columns: 1fr; } }
+
+[hidden] { display: none !important; }
+.field { display: grid; gap: 7px; min-width: 0; align-content: start; }
+.field > .field-label { font-weight: 600; font-size: .84rem; color: var(--text-2); }
+
+@media (max-width: 860px) {
+    /* Closed sidebar is out of the tab order, not just off screen */
+    .sidebar { visibility: hidden; transition: transform .25s, visibility 0s linear .25s; }
+    .sidebar.is-open { visibility: visible; transition: transform .25s, visibility 0s; }
+}

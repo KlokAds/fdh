@@ -1,6 +1,6 @@
 {{-- Formatting editor bound to a hidden textarea (wire:model). Output is cleaned by App\Support\RichText on save. --}}
 @props(['model', 'lang' => 'en', 'max' => 15000])
-<div class="rte" data-rte lang="{{ $lang }}" data-upload="{{ route('admin.editor-image') }}">
+<div class="rte" data-rte wire:ignore.self lang="{{ $lang }}" data-upload="{{ route('admin.editor-image') }}">
     <textarea wire:model="{{ $model }}" class="rte-source" maxlength="{{ $max }}" hidden></textarea>
     <div wire:ignore>
         <div class="rte-toolbar" role="toolbar" aria-label="Formatting">

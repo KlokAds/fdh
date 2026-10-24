@@ -10,7 +10,7 @@
             @foreach ($fields as $key => $field)
                 <div wire:key="field-{{ $key }}">
                     @if (! empty($field['translatable']))
-                        <x-admin.tr-field model="values" :field="$key" :label="$field['label']" :type="$field['type']" :required="true" :max="match ($field['type']) { 'rich' => 15000, 'textarea' => 3000, default => 255 }" :rows="$field['type'] === 'textarea' ? 4 : 2" />
+                        <x-admin.tr-field model="values" :field="$key" :label="$field['label']" :type="$field['type']" :required="true" :max="match ($field['type']) { 'rich' => 60000, 'textarea' => 3000, default => 255 }" :rows="$field['type'] === 'textarea' ? 4 : 2" />
                     @elseif ($field['type'] === 'image')
                         <div class="image-field">
                             <x-admin.image-upload
@@ -46,10 +46,10 @@
                             @error("values.{$key}") <span class="err">{{ $message }}</span> @enderror
                         </label>
                     @elseif ($field['type'] === 'select')
-                        <label>{{ $field['label'] }}
-                            <x-ui.select model="values.{{ $key }}" :options="$field['options']" :selected="$values[$key] ?? null" />
+                        <div class="field"><span class="field-label">{{ $field['label'] }}</span>
+                            <x-ui.select :label="$field['label']" model="values.{{ $key }}" :options="$field['options']" :selected="$values[$key] ?? null" />
                             @error("values.{$key}") <span class="err">{{ $message }}</span> @enderror
-                        </label>
+                        </div>
                     @else
                         <label>{{ $field['label'] }}
                             <input type="{{ in_array($field['type'], ['email', 'url'], true) ? $field['type'] : 'text' }}" wire:model="values.{{ $key }}" maxlength="255">

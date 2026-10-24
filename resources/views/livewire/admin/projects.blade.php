@@ -8,19 +8,19 @@
             <form wire:submit="save" class="stack">
                 <x-admin.tr-field field="title" label="Title" :required="true" max="150" />
                 <x-admin.tr-field field="location" label="Location" max="150" />
-                <x-admin.tr-field field="description" label="Description" max="15000" type="rich" />
+                <x-admin.tr-field field="description" label="Description" max="60000" type="rich" />
                 <div class="row row-3">
-                    <label>Category *
-                        <x-ui.select model="category" :selected="$category" :options="array_combine($categories, $categories)" />
+                    <div class="field"><span class="field-label">Category *</span>
+                        <x-ui.select label="Category" model="category" :selected="$category" :options="array_combine($categories, $categories)" />
                         @error('category') <span class="err">{{ $message }}</span> @enderror
-                    </label>
+                    </div>
                     <label>Year<input wire:model="year" maxlength="4" inputmode="numeric" placeholder="2026">@error('year') <span class="err">{{ $message }}</span> @enderror</label>
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                 </div>
                 <div class="row row-4">
-                    <label>Progress
-                        <x-ui.select model="status" :selected="$status" :options="\App\Models\Project::STATUSES" />
-                    </label>
+                    <div class="field"><span class="field-label">Progress</span>
+                        <x-ui.select label="Progress" model="status" :selected="$status" :options="\App\Models\Project::STATUSES" />
+                    </div>
                     <label>Storeys<input type="number" wire:model="floors" min="1" max="60" placeholder="e.g. 6">@error('floors') <span class="err">{{ $message }}</span> @enderror</label>
                     <label>Land (katha)<input wire:model="land_katha" inputmode="decimal" placeholder="e.g. 5">@error('land_katha') <span class="err">{{ $message }}</span> @enderror</label>
                     <label>Built area (sq ft)<input type="number" wire:model="floor_area_sqft" min="100" placeholder="e.g. 9600">@error('floor_area_sqft') <span class="err">{{ $message }}</span> @enderror</label>

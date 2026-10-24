@@ -100,7 +100,7 @@ class Projects extends AdminComponent
         $this->validate(array_merge(
             $this->translationRules('title', true, 150),
             $this->translationRules('location', false, 150),
-            $this->translationRules('description', false, 15000),
+            $this->translationRules('description', false, 60000),
             [
                 'slug' => ['required', 'alpha_dash', 'max:150', Rule::unique('projects', 'slug')->ignore($this->editingId)],
                 'category' => ['required', Rule::in(Project::CATEGORIES)],

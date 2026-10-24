@@ -1,5 +1,5 @@
 @props(['member'])
-<article class="person reveal">
+<article {{ $attributes->class(['person', 'reveal']) }}>
     <div class="person-photo">
         @if ($member->photoUrl())
             <img src="{{ $member->photoUrl() }}" alt="{{ $member->name }}" loading="lazy">

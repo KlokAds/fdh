@@ -8,13 +8,13 @@
             <form wire:submit="save" class="stack">
                 <x-admin.tr-field field="title" label="Title" :required="true" max="120" />
                 <x-admin.tr-field field="summary" label="Short summary" :required="true" max="300" type="textarea" rows="2" />
-                <x-admin.tr-field field="description" label="Full description" max="15000" type="rich" />
+                <x-admin.tr-field field="description" label="Full description" max="60000" type="rich" />
                 <x-admin.tr-field field="features" label="Features" hint="comma separated" max="500" />
                 <div class="row row-3">
                     <label>URL slug <small class="muted">(auto from English title)</small><input wire:model="slug" maxlength="120">@error('slug') <span class="err">{{ $message }}</span> @enderror</label>
-                    <label>Icon
-                        <x-ui.select model="icon" :selected="$icon" :options="collect($icons)->mapWithKeys(fn ($name) => [$name => ucfirst($name)])->all()" />
-                    </label>
+                    <div class="field"><span class="field-label">Icon</span>
+                        <x-ui.select label="Icon" model="icon" :selected="$icon" :options="collect($icons)->mapWithKeys(fn ($name) => [$name => ucfirst($name)])->all()" />
+                    </div>
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                 </div>
                 <label class="check"><input type="checkbox" wire:model="is_active"> Show on website</label>

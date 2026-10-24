@@ -75,6 +75,7 @@
                     <a href="{{ route('services') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="layers" class="menu-ic" />{{ __('Services') }}</a>
                     <button type="button" class="dd-toggle" data-dropdown-toggle aria-expanded="false" aria-label="{{ __('Show services') }}"><x-icon name="chevron" /></button>
                     <div class="dd dd-wide">
+                        <div class="dd-head"><button type="button" class="dd-back" data-dropdown-back><x-icon name="chevron" /> {{ __('Back') }}</button><b>{{ __('Services') }}</b></div>
                         <div class="dd-grid">
                             @foreach ($navServices as $navService)
                                 <a href="{{ route('services.show', $navService) }}" wire:navigate class="dd-item" wire:key="nav-svc-{{ $navService->id }}">
@@ -94,9 +95,11 @@
                     <a href="{{ route('about') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="users" class="menu-ic" />{{ __('About') }}</a>
                     <button type="button" class="dd-toggle" data-dropdown-toggle aria-expanded="false" aria-label="{{ __('More about us') }}"><x-icon name="chevron" /></button>
                     <div class="dd">
+                        <div class="dd-head"><button type="button" class="dd-back" data-dropdown-back><x-icon name="chevron" /> {{ __('Back') }}</button><b>{{ __('About') }}</b></div>
                         <a href="{{ route('about') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="building" /></span><span class="dd-text"><b>{{ __('Who we are') }}</b><small>{{ __('Our story and principal engineer') }}</small></span></a>
                         <a href="{{ route('team') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="users" /></span><span class="dd-text"><b>{{ __('Team') }}</b><small>{{ __('Engineers and architects behind your project') }}</small></span></a>
                         <a href="{{ route('faq') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="help" /></span><span class="dd-text"><b>{{ __('FAQ') }}</b><small>{{ __('Approval, soil test, cost and timeline') }}</small></span></a>
+                        <a href="{{ route('about') }}" wire:navigate class="dd-all">{{ __('All about us') }} <x-icon name="arrow" /></a>
                     </div>
                 </div>
                 <a href="{{ route('contact') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="mail" class="menu-ic" />{{ __('Contact') }}</a>

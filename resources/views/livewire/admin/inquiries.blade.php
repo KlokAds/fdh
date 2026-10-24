@@ -58,10 +58,10 @@
                         @endforeach
                     </div>
                     <form wire:submit="saveNote" class="stack">
-                        <label>Assigned to
-                            <x-ui.select model="assignee" placeholder="Nobody" :selected="$assignee" :options="$staff->pluck('name', 'id')->all()" />
+                        <div class="field"><span class="field-label">Assigned to</span>
+                            <x-ui.select label="Assigned to" model="assignee" placeholder="Nobody" :selected="$assignee" :options="$staff->pluck('name', 'id')->all()" />
                             @error('assignee') <span class="err">{{ $message }}</span> @enderror
-                        </label>
+                        </div>
                         <label>Internal note
                             <textarea wire:model="note" rows="3" maxlength="2000" placeholder="Call notes, follow-up date…"></textarea>
                         </label>

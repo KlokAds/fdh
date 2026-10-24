@@ -73,7 +73,7 @@ class Content extends AdminComponent
             if (! empty($field['translatable'])) {
                 foreach ($locales as $index => $locale) {
                     $rules["values.{$key}.{$locale}"] = ($index === 0 && ($field['default']['en'] ?? '') !== '' ? 'required' : 'nullable').'|string|max:'.match ($field['type']) {
-                        'rich' => 15000, 'textarea' => 3000, default => 255
+                        'rich' => 60000, 'textarea' => 3000, default => 255
                     };
                     $attributes["values.{$key}.{$locale}"] = $field['label']." ({$locale})";
                 }

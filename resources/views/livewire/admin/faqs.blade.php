@@ -7,7 +7,7 @@
             </div>
             <form wire:submit="save" class="stack">
                 <x-admin.tr-field field="question" label="Question" :required="true" max="255" />
-                <x-admin.tr-field field="answer" label="Answer" :required="true" max="8000" type="rich" />
+                <x-admin.tr-field field="answer" label="Answer" :required="true" max="40000" type="rich" />
                 <div class="row">
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                     <label class="check"><input type="checkbox" wire:model="is_active"> Show on website</label>

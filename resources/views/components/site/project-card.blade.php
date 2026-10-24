@@ -1,5 +1,5 @@
 @props(['project', 'large' => false])
-<a href="{{ route('projects.show', $project) }}" wire:navigate @class(['project-card', 'reveal', 'is-large' => $large])>
+<a href="{{ route('projects.show', $project) }}" wire:navigate {{ $attributes->class(['project-card', 'reveal', 'is-large' => $large]) }}>
     <div class="project-media">
         @if ($project->coverUrl())
             <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }}" loading="lazy">

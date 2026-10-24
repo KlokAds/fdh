@@ -1,4 +1,4 @@
-<div class="tb-dd" data-dropdown @if ($canView) wire:poll.60s @endif>
+<div class="tb-dd" data-dropdown wire:ignore.self @if ($canView) wire:poll.60s @endif>
     <button type="button" class="tb-btn" data-dropdown-toggle aria-expanded="false" aria-label="Notifications{{ $unreadCount ? " ({$unreadCount} unread)" : '' }}">
         <x-icon name="bell" />
         @if ($unreadCount)

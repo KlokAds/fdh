@@ -54,6 +54,9 @@ function setMenu(open, animate = true) {
     document.body.classList.toggle('menu-anim', animate);
     menu.classList.toggle('is-open', open);
     document.body.classList.toggle('menu-open', open);
+    if (!open) {
+        menu.querySelectorAll('[data-dropdown].is-open').forEach((d) => d.classList.remove('is-open'));
+    }
     document.querySelectorAll('.burger[data-menu-toggle]').forEach((b) => b.setAttribute('aria-expanded', String(open)));
 }
 
@@ -99,6 +102,33 @@ document.addEventListener('click', (event) => {
     }
 });
 
+/* ---------- Phone menu: sub-menus open as a panel over the menu ---------- */
+const phoneMenu = window.matchMedia('(max-width: 1100px)');
+
+document.addEventListener('click', (event) => {
+    const parentLink = event.target.closest('#menu .has-dd > .menu-link');
+    if (parentLink && phoneMenu.matches) {
+        // Captured before wire:navigate: the first tap shows the items, the panel links go to the pages.
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        const dropdown = parentLink.closest('[data-dropdown]');
+        document.querySelectorAll('#menu [data-dropdown].is-open').forEach((d) => d !== dropdown && d.classList.remove('is-open'));
+        dropdown.classList.add('is-open');
+        dropdown.querySelector('[data-dropdown-toggle]')?.setAttribute('aria-expanded', 'true');
+        dropdown.querySelector('[data-dropdown-back]')?.focus();
+        return;
+    }
+    const back = event.target.closest('[data-dropdown-back]');
+    if (back) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        const dropdown = back.closest('[data-dropdown]');
+        dropdown.classList.remove('is-open');
+        dropdown.querySelector('[data-dropdown-toggle]')?.setAttribute('aria-expanded', 'false');
+        dropdown.querySelector('.menu-link')?.focus();
+    }
+}, true);
+
 /* ---------- Confirm modal (replaces the browser's confirm box) ---------- */
 let confirmTarget = null;
 
@@ -128,6 +158,17 @@ document.addEventListener('click', (event) => {
     modal.hidden = false;
     modal.querySelector('[data-confirm-ok]').focus();
 }, true);
+
+document.addEventListener('keydown', (event) => {
+    const modal = document.getElementById('confirm-modal');
+    if (event.key !== 'Tab' || !modal || modal.hidden) {
+        return;
+    }
+    const buttons = [...modal.querySelectorAll('button')];
+    const index = buttons.indexOf(document.activeElement);
+    event.preventDefault();
+    buttons[(index + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length].focus();
+});
 
 document.addEventListener('click', (event) => {
     if (event.target.closest('[data-confirm-cancel]')) {
@@ -315,6 +356,8 @@ function onPageReady() {
     }
     bindPushCard();
     applyTheme();
+    bindCounters();
+    fitBrandTags();
     setMenu(false, false);
     updateHeader();
     bindReveals();
@@ -328,8 +371,15 @@ function fitBrandTags() {
         if (!name || !tag || !tag.offsetParent) {
             return;
         }
+        tag.style.letterSpacing = '';
+        tag.style.marginRight = '';
+        // Spacing out Bangla letters breaks joined characters, so only Latin taglines are fitted.
+        if (root.classList.contains('lang-bn')) {
+            return;
+        }
         tag.style.letterSpacing = '0px';
-        const letters = [...tag.textContent.trim()].length;
+        const text = tag.textContent.trim();
+        const letters = typeof Intl.Segmenter === 'function' ? [...new Intl.Segmenter().segment(text)].length : [...text].length;
         const gap = (name.getBoundingClientRect().width - tag.getBoundingClientRect().width) / Math.max(1, letters - 1);
         // Never squeeze letters together; a very long tagline simply stays at its natural width.
         tag.style.letterSpacing = `${Math.max(0, Math.min(gap, 8))}px`;
@@ -389,8 +439,6 @@ function bindCounters() {
     items.forEach((el) => observer.observe(el));
 }
 
-document.addEventListener('DOMContentLoaded', bindCounters);
-document.addEventListener('livewire:navigated', bindCounters);
 
 /* ---------- Meta Pixel (loaded only when a Pixel ID is set in the admin) ---------- */
 let firstNavigation = true;

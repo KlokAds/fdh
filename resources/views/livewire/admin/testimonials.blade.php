@@ -10,9 +10,9 @@
             <form wire:submit="save" class="stack">
                 <div class="row row-3">
                     <label>Client name *<input wire:model="name" maxlength="100">@error('name') <span class="err">{{ $message }}</span> @enderror</label>
-                    <label>Rating
-                        <x-ui.select model="rating" :selected="$rating" :options="[5 => '★★★★★', 4 => '★★★★', 3 => '★★★', 2 => '★★', 1 => '★']" />
-                    </label>
+                    <div class="field"><span class="field-label">Rating</span>
+                        <x-ui.select label="Rating" model="rating" :selected="$rating" :options="[5 => '★★★★★', 4 => '★★★★', 3 => '★★★', 2 => '★★', 1 => '★']" />
+                    </div>
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                 </div>
                 <x-admin.tr-field field="subtitle" label="Location / project" max="120" />

@@ -10,10 +10,12 @@
         @if (! $configured)
             <p class="alert alert-error">Push keys are not set up on the server yet. Run <code>php artisan fdh:vapid</code> and add the two lines to <code>.env</code>.</p>
         @else
-            <p class="badge" data-push-status>Checking this device…</p>
-            <div class="row-actions" wire:ignore>
+            <div class="stack" wire:ignore>
+                <p class="badge" data-push-status>Checking this device…</p>
+                <div class="row-actions">
                 <button type="button" class="btn btn-primary" data-push-enable hidden>Turn on notifications</button>
                 <button type="button" class="btn btn-ghost" data-push-disable hidden>Turn off on this device</button>
+                </div>
             </div>
             <div class="row-actions">
                 <button type="button" class="btn btn-ghost btn-sm" wire:click="sendTest" wire:loading.attr="disabled">Send a test notification</button>

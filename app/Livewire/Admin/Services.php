@@ -70,7 +70,7 @@ class Services extends AdminComponent
         $this->validate(array_merge(
             $this->translationRules('title', true, 120),
             $this->translationRules('summary', true, 300),
-            $this->translationRules('description', false, 15000),
+            $this->translationRules('description', false, 60000),
             $this->translationRules('features', false, 500),
             [
                 'slug' => ['required', 'alpha_dash', 'max:120', Rule::unique('services', 'slug')->ignore($this->editingId)],

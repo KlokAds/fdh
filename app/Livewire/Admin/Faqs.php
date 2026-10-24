@@ -59,7 +59,7 @@ class Faqs extends AdminComponent
     {
         $this->validate(array_merge(
             $this->translationRules('question', true, 255),
-            $this->translationRules('answer', true, 8000),
+            $this->translationRules('answer', true, 40000),
             ['sort' => 'integer|min:0|max:999', 'is_active' => 'boolean'],
         ), [], array_merge($this->translationAttributes('question', 'Question'), $this->translationAttributes('answer', 'Answer')));
 
