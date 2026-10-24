@@ -68,7 +68,7 @@
     <section class="section" id="services">
         <div class="container">
             <header class="sec-head reveal">
-                <p class="label">01 — {{ __('Services') }}</p>
+                <p class="label">{{ __('Services') }}</p>
                 <div>
                     <h2>{{ site('services_title') }}</h2>
                     <p class="sub">{{ site('services_sub') }}</p>
@@ -114,7 +114,7 @@
         <section class="section section-tight">
             <div class="container">
                 <header class="sec-head reveal">
-                    <p class="label">02 — {{ __('Projects') }}</p>
+                    <p class="label">{{ __('Projects') }}</p>
                     <div class="sec-head-row">
                         <h2>{{ site('projects_title') }}</h2>
                         <a href="{{ route('projects') }}" wire:navigate class="link-arrow">{{ __('All projects') }} →</a>
@@ -122,7 +122,7 @@
                 </header>
                 <div class="project-grid">
                     @foreach ($projects as $project)
-                        <x-site.project-card :project="$project" :large="$loop->first" wire:key="proj-{{ $project->id }}" />
+                        <x-site.project-card :project="$project" wire:key="proj-{{ $project->id }}" />
                     @endforeach
                 </div>
             </div>
@@ -131,20 +131,26 @@
 
     {{-- WHY --}}
     <section class="section section-navy">
-        <div class="container split-2">
-            <div class="reveal">
-                <p class="label">{{ $projects->isNotEmpty() ? '03' : '02' }} — {{ __('Approach') }}</p>
+        <div class="container why">
+            <div class="why-intro reveal">
+                <p class="label">{{ __('Approach') }}</p>
                 <h2 class="statement">{{ site('why_title') }}</h2>
                 <p class="sub">{{ site('why_sub') }}</p>
+                <div class="why-badge">
+                    <span class="why-badge-icon"><x-icon name="shield" /></span>
+                    <span><b>{{ site('md_name') }}</b><small>{{ site('md_title') }}</small></span>
+                </div>
+                <div class="why-actions">
+                    <a href="{{ route('contact') }}" wire:navigate class="btn btn-light">{{ site('hero_cta') }} <span aria-hidden="true">→</span></a>
+                    <a href="{{ site_phone_href() }}" class="link-quiet">{{ __('or call') }} {{ site('phone') }}</a>
+                </div>
             </div>
-            <ol class="points">
-                @foreach (range(1, 4) as $n)
-                    <li class="reveal" wire:key="why-{{ $n }}">
-                        <span class="points-num">{{ str_pad((string) $n, 2, '0', STR_PAD_LEFT) }}</span>
-                        <div>
-                            <h3>{{ site("why_{$n}_title") }}</h3>
-                            <p>{{ site("why_{$n}_text") }}</p>
-                        </div>
+            <ol class="why-cards">
+                @foreach (['shield', 'layers', 'chart', 'pin'] as $whyIcon)
+                    <li class="why-card reveal" wire:key="why-{{ $loop->iteration }}">
+                        <span class="why-icon"><x-icon :name="$whyIcon" /></span>
+                        <h3>{{ site("why_{$loop->iteration}_title") }}</h3>
+                        <p>{{ site("why_{$loop->iteration}_text") }}</p>
                     </li>
                 @endforeach
             </ol>
@@ -164,6 +170,7 @@
                 @foreach (range(1, 6) as $n)
                     @if (site("type_{$n}_title"))
                         <div class="type reveal" wire:key="type-{{ $n }}">
+                            <span class="type-icon"><x-icon :name="['home', 'duplex', 'apartment', 'shop', 'interior', 'renovation'][$n - 1]" /></span>
                             <h3>{{ site("type_{$n}_title") }}</h3>
                             <p>{{ site("type_{$n}_text") }}</p>
                         </div>
@@ -180,7 +187,7 @@
                 @if (\App\Models\Setting::raw()['md_photo'] ?? '')
                     <img src="{{ \App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg') }}" alt="{{ site('md_name') }}" loading="lazy">
                 @else
-                    <span class="principal-initial" aria-hidden="true">{{ mb_substr(preg_replace('/^(Engr\.|ইঞ্জি\.)\s*/u', '', site('md_name')) ?: 'F', 0, 1) }}</span>
+                    <img src="{{ \App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg') }}" alt="" class="principal-logo" loading="lazy">
                 @endif
             </figure>
             <div class="reveal">
@@ -221,6 +228,15 @@
                     <p class="label">{{ __('FAQ') }}</p>
                     <h2>{{ site('faq_title') }}</h2>
                     <a href="{{ route('faq') }}" wire:navigate class="link-arrow">{{ __('All questions') }} →</a>
+                    <div class="help-card">
+                        <span class="help-icon"><x-icon name="chat" /></span>
+                        <h3>{{ __('Still have a question?') }}</h3>
+                        <p>{{ __('Call or send a WhatsApp message — we are happy to help with your plan.') }}</p>
+                        <div class="help-actions">
+                            <a href="{{ site_phone_href() }}" class="btn btn-sm"><x-icon name="phone" /> {{ site('phone') }}</a>
+                            <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-wa"><x-icon name="whatsapp" /> WhatsApp</a>
+                        </div>
+                    </div>
                 </div>
                 <x-site.faq-list :faqs="$faqs" />
             </div>

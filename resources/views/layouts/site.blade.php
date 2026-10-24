@@ -50,6 +50,7 @@
                     <span>{{ __('Menu') }}</span>
                     <button type="button" class="icon-btn" data-menu-toggle aria-label="{{ __('Close menu') }}"><x-icon name="close" /></button>
                 </div>
+                <a href="{{ route('home') }}" wire:navigate wire:current.exact="is-active" class="menu-link">{{ __('Home') }}</a>
                 <a href="{{ route('about') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('About') }}</a>
                 <div class="has-dd" data-dropdown>
                     <a href="{{ route('services') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Services') }}</a>
@@ -70,7 +71,7 @@
                 @endif
                 <a href="{{ route('team') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Team') }}</a>
                 <a href="{{ route('faq') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('FAQ') }}</a>
-                <a href="{{ route('contact') }}" wire:navigate wire:current="is-active" class="menu-link menu-link-mobile">{{ __('Contact') }}</a>
+                <a href="{{ route('contact') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Contact') }}</a>
 
                 <div class="menu-foot">
                     <a href="{{ site_phone_href() }}">{{ site('phone') }}</a>
@@ -87,7 +88,13 @@
                 <button type="button" class="icon-btn" data-theme-toggle aria-label="{{ __('Toggle dark mode') }}" title="{{ __('Toggle dark mode') }}">
                     <x-icon name="moon" class="theme-moon" /><x-icon name="sun" class="theme-sun" />
                 </button>
-                <a href="{{ route('contact') }}" wire:navigate class="btn btn-sm nav-cta">{{ __('Contact') }}</a>
+                <a href="{{ site_phone_href() }}" class="nav-phone" aria-label="{{ __('Call us') }} {{ site('phone') }}">
+                    <span class="nav-phone-icon"><x-icon name="phone" /></span>
+                    <span class="nav-phone-text"><small>{{ __('Call us') }}</small><b>{{ site('phone') }}</b></span>
+                </a>
+                <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="nav-wa" aria-label="{{ __('Chat on WhatsApp') }}">
+                    <x-icon name="whatsapp" /><span>WhatsApp</span>
+                </a>
                 <button type="button" class="burger" data-menu-toggle aria-label="{{ __('Open menu') }}" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
             </div>
         </div>
@@ -100,44 +107,52 @@
 
     <footer class="footer">
         <div class="container">
-            <div class="foot-top">
-                <p class="foot-wordmark">{{ site('site_name') }}</p>
-                <p class="foot-tag">{{ site('footer_tagline') }}</p>
-            </div>
             <div class="foot">
-                <div class="foot-col">
-                    <h4>{{ __('Rangpur') }}</h4>
-                    <p>{{ site('rangpur_address') }}</p>
-                </div>
-                @if (site('dhaka_address'))
-                    <div class="foot-col">
-                        <h4>{{ __('Dhaka') }}</h4>
-                        <p>{{ site('dhaka_address') }}</p>
+                <div class="foot-brand">
+                    <a href="{{ route('home') }}" wire:navigate class="foot-logo">
+                        <img src="{{ $logoUrl }}" alt="" width="48" height="48">
+                        <span>{{ site('site_name') }}<small>{{ site('site_tagline') }}</small></span>
+                    </a>
+                    <p>{{ site('meta_description') }}</p>
+                    <div class="foot-social">
+                        @if (site('facebook'))<a href="{{ site('facebook') }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><x-icon name="facebook" /></a>@endif
+                        @if (site('youtube'))<a href="{{ site('youtube') }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><x-icon name="youtube" /></a>@endif
+                        @if (site('linkedin'))<a href="{{ site('linkedin') }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><x-icon name="linkedin" /></a>@endif
+                        <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><x-icon name="whatsapp" /></a>
                     </div>
-                @endif
-                <div class="foot-col">
-                    <h4>{{ __('Contact') }}</h4>
-                    <a href="{{ site_phone_href() }}">{{ site('phone') }}</a>
-                    <a href="mailto:{{ site('email') }}">{{ site('email') }}</a>
-                    @if (site('office_hours'))<p>{{ site('office_hours') }}</p>@endif
                 </div>
-                <div class="foot-col">
-                    <h4>{{ __('Follow') }}</h4>
-                    @if (site('facebook'))<a href="{{ site('facebook') }}" target="_blank" rel="noopener noreferrer">Facebook ↗</a>@endif
-                    @if (site('youtube'))<a href="{{ site('youtube') }}" target="_blank" rel="noopener noreferrer">YouTube ↗</a>@endif
-                    @if (site('linkedin'))<a href="{{ site('linkedin') }}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>@endif
-                    <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+                <nav class="foot-col" aria-label="{{ __('Quick links') }}">
+                    <h4>{{ __('Quick links') }}</h4>
+                    <a href="{{ route('home') }}" wire:navigate>{{ __('Home') }}</a>
+                    <a href="{{ route('about') }}" wire:navigate>{{ __('About') }}</a>
+                    <a href="{{ route('projects') }}" wire:navigate>{{ __('Projects') }}</a>
+                    @if ($calculatorOn)<a href="{{ route('calculator') }}" wire:navigate>{{ __('Cost calculator') }}</a>@endif
+                    <a href="{{ route('team') }}" wire:navigate>{{ __('Team') }}</a>
+                    <a href="{{ route('faq') }}" wire:navigate>{{ __('FAQ') }}</a>
+                    <a href="{{ route('contact') }}" wire:navigate>{{ __('Contact') }}</a>
+                </nav>
+                <nav class="foot-col" aria-label="{{ __('Our services') }}">
+                    <h4>{{ __('Our services') }}</h4>
+                    @foreach ($navServices as $footService)
+                        <a href="{{ route('services.show', $footService) }}" wire:navigate wire:key="foot-svc-{{ $footService->id }}">{{ $footService->title }}</a>
+                    @endforeach
+                </nav>
+                <div class="foot-col foot-contact">
+                    <h4>{{ __('Get in touch') }}</h4>
+                    <a href="{{ site_phone_href() }}"><x-icon name="phone" /><span>{{ site('phone') }}</span></a>
+                    <a href="mailto:{{ site('email') }}"><x-icon name="mail" /><span class="cc-break">{{ site('email') }}</span></a>
+                    <p><x-icon name="pin" /><span><b>{{ __('Rangpur') }}</b> {{ site('rangpur_address') }}</span></p>
+                    @if (site('dhaka_address'))
+                        <p><x-icon name="pin" /><span><b>{{ __('Dhaka') }}</b> {{ site('dhaka_address') }}</span></p>
+                    @endif
+                    @if (site('office_hours'))
+                        <p><x-icon name="clock" /><span>{{ site('office_hours') }}</span></p>
+                    @endif
                 </div>
             </div>
             <div class="foot-bottom">
-                <span>© {{ date('Y') }} {{ site('site_name') }} · {{ site('site_tagline') }}</span>
-                <nav aria-label="{{ __('Footer') }}">
-                    <a href="{{ route('services') }}" wire:navigate>{{ __('Services') }}</a>
-                    <a href="{{ route('projects') }}" wire:navigate>{{ __('Projects') }}</a>
-                    <a href="{{ route('about') }}" wire:navigate>{{ __('About') }}</a>
-                    @if ($calculatorOn)<a href="{{ route('calculator') }}" wire:navigate>{{ __('Cost calculator') }}</a>@endif
-                    <a href="#top">{{ __('Back to top') }} ↑</a>
-                </nav>
+                <span>© {{ date('Y') }} {{ site('site_name') }}. {{ __('All rights reserved.') }}</span>
+                <a href="#top">{{ __('Back to top') }} ↑</a>
             </div>
         </div>
     </footer>

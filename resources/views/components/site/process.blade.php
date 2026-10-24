@@ -5,9 +5,13 @@
             <h2>{{ site('process_title') }}</h2>
         </header>
         <ol class="steps">
-            @foreach (range(1, 5) as $step)
+            @foreach (['chat', 'survey', 'building', 'estimate', 'construction'] as $stepIcon)
+                @php($step = $loop->iteration)
                 <li class="reveal" wire:key="step-{{ $step }}">
-                    <span class="steps-num">{{ str_pad((string) $step, 2, '0', STR_PAD_LEFT) }}</span>
+                    <div class="steps-top">
+                        <span class="steps-icon"><x-icon :name="$stepIcon" /></span>
+                        <span class="steps-num">{{ __('Step') }} {{ \App\Support\CostCalculator::number($step) }}</span>
+                    </div>
                     <h3>{{ site("process_{$step}_title") }}</h3>
                     <p>{{ site("process_{$step}_text") }}</p>
                 </li>

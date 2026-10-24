@@ -18,6 +18,21 @@
     @case('interior')
         <svg viewBox="0 0 48 48" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M6 42h36M10 42V30a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v12M10 34h28M16 26v-6h16v6M24 6v8M20 14h8"/></svg>
         @break
+    @case('home')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 11 12 4l9 7M5 9.5V20h14V9.5M10 20v-6h4v6"/></svg>
+        @break
+    @case('duplex')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 21h18M5 21V9l7-5 7 5v12M5 13h14M9 9h2M13 9h2M9 17h2M13 17h2"/></svg>
+        @break
+    @case('apartment')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 21h18M6 21V3h12v18M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M11 21v-3h2v3"/></svg>
+        @break
+    @case('shop')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 21h18M4 9l1.5-5h13L20 9M4 9h16a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0A2.7 2.7 0 0 1 4 9zM5 11.5V21h14v-9.5M10 21v-5h4v5"/></svg>
+        @break
+    @case('renovation')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 21h18M5 21V11l6-4 6 4v3M9 21v-5h3M14.5 21l5-5a1.4 1.4 0 0 0-2-2l-5 5-.5 2.5z"/></svg>
+        @break
     @case('phone')
         <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon-fill', 'aria-hidden' => 'true']) }}><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
         @break

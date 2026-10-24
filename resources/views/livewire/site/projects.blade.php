@@ -24,7 +24,7 @@
             @else
                 <div class="project-grid" wire:loading.class="is-loading">
                     @foreach ($projects as $project)
-                        <x-site.project-card :project="$project" :large="$loop->first" wire:key="proj-{{ $project->id }}" />
+                        <x-site.project-card :project="$project" wire:key="proj-{{ $project->id }}" />
                     @endforeach
                 </div>
             @endif
