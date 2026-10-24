@@ -2,7 +2,7 @@
     {{-- HERO: site photo under a navy wash, headline on the left, the logo skyline on the right --}}
     <section class="hero">
         @if (\App\Models\Setting::raw()['hero_image'] ?? '')
-            <img class="hero-photo" src="{{ \App\Models\Setting::imageUrl('hero_image', 'images/fdh-logo.jpg') }}" alt="" fetchpriority="high">
+            <x-site.photo :path="\App\Models\Setting::raw()['hero_image'] ?? null" :src="\App\Models\Setting::imageUrl('hero_image', 'images/fdh-logo.jpg')" class="hero-photo" alt="" fetchpriority="high" sizes="100vw" />
         @endif
         <div class="hero-shade" aria-hidden="true"></div>
         <div class="container hero-inner">
@@ -95,7 +95,7 @@
     <section class="split-band">
         <div class="split-photo">
             @if (\App\Models\Setting::raw()['why_image'] ?? '')
-                <img src="{{ \App\Models\Setting::imageUrl('why_image', 'images/fdh-logo.jpg') }}" alt="" loading="lazy">
+                <x-site.photo :path="\App\Models\Setting::raw()['why_image'] ?? null" :src="\App\Models\Setting::imageUrl('why_image', 'images/fdh-logo.jpg')" alt="" loading="lazy" sizes="(max-width: 900px) 100vw, 50vw" />
             @endif
         </div>
         <div class="split-copy">
@@ -167,9 +167,9 @@
         <div class="container principal">
             <figure class="principal-photo reveal">
                 @if (\App\Models\Setting::raw()['md_photo'] ?? '')
-                    <img src="{{ \App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg') }}" alt="{{ site('md_name') }}" loading="lazy">
+                    <x-site.photo :path="\App\Models\Setting::raw()['md_photo'] ?? null" :src="\App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg')" :alt="site('md_name')" loading="lazy" sizes="(max-width: 900px) 90vw, 420px" />
                 @else
-                    <img src="{{ \App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg') }}" alt="" class="principal-logo" loading="lazy">
+                    <x-site.photo :path="\App\Models\Setting::raw()['logo'] ?? null" :src="\App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg')" alt="" class="principal-logo" width="304" height="304" loading="lazy" sizes="260px" />
                 @endif
             </figure>
             <div class="principal-copy reveal">

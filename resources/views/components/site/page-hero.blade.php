@@ -2,7 +2,7 @@
 @php($banner = $image ?? ((\App\Models\Setting::raw()['hero_image'] ?? '') ? \App\Models\Setting::imageUrl('hero_image', 'images/fdh-logo.jpg') : null))
 <section class="page-hero">
     @if ($banner)
-        <img class="page-hero-photo" src="{{ $banner }}" alt="">
+        <x-site.photo class="page-hero-photo" :path="$image ? null : (\App\Models\Setting::raw()['hero_image'] ?? null)" :src="$banner" alt="" fetchpriority="high" sizes="100vw" />
     @endif
     <div class="page-hero-shade" aria-hidden="true"></div>
     <div class="container page-hero-inner">

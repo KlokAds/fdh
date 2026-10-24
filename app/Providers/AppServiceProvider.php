@@ -46,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'navServices' => Service::query()->active()->get(['id', 'slug', 'title', 'summary', 'icon']),
                 'logoUrl' => Setting::imageUrl('logo', 'images/fdh-logo.jpg'),
+                'logoPath' => Setting::raw()['logo'] ?? null,
             ]);
         });
 

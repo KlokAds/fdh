@@ -1,3 +1,5 @@
+@import "./fonts.css";
+
 /* =========================================================
    Friends Dream Home — public site
    An engineering firm's look: site photography, deep navy from the logo,
@@ -116,8 +118,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn-light:hover { background: var(--amber); border-color: var(--amber); color: var(--amber-ink); }
 .btn-ghost-light { background: transparent; border-color: rgba(255, 255, 255, .55); color: #fff; }
 .btn-ghost-light:hover { background: #fff; border-color: #fff; color: var(--brand-dark); }
-.btn-wa { background: #1fae54; border-color: #1fae54; color: #fff; }
-.btn-wa:hover { background: #179447; border-color: #179447; color: #fff; }
+.btn-wa { background: #128443; border-color: #128443; color: #fff; }
+.btn-wa:hover { background: #0d6b35; border-color: #0d6b35; color: #fff; }
 .btn-sm { min-height: 40px; padding: .5em 1.05em; font-size: .86rem; }
 .btn-block { width: 100%; }
 .btn[disabled], .btn-primary[disabled] { opacity: .55; pointer-events: none; }
@@ -192,8 +194,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .nav-phone-text { display: grid; line-height: 1.15; }
 .nav-phone-text small { font-size: .7rem; font-weight: 600; opacity: .75; }
 .nav-phone-text b { font-size: 1.02rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-.nav-wa { background: #1fae54; color: #fff; font-size: .95rem; }
-.nav-wa:hover { background: #179447; }
+.nav-wa { background: #128443; color: #fff; font-size: .95rem; }
+.nav-wa:hover { background: #0d6b35; }
 .nav-wa .icon-fill { width: 20px; height: 20px; }
 .burger { display: none; width: 44px; height: 44px; border: 1px solid var(--line); background: none; flex-direction: column; justify-content: center; align-items: center; gap: 6px; color: var(--text); }
 .burger span { width: 20px; height: 2px; background: currentColor; }
@@ -575,8 +577,8 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 .foot-social a:hover { background: var(--amber); border-color: var(--amber); color: var(--amber-ink); }
 .foot-social .icon-fill { width: 18px; height: 18px; }
 .foot-col { display: grid; align-content: start; gap: 0; font-size: .95rem; line-height: 1.5; }
-.foot-col h4 { position: relative; margin: 6px 0 18px; padding-bottom: 14px; font-size: 1.05rem; font-weight: 700; color: #fff; border-bottom: 1px solid rgba(255, 255, 255, .1); }
-.foot-col h4::after { content: ''; position: absolute; left: 0; bottom: -1px; width: 36px; height: 3px; background: var(--amber); }
+.foot-col h3 { position: relative; margin: 6px 0 18px; padding-bottom: 14px; font-size: 1.05rem; font-weight: 700; color: #fff; border-bottom: 1px solid rgba(255, 255, 255, .1); }
+.foot-col h3::after { content: ''; position: absolute; left: 0; bottom: -1px; width: 36px; height: 3px; background: var(--amber); }
 .foot-col a, .foot-col p { justify-self: stretch; margin: 0; padding: 7px 0; color: var(--on-navy-muted); transition: color .2s, padding .2s; }
 .foot-col > a, .foot-col nav > a { display: flex; align-items: center; gap: 10px; }
 .foot-contact a:hover, nav.foot-col > a:hover { color: #fff; }
@@ -695,7 +697,7 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
     .mobile-bar { position: fixed; z-index: 60; left: 0; right: 0; bottom: 0; display: flex; gap: 6px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); background: var(--head-solid); border-top: 1px solid var(--line); box-shadow: 0 -12px 30px -22px rgba(10, 22, 40, .5); }
     .mobile-bar a { flex: 1; min-width: 0; height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: var(--surface-2); color: var(--text); font-size: .74rem; font-weight: 600; }
     .mobile-bar .icon, .mobile-bar .icon-fill { width: 19px; height: 19px; }
-    .mobile-bar .mb-wa { background: #1fae54; color: #fff; }
+    .mobile-bar .mb-wa { background: #128443; color: #fff; }
     .mobile-bar .mb-ms { background: #0084ff; color: #fff; }
     .mobile-bar .mb-main { background: var(--amber); color: var(--amber-ink); }
     .menu-open .mobile-bar { display: none; }
@@ -752,9 +754,6 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 [data-theme="dark"] .project-card, [data-theme="dark"] .service-tile { background: var(--surface); }
 [data-theme="dark"] a.service-tile:hover { background: #1f3b61; }
 
-/* Dropdown panel header (phone menu only) */
-.dd-head { display: none; }
-
 /* Brand lockup measuring: lines keep their own text width */
 .brand-text { justify-items: start; }
 
@@ -765,19 +764,22 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
     .menu-anim .menu { transition: transform .3s ease, visibility 0s linear .3s; }
     .menu-anim .menu.is-open { transition: transform .3s ease, visibility 0s; }
 
-    /* Services / About open as a panel sliding over the menu instead of pushing it down */
-    .has-dd { position: static; }
-    .has-dd > .dd-toggle .icon { transform: rotate(-90deg) !important; }
-    .dd, .dd-wide { position: absolute; z-index: 3; inset: 0; display: flex !important; flex-direction: column; width: auto; padding: 18px 20px 24px; background: var(--head-solid); border: 0; transform: translateX(105%); visibility: hidden; transition: transform .28s ease, visibility 0s linear .28s; overflow-y: auto; }
-    .has-dd.is-open .dd { transform: none; visibility: visible; transition: transform .28s ease, visibility 0s; }
-    .dd-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
-    .dd-head b { font-size: 1rem; }
-    .dd-back { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px 8px 6px; border: 1px solid var(--line); background: none; color: var(--text); font-weight: 600; font-size: .9rem; }
-    .dd-back .icon { width: 16px; height: 16px; transform: rotate(90deg); }
-    .dd-item { padding: 13px 4px; border-bottom: 1px solid var(--line); }
-    .dd-ic { width: 38px; height: 38px; }
-    .dd-text small { display: block; }
-    .dd-all { margin-top: 14px; padding: 14px 4px; border-top: 0; font-size: 1rem; }
+    /* Services / About open as a small card right under the item, floating over the links below */
+    .has-dd { position: relative; }
+    .has-dd.is-open > .dd-toggle .icon { transform: rotate(180deg); }
+    .dd, .dd-wide { position: absolute; z-index: 5; top: calc(100% - 6px); left: 0; right: 0; display: block !important; width: auto; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--amber); box-shadow: 0 26px 50px -20px rgba(5, 12, 24, .55); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .18s, transform .18s, visibility .18s; }
+    .has-dd.is-open .dd { opacity: 1; visibility: visible; transform: none; }
+    .dd-item { padding: 9px 8px; }
+    .dd-item + .dd-item { border-top: 1px solid var(--line); }
+    .dd-ic { width: 32px; height: 32px; }
+    .dd-ic .icon { width: 17px; height: 17px; }
+    .dd-text { align-self: center; }
+    .dd-text small { display: none; }
+    .dd-all { margin: 4px 0 0; padding: 10px 8px 6px; border-top: 1px solid var(--line); font-size: .92rem; }
+}
+
+@media (max-width: 1100px) and (hover: none) {
+    .has-dd:hover:not(.is-open) .dd, .has-dd:focus-within:not(.is-open) .dd { opacity: 0; visibility: hidden; }
 }
 
 @media (max-width: 860px) {

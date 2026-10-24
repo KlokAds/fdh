@@ -30,7 +30,8 @@ class MediaLibrary
 
         foreach (array_keys(self::FOLDERS) as $folder) {
             foreach ($disk->allFiles($folder) as $path) {
-                if (! preg_match('/\.(webp|jpe?g|png|gif)$/i', $path)) {
+                // Resized copies belong to their original and are listed and deleted with it.
+                if (! preg_match('/\.(webp|jpe?g|png|gif)$/i', $path) || ImageStore::isVariant($path)) {
                     continue;
                 }
 
@@ -130,7 +131,7 @@ class MediaLibrary
     {
         $folder = strtok($path, '/');
 
-        if (str_contains($path, '..') || ! array_key_exists((string) $folder, self::FOLDERS) || ! Storage::disk('public')->exists($path)) {
+        if (str_contains($path, '..') || ImageStore::isVariant($path) || ! array_key_exists((string) $folder, self::FOLDERS) || ! Storage::disk('public')->exists($path)) {
             throw new RuntimeException('That file is not in the media library.');
         }
 
@@ -138,6 +139,6 @@ class MediaLibrary
             throw new RuntimeException('This photo is used on the website and cannot be deleted.');
         }
 
-        Storage::disk('public')->delete($path);
+        (new ImageStore)->delete($path);
     }
 }

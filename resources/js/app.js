@@ -213,31 +213,23 @@ window.addEventListener('scroll', () => {
     });
 }, { passive: true });
 
-/* ---------- Phone menu: sub-menus open as a panel over the menu ---------- */
-const phoneMenu = window.matchMedia('(max-width: 1100px)');
+/* ---------- Phone menu: sub-menus open as a card under the item ---------- */
+// Touch screens have no hover, so a tap shows the card and a second tap (or a tap elsewhere) hides it.
+const phoneMenu = window.matchMedia('(max-width: 1100px) and (hover: none)');
 
 document.addEventListener('click', (event) => {
     const parentLink = event.target.closest('#menu .has-dd > .menu-link');
-    if (parentLink && phoneMenu.matches) {
-        // Captured before wire:navigate: the first tap shows the items, the panel links go to the pages.
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        const dropdown = parentLink.closest('[data-dropdown]');
-        document.querySelectorAll('#menu [data-dropdown].is-open').forEach((d) => d !== dropdown && d.classList.remove('is-open'));
-        dropdown.classList.add('is-open');
-        dropdown.querySelector('[data-dropdown-toggle]')?.setAttribute('aria-expanded', 'true');
-        dropdown.querySelector('[data-dropdown-back]')?.focus();
+    if (!parentLink || !phoneMenu.matches) {
         return;
     }
-    const back = event.target.closest('[data-dropdown-back]');
-    if (back) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        const dropdown = back.closest('[data-dropdown]');
-        dropdown.classList.remove('is-open');
-        dropdown.querySelector('[data-dropdown-toggle]')?.setAttribute('aria-expanded', 'false');
-        dropdown.querySelector('.menu-link')?.focus();
-    }
+    // Captured before wire:navigate: the parent only toggles its card, the card's links go to the pages.
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const dropdown = parentLink.closest('[data-dropdown]');
+    const open = !dropdown.classList.contains('is-open');
+    document.querySelectorAll('#menu [data-dropdown].is-open').forEach((d) => d !== dropdown && d.classList.remove('is-open'));
+    dropdown.classList.toggle('is-open', open);
+    dropdown.querySelector('[data-dropdown-toggle]')?.setAttribute('aria-expanded', String(open));
 }, true);
 
 /* ---------- Confirm modal (replaces the browser's confirm box) ---------- */

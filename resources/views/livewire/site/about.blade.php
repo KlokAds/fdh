@@ -3,7 +3,7 @@
 
     @if (\App\Models\Setting::raw()['about_image'] ?? '')
         <figure class="hero-figure reveal">
-            <img src="{{ \App\Models\Setting::imageUrl('about_image', 'images/fdh-logo.jpg') }}" alt="{{ site('site_name') }}">
+            <x-site.photo :path="\App\Models\Setting::raw()['about_image'] ?? null" :src="\App\Models\Setting::imageUrl('about_image', 'images/fdh-logo.jpg')" :alt="site('site_name')" sizes="(max-width: 900px) 100vw, 50vw" />
         </figure>
     @endif
 
@@ -18,9 +18,9 @@
             <div class="principal-card reveal">
                 <div class="principal-photo">
                     @if (\App\Models\Setting::raw()['md_photo'] ?? '')
-                        <img src="{{ \App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg') }}" alt="{{ site('md_name') }}" loading="lazy">
+                        <x-site.photo :path="\App\Models\Setting::raw()['md_photo'] ?? null" :src="\App\Models\Setting::imageUrl('md_photo', 'images/fdh-logo.jpg')" :alt="site('md_name')" loading="lazy" sizes="(max-width: 900px) 90vw, 420px" />
                     @else
-                        <img src="{{ \App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg') }}" alt="" class="principal-logo" loading="lazy">
+                        <x-site.photo :path="\App\Models\Setting::raw()['logo'] ?? null" :src="\App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg')" alt="" class="principal-logo" width="304" height="304" loading="lazy" sizes="260px" />
                     @endif
                 </div>
                 <p class="principal-name">{{ site('md_name') }}</p>

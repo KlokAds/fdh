@@ -19,10 +19,7 @@
     <link rel="canonical" href="{{ url()->current() }}">
     <link rel="icon" href="{{ $logoUrl }}">
     @include('partials.theme-boot', ['defaultTheme' => 'device'])
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&text=%E0%A7%A6%E0%A7%A7%E0%A7%A8%E0%A7%A9%E0%A7%AA%E0%A7%AB%E0%A7%AC%E0%A7%AD%E0%A7%AE%E0%A7%AF&display=swap" rel="stylesheet">
+    @include('partials.font-preload')
     @include('partials.brand-colors')
     @include('partials.meta-pixel')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -61,7 +58,7 @@
     <header class="header" id="top" data-header>
         <div class="container nav">
             <a href="{{ route('home') }}" wire:navigate class="brand" aria-label="{{ site('site_name') }}">
-                <img src="{{ $logoUrl }}" alt="" width="44" height="44" class="brand-logo">
+                <x-site.photo :path="$logoPath" :src="$logoUrl" alt="" width="44" height="44" class="brand-logo" sizes="84px" />
                 <span class="brand-text"><span class="brand-name">{{ site('site_name') }}</span><small class="brand-tag">{{ site('site_tagline') }}</small></span>
             </a>
 
@@ -75,7 +72,6 @@
                     <a href="{{ route('services') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="layers" class="menu-ic" />{{ __('Services') }}</a>
                     <button type="button" class="dd-toggle" data-dropdown-toggle aria-expanded="false" aria-label="{{ __('Show services') }}"><x-icon name="chevron" /></button>
                     <div class="dd dd-wide">
-                        <div class="dd-head"><button type="button" class="dd-back" data-dropdown-back><x-icon name="chevron" /> {{ __('Back') }}</button><b>{{ __('Services') }}</b></div>
                         <div class="dd-grid">
                             @foreach ($navServices as $navService)
                                 <a href="{{ route('services.show', $navService) }}" wire:navigate class="dd-item" wire:key="nav-svc-{{ $navService->id }}">
@@ -92,7 +88,6 @@
                     <a href="{{ route('about') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="users" class="menu-ic" />{{ __('About') }}</a>
                     <button type="button" class="dd-toggle" data-dropdown-toggle aria-expanded="false" aria-label="{{ __('More about us') }}"><x-icon name="chevron" /></button>
                     <div class="dd">
-                        <div class="dd-head"><button type="button" class="dd-back" data-dropdown-back><x-icon name="chevron" /> {{ __('Back') }}</button><b>{{ __('About') }}</b></div>
                         <a href="{{ route('about') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="building" /></span><span class="dd-text"><b>{{ __('Who we are') }}</b><small>{{ __('Our story and principal engineer') }}</small></span></a>
                         <a href="{{ route('team') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="users" /></span><span class="dd-text"><b>{{ __('Team') }}</b><small>{{ __('Engineers and architects behind your project') }}</small></span></a>
                         <a href="{{ route('faq') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="help" /></span><span class="dd-text"><b>{{ __('FAQ') }}</b><small>{{ __('Approval, soil test, cost and timeline') }}</small></span></a>
@@ -146,7 +141,7 @@
             <div class="foot">
                 <div class="foot-brand">
                     <a href="{{ route('home') }}" wire:navigate class="foot-logo">
-                        <img src="{{ $logoUrl }}" alt="" width="48" height="48">
+                        <x-site.photo :path="$logoPath" :src="$logoUrl" alt="" width="48" height="48" loading="lazy" sizes="54px" />
                         <span>{{ site('site_name') }}<small>{{ site('site_tagline') }}</small></span>
                     </a>
                     <p>{{ site('meta_description') }}</p>
@@ -158,7 +153,7 @@
                     </div>
                 </div>
                 <nav class="foot-col" aria-label="{{ __('Quick links') }}">
-                    <h4>{{ __('Quick links') }}</h4>
+                    <h3>{{ __('Quick links') }}</h3>
                     <a href="{{ route('home') }}" wire:navigate>{{ __('Home') }}</a>
                     <a href="{{ route('about') }}" wire:navigate>{{ __('About') }}</a>
                     <a href="{{ route('projects') }}" wire:navigate>{{ __('Projects') }}</a>
@@ -167,13 +162,13 @@
                     <a href="{{ route('contact') }}" wire:navigate>{{ __('Contact us') }}</a>
                 </nav>
                 <nav class="foot-col" aria-label="{{ __('Our services') }}">
-                    <h4>{{ __('Our services') }}</h4>
+                    <h3>{{ __('Our services') }}</h3>
                     @foreach ($navServices as $footService)
                         <a href="{{ route('services.show', $footService) }}" wire:navigate wire:key="foot-svc-{{ $footService->id }}">{{ $footService->title }}</a>
                     @endforeach
                 </nav>
                 <div class="foot-col foot-contact">
-                    <h4>{{ __('Get in touch') }}</h4>
+                    <h3>{{ __('Get in touch') }}</h3>
                     <a href="{{ site_phone_href() }}"><x-icon name="phone" /><span>{{ site('phone') }}</span></a>
                     <a href="mailto:{{ site('email') }}"><x-icon name="mail" /><span class="cc-break">{{ site('email') }}</span></a>
                     <p><x-icon name="pin" /><span><b>{{ __('Rangpur') }}</b> {{ site('rangpur_address') }}</span></p>

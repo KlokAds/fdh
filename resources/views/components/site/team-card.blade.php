@@ -2,7 +2,7 @@
 <article {{ $attributes->class(['person', 'reveal']) }}>
     <div class="person-photo">
         @if ($member->photoUrl())
-            <img src="{{ $member->photoUrl() }}" alt="{{ $member->name }}" loading="lazy">
+            <x-site.photo :path="$member->photo" :src="$member->photoUrl()" :alt="$member->name" loading="lazy" sizes="(max-width: 760px) 50vw, 25vw" />
         @else
             <span class="person-initial" aria-hidden="true">{{ $member->initials() }}</span>
         @endif

@@ -3,7 +3,7 @@
 
     @if ($project->coverUrl())
         <figure class="hero-figure reveal">
-            <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }}">
+            <x-site.photo :path="$project->cover_image" :src="$project->coverUrl()" :alt="$project->title" fetchpriority="high" sizes="(max-width: 1100px) 100vw, 1100px" />
         </figure>
     @endif
 
@@ -28,8 +28,8 @@
 
         @if ($project->galleryUrls())
             <div class="container gallery">
-                @foreach ($project->galleryUrls() as $url)
-                    <a href="{{ $url }}" target="_blank" rel="noopener" wire:key="g-{{ $loop->index }}" class="reveal"><img src="{{ $url }}" alt="{{ $project->title }} — {{ $loop->iteration }}" loading="lazy"></a>
+                @foreach ($project->galleryUrls() as $i => $url)
+                    <a href="{{ $url }}" target="_blank" rel="noopener" wire:key="g-{{ $loop->index }}" class="reveal"><x-site.photo :path="array_values($project->gallery ?? [])[$i] ?? null" :src="$url" :alt="$project->title.' — '.$loop->iteration" loading="lazy" sizes="(max-width: 760px) 100vw, 33vw" /></a>
                 @endforeach
             </div>
         @endif
