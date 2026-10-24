@@ -13,7 +13,7 @@
     @include('partials.theme-boot', ['defaultTheme' => 'light'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
     @include('partials.brand-colors')
     @vite(['resources/css/admin.css', 'resources/js/app.js'])
 </head>
@@ -47,6 +47,7 @@
             @endcan
             <a href="{{ route('admin.security') }}" wire:navigate wire:current="is-active">My account security</a>
             @can('logs.view')<a href="{{ route('admin.activity') }}" wire:navigate wire:current="is-active">Security log</a>@endcan
+            @can('system.update')<a href="{{ route('admin.system-update') }}" wire:navigate wire:current="is-active">System update</a>@endcan
         </nav>
         <div class="side-foot">
             <a href="{{ route('home') }}" target="_blank" rel="noopener">View website ↗</a>

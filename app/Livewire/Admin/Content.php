@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\ActivityLog;
 use App\Models\Setting;
 use App\Support\ImageStore;
+use App\Support\SampleContent;
 use App\Support\SiteContent;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Crypt;
@@ -105,6 +106,7 @@ class Content extends AdminComponent
                 if (! empty($this->uploads[$key])) {
                     $images->delete(is_string($this->values[$key] ?? null) ? $this->values[$key] : null);
                     $toSave[$key] = $images->store($this->uploads[$key], 'site', $key === 'logo' ? 600 : 1600);
+                    app(SampleContent::class)->forgetImage($key);
                 }
             } else {
                 $toSave[$key] = trim((string) ($this->values[$key] ?? ''));
@@ -127,6 +129,7 @@ class Content extends AdminComponent
 
         $images->delete(is_string($this->values[$key] ?? null) ? $this->values[$key] : null);
         Setting::write([$key => '']);
+        app(SampleContent::class)->forgetImage($key);
         $this->values = $this->editableValues();
     }
 
@@ -164,6 +167,7 @@ class Content extends AdminComponent
         return view('livewire.admin.content', [
             'groups' => $groups,
             'fields' => $groups[$this->tab]['fields'] ?? [],
+            'samples' => app(SampleContent::class),
             'savedSecrets' => array_map(fn ($value): bool => is_string($value) && $value !== '', array_intersect_key(Setting::raw(), array_filter(SiteContent::fields(), fn (array $field): bool => $field['type'] === 'secret'))),
         ]);
     }

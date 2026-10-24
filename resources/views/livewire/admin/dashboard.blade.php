@@ -7,6 +7,18 @@
         <a href="{{ route('home') }}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View website ↗</a>
     </section>
 
+    @if ($hasSamples)
+        <section class="card sample-banner">
+            <div>
+                <h2>Sample photos and projects are showing on the website</h2>
+                <p class="muted">They make the site look complete until your own content is ready. Upload real photos (Content &amp; settings, Projects) — each upload replaces its sample — or remove them all at once before launch.</p>
+            </div>
+            @can('settings.manage')
+                <button type="button" class="btn btn-danger btn-sm" wire:click="removeSamples" wire:confirm="Remove all sample photos and sample projects from the website?">Remove all samples</button>
+            @endcan
+        </section>
+    @endif
+
     <div class="stats">
         @if ($canSeeInquiries)
             <a href="{{ route('admin.inquiries', ['status' => 'unread']) }}" wire:navigate class="stat stat-accent"><b>{{ $newInquiries }}</b><span>Unread inquiries</span></a>

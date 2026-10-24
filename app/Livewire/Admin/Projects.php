@@ -106,6 +106,7 @@ class Projects extends AdminComponent
         if ($this->cover) {
             $images->delete($project->cover_image);
             $project->cover_image = $images->store($this->cover, 'projects');
+            $project->is_sample = false;
         }
 
         $gallery = $project->gallery ?? [];

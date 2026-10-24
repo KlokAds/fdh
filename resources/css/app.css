@@ -44,9 +44,10 @@
     --invert-bg: var(--brand-dark);
     --invert-text: #eef3f9;
 
-    --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --display: 'Inter Tight', 'Inter', system-ui, sans-serif;
-    --bn: 'Hind Siliguri', 'Inter', sans-serif;
+    --sans: 'Plus Jakarta Sans', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --display: 'Plus Jakarta Sans', 'Anek Bangla', system-ui, sans-serif;
+    --bn: 'Anek Bangla', 'Plus Jakarta Sans', sans-serif;
+    --bn-body: 'Noto Sans Bengali', 'Plus Jakarta Sans', sans-serif;
     --header-h: 72px;
     --gutter: clamp(16px, 4vw, 48px);
     color-scheme: light;
@@ -89,7 +90,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 16px); }
 body.site { margin: 0; font-family: var(--sans); color: var(--text); background: var(--bg); font-size: 17px; line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; transition: background-color .25s, color .25s; }
-.lang-bn body.site, .lang-bn .display, .lang-bn h1, .lang-bn h2, .lang-bn h3 { font-family: var(--bn); letter-spacing: 0; }
+.lang-bn body.site { font-family: var(--bn-body); }
+.lang-bn .display, .lang-bn h1, .lang-bn h2, .lang-bn h3 { font-family: var(--bn); letter-spacing: 0; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3, h4 { margin: 0; font-weight: 500; }

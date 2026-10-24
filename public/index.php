@@ -10,6 +10,12 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
     require $maintenance;
 }
 
+// Not installed yet (no .env): open the web installer (public/install.php locks itself when done).
+if (! file_exists(__DIR__.'/../.env') && file_exists(__DIR__.'/install.php')) {
+    header('Location: /install.php', true, 302);
+    exit;
+}
+
 // Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
 

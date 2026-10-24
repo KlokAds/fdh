@@ -24,8 +24,8 @@
     --danger-bg: #fdf0ee;
     --info-bg: #e3f1fb;
     --radius: 14px;
-    --sans: 'Manrope', 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Plus Jakarta Sans', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
     color-scheme: light;
 }
 :root[data-theme="dark"] {
@@ -116,7 +116,7 @@ textarea { resize: vertical; }
 .tr-grid label { position: relative; }
 .lang-tag { position: absolute; top: 9px; right: 10px; font-size: .68rem; font-weight: 800; padding: .1em .5em; border-radius: 6px; background: var(--info-bg); color: var(--accent); pointer-events: none; }
 .tr-grid input, .tr-grid textarea { padding-right: 3.2em; }
-[lang="bn"] { font-family: 'Hind Siliguri', var(--sans); }
+[lang="bn"] { font-family: 'Noto Sans Bengali', var(--sans); }
 
 .alert { padding: .8em 1em; border-radius: 10px; font-weight: 600; font-size: .9rem; }
 .alert-info { background: var(--info-bg); color: var(--accent-3); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
@@ -280,3 +280,8 @@ select option { background: var(--card); color: var(--text); }
 .device-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
 .device-list li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
 .device-list span { display: grid; min-width: 0; }
+
+.sample-banner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; border-color: color-mix(in srgb, var(--warn) 45%, transparent); background: var(--warn-bg); }
+.sample-banner h2 { margin-bottom: 4px; }
+
+.plain-list { margin: 6px 0 0; padding-left: 1.2em; display: grid; gap: 4px; }

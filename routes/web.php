@@ -58,6 +58,7 @@ Route::prefix(config('fdh.admin_path'))->name('admin.')->group(function (): void
             Route::livewire('/users', Admin\Users::class)->middleware('can:users.manage')->name('users');
             Route::livewire('/roles', Admin\Roles::class)->middleware('can:users.manage')->name('roles');
             Route::livewire('/activity', Admin\Activity::class)->middleware('can:logs.view')->name('activity');
+            Route::livewire('/system-update', Admin\SystemUpdate::class)->middleware('can:system.update')->name('system-update');
         });
     });
 });

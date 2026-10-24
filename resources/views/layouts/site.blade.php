@@ -17,7 +17,7 @@
     @include('partials.theme-boot', ['defaultTheme' => site('default_theme')])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Anek+Bangla:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
     @include('partials.brand-colors')
     @include('partials.meta-pixel')
     @vite(['resources/css/app.css', 'resources/js/app.js'])

@@ -35,6 +35,16 @@ return [
     ],
 
     /*
+    | Website updates (Admin → System update): the built "release" branch made by GitHub Actions.
+    | A token is only needed if the repository is private (fine-grained, read-only "Contents").
+    */
+    'updates' => [
+        'repo' => env('FDH_UPDATE_REPO', 'KlokAds/fdh'),
+        'branch' => env('FDH_UPDATE_BRANCH', 'release'),
+        'token' => env('FDH_UPDATE_TOKEN'),
+    ],
+
+    /*
     | Meta Conversions API version used for server-side Lead events.
     */
     'meta_graph_version' => env('FDH_META_GRAPH_VERSION', 'v23.0'),
@@ -73,6 +83,7 @@ return [
             'settings.manage' => 'Contact info, branding, theme & SEO',
             'users.manage' => 'Manage admin users & roles',
             'logs.view' => 'View security log',
+            'system.update' => 'Install website updates',
         ],
     ],
 

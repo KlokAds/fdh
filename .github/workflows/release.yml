@@ -1,0 +1,61 @@
+name: Build release
+
+# Every push to main is tested, then built (PHP packages + CSS/JS) into the "release" branch.
+# Live sites install it from Admin → System update; a new site starts from its zip with public/install.php.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, intl, gd, zip, pdo_sqlite, bcmath, gmp
+          tools: composer:v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies for tests
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Run tests
+        run: |
+          cp .env.example .env
+          php artisan key:generate --force
+          php artisan test --compact
+          rm .env
+
+      - name: Build the release
+        run: bash deploy/build-release.sh --dir "$RUNNER_TEMP/release"
+
+      # One fresh commit each time (force-pushed), so the branch never piles up old vendor/ copies.
+      - name: Publish to the release branch
+        working-directory: ${{ runner.temp }}/release
+        run: |
+          git init -q -b release
+          git config user.name "Klok Ads"
+          git config user.email "adsklok@gmail.com"
+          git add -A
+          git commit -q -m "Build ${GITHUB_SHA::7}: $(git -C "$GITHUB_WORKSPACE" log -1 --format=%s)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:release

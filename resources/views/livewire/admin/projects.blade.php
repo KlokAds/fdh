@@ -81,7 +81,7 @@
                             @if ($project->coverUrl())<img src="{{ $project->coverUrl() }}" alt="" loading="lazy">@endif
                         </div>
                         <div class="ap-body">
-                            <b>{{ $project->getTranslation('title', 'en') }}</b>
+                            <b>{{ $project->getTranslation('title', 'en') }} @if ($project->is_sample)<span class="pill pill-new">Sample — replace</span>@endif</b>
                             <span class="muted small">{{ $project->category }} · {{ $project->is_published ? 'Published' : 'Draft' }}{{ $project->is_featured ? ' · ★ Featured' : '' }}</span>
                             <div class="row-actions">
                                 <button type="button" class="btn btn-ghost btn-sm" wire:click="edit({{ $project->id }})">Edit</button>

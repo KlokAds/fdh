@@ -27,8 +27,16 @@ class ImageStore
      */
     public function store(UploadedFile $file, string $directory, int $maxWidth = 1920): string
     {
+        return $this->storeFromPath($file->getRealPath(), $directory, $maxWidth);
+    }
+
+    /**
+     * Same as store(), for an image already on disk (used for the bundled sample photos).
+     */
+    public function storeFromPath(string $path, string $directory, int $maxWidth = 1920): string
+    {
         $image = ImageManager::usingDriver(Driver::class)
-            ->decodePath($file->getRealPath())
+            ->decodePath($path)
             ->scaleDown(width: $maxWidth);
 
         $path = trim($directory, '/').'/'.Str::random(40).'.webp';

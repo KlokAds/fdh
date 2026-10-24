@@ -7,12 +7,20 @@ use App\Models\Inquiry;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\TeamMember;
+use App\Support\SampleContent;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Title;
 
 #[Title('Dashboard')]
 class Dashboard extends AdminComponent
 {
+    public function removeSamples(SampleContent $samples): void
+    {
+        $this->authorizeAbility('settings.manage');
+        $count = $samples->remove();
+        session()->flash('status', "Removed {$count} sample item(s). Only your own content is on the website now.");
+    }
+
     public function render(): View
     {
         $user = auth()->user();
@@ -20,6 +28,7 @@ class Dashboard extends AdminComponent
 
         return view('livewire.admin.dashboard', [
             'canSeeInquiries' => $canSeeInquiries,
+            'hasSamples' => app(SampleContent::class)->present(),
             'newInquiries' => $canSeeInquiries ? Inquiry::query()->whereNull('read_at')->count() : null,
             'myInquiries' => $canSeeInquiries ? Inquiry::query()->where('assigned_to', $user->id)->whereNotIn('status', ['closed', 'spam'])->count() : null,
             'totalInquiries' => $canSeeInquiries ? Inquiry::query()->count() : null,

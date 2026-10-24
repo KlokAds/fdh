@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 
-#[Fillable(['slug', 'title', 'category', 'location', 'year', 'description', 'cover_image', 'gallery', 'is_featured', 'is_published', 'sort'])]
+#[Fillable(['slug', 'title', 'category', 'location', 'year', 'description', 'cover_image', 'gallery', 'is_featured', 'is_published', 'is_sample', 'sort'])]
 class Project extends Model
 {
     /** @use HasFactory<ProjectFactory> */
@@ -19,7 +19,7 @@ class Project extends Model
     /**
      * Category keys stored in the database; labels are translated in the views with __().
      */
-    public const CATEGORIES = ['Residential', 'Duplex & Villa', 'Apartment', 'Commercial', 'Interior', 'Renovation'];
+    public const CATEGORIES = ['Residential', 'Duplex & Villa', 'Apartment', 'Commercial', 'Interior', 'Renovation', 'Construction'];
 
     /** @var list<string> */
     public array $translatable = ['title', 'location', 'description'];
@@ -30,6 +30,7 @@ class Project extends Model
             'gallery' => 'array',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
+            'is_sample' => 'boolean',
             'sort' => 'integer',
         ];
     }

@@ -18,6 +18,9 @@
                                 <span wire:loading wire:target="uploads.{{ $key }}" class="muted small">Uploading…</span>
                                 @error("uploads.{$key}") <span class="err">{{ $message }}</span> @enderror
                             </label>
+                            @if ($samples->isSampleImage($key))
+                                <p class="badge badge-warn">Sample photo — upload your own to replace it</p>
+                            @endif
                             @if (! empty($values[$key]))
                                 <div class="thumbs">
                                     <figure>
