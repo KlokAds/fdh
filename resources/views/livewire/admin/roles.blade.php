@@ -14,7 +14,7 @@
                             @foreach ($permissions as $permission => $label)
                                 <label class="check" wire:key="p-{{ $permission }}">
                                     <input type="checkbox" wire:model="selected" value="{{ $permission }}"
-                                        @if ($permission === 'users.manage' && ! auth()->user()->isSuperAdmin()) disabled @endif>
+                                        @if (! auth()->user()->isSuperAdmin() && (in_array($permission, ['users.manage', 'system.update'], true) || ! auth()->user()->can($permission))) disabled @endif>
                                     {{ $label }}
                                 </label>
                             @endforeach
@@ -55,7 +55,7 @@
                                 @endif
                             </td>
                             <td class="nowrap">
-                                @if ($role->name !== $superRole || auth()->user()->isSuperAdmin())
+                                @if (auth()->user()->isSuperAdmin())
                                     <button type="button" @class(['pill', 'pill-closed' => $role->requires_two_factor]) wire:click="toggleTwoFactor({{ $role->id }})" title="Click to change">{{ $role->requires_two_factor ? 'Required' : 'Optional' }}</button>
                                 @else
                                     <span @class(['pill', 'pill-closed' => $role->requires_two_factor])>{{ $role->requires_two_factor ? 'Required' : 'Optional' }}</span>

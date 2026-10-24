@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Livewire\Admin\Concerns\EditsTranslations;
+use App\Livewire\Admin\Concerns\PaginatesWithinRange;
 use App\Models\ActivityLog;
 use App\Models\Service;
 use Illuminate\Contracts\View\View;
@@ -15,7 +16,7 @@ use Livewire\WithPagination;
 #[Title('Services')]
 class Services extends AdminComponent
 {
-    use EditsTranslations, WithPagination;
+    use EditsTranslations, PaginatesWithinRange, WithPagination;
 
     protected ?string $permission = 'services.manage';
 
@@ -119,7 +120,7 @@ class Services extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.services', [
-            'services' => Service::query()->orderBy('sort')->orderBy('id')->paginate(15),
+            'services' => $this->paginateWithinRange(Service::query()->orderBy('sort')->orderBy('id'), 15),
             'icons' => Service::ICONS,
         ]);
     }

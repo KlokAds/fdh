@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Admin\Concerns\PaginatesWithinRange;
 use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -16,7 +17,7 @@ use Spatie\Permission\Models\Role;
 #[Title('Admin users')]
 class Users extends AdminComponent
 {
-    use WithPagination;
+    use PaginatesWithinRange, WithPagination;
 
     protected ?string $permission = 'users.manage';
 
@@ -63,6 +64,9 @@ class Users extends AdminComponent
             'name' => 'required|string|max:100',
             'email' => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($this->editingId)],
             'role' => ['required', Rule::exists('roles', 'name')->where('guard_name', 'web')],
+        ], [
+            // Same wording whoever owns the address, so hidden support accounts stay invisible.
+            'email.unique' => 'This email address cannot be used.',
         ]);
 
         $this->guardRoleChange();
@@ -152,7 +156,7 @@ class Users extends AdminComponent
         $this->guardTarget($user);
         abort_if($user->id === auth()->id(), 403, 'You cannot delete your own account.');
 
-        if ($user->isSuperAdmin() && $this->activeSuperAdmins() <= 1) {
+        if ($user->is_active && $user->isSuperAdmin() && $this->activeSuperAdmins() <= 1) {
             $this->addError('list', 'At least one active Super Admin is required.');
 
             return;
@@ -192,7 +196,7 @@ class Users extends AdminComponent
         $touchesSuper = $this->role === $superRole || ($target && $target->isSuperAdmin());
         abort_if($touchesSuper && ! $actor->isSuperAdmin(), 403, 'Only a Super Admin can grant or remove the Super Admin role.');
 
-        if ($target && $target->isSuperAdmin() && $this->role !== $superRole && $this->activeSuperAdmins() <= 1) {
+        if ($target && $target->is_active && $target->isSuperAdmin() && $this->role !== $superRole && $this->activeSuperAdmins() <= 1) {
             abort(422, 'At least one active Super Admin is required.');
         }
     }
@@ -202,7 +206,8 @@ class Users extends AdminComponent
      */
     private function guardTarget(User $user): void
     {
-        abort_if($user->isSuperAdmin() && ! auth()->user()->isSuperAdmin(), 403, 'Only a Super Admin can manage a Super Admin account.');
+        // Managers cannot reset or remove each other; only a Super Admin manages accounts that can manage users.
+        abort_if(($user->isSuperAdmin() || $user->can('users.manage')) && ! auth()->user()->isSuperAdmin(), 403, 'Only a Super Admin can manage this account.');
     }
 
     /**
@@ -244,12 +249,11 @@ class Users extends AdminComponent
         }
 
         return view('livewire.admin.users', [
-            'users' => User::query()
+            'users' => $this->paginateWithinRange(User::query()
                 ->with('roles')
                 ->when(! auth()->user()->is_hidden, fn ($query) => $query->where('is_hidden', false))
                 ->orderByDesc('is_active')
-                ->orderBy('name')
-                ->paginate(15),
+                ->orderBy('name'), 15),
             'roles' => $roles->values(),
         ]);
     }

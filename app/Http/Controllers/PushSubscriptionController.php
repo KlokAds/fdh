@@ -18,7 +18,8 @@ class PushSubscriptionController extends Controller
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'endpoint' => ['required', 'url:https', 'max:1000'],
+            // Only real browser push services, so the server never posts to an arbitrary or internal host.
+            'endpoint' => ['required', 'url:https', 'max:1000', 'regex:#^https://(fcm\.googleapis\.com|updates\.push\.services\.mozilla\.com|[a-z0-9-]+\.notify\.windows\.com|web\.push\.apple\.com)/#i'],
             'keys.p256dh' => ['required', 'string', 'max:255'],
             'keys.auth' => ['required', 'string', 'max:255'],
             'contentEncoding' => ['nullable', 'in:aes128gcm,aesgcm'],

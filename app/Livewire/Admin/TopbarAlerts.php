@@ -13,7 +13,9 @@ class TopbarAlerts extends Component
 {
     public function render(): View
     {
-        $canView = (bool) auth()->user()?->can('inquiries.view');
+        $user = auth()->user();
+        // Nothing is shown until the account has finished its security setup.
+        $canView = $user !== null && ! $user->needsSecuritySetup() && $user->can('inquiries.view');
 
         return view('livewire.admin.topbar-alerts', [
             'canView' => $canView,

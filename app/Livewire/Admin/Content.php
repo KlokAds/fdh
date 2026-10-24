@@ -108,7 +108,7 @@ class Content extends AdminComponent
                 }
             } elseif ($field['type'] === 'image') {
                 if (! empty($this->uploads[$key])) {
-                    $images->delete(is_string($this->values[$key] ?? null) ? $this->values[$key] : null);
+                    $images->delete(self::storedImage($key));
                     $toSave[$key] = $images->store($this->uploads[$key], 'site', $key === 'logo' ? 600 : 1600);
                     app(SampleContent::class)->forgetImage($key);
                 }
@@ -131,10 +131,20 @@ class Content extends AdminComponent
         $groups = $this->allowedGroups();
         abort_unless(isset($groups[$this->tab]['fields'][$key]) && $groups[$this->tab]['fields'][$key]['type'] === 'image', 403);
 
-        $images->delete(is_string($this->values[$key] ?? null) ? $this->values[$key] : null);
+        $images->delete(self::storedImage($key));
         Setting::write([$key => '']);
         app(SampleContent::class)->forgetImage($key);
         $this->values = $this->editableValues();
+    }
+
+    /**
+     * Path of the image currently saved for a setting (read on the server, never from the form).
+     */
+    private static function storedImage(string $key): ?string
+    {
+        $path = Setting::raw()[$key] ?? null;
+
+        return is_string($path) && $path !== '' ? $path : null;
     }
 
     public function clearSecret(string $key): void

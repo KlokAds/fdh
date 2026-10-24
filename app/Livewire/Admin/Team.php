@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Livewire\Admin\Concerns\EditsTranslations;
+use App\Livewire\Admin\Concerns\PaginatesWithinRange;
 use App\Models\ActivityLog;
 use App\Models\TeamMember;
 use App\Support\ImageStore;
@@ -17,7 +18,7 @@ use Livewire\WithPagination;
 #[Title('Team members')]
 class Team extends AdminComponent
 {
-    use DiscardsUploads, EditsTranslations, WithFileUploads, WithPagination;
+    use DiscardsUploads, EditsTranslations, PaginatesWithinRange, WithFileUploads, WithPagination;
 
     protected ?string $permission = 'team.manage';
 
@@ -148,7 +149,7 @@ class Team extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.team', [
-            'members' => TeamMember::query()->orderBy('sort')->orderBy('id')->paginate(16),
+            'members' => $this->paginateWithinRange(TeamMember::query()->orderBy('sort')->orderBy('id'), 16),
             'current' => $this->editingId ? TeamMember::query()->find($this->editingId) : null,
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Admin\Concerns\PaginatesWithinRange;
 use App\Models\ActivityLog;
 use App\Models\Inquiry;
 use App\Models\User;
@@ -15,7 +16,7 @@ use Livewire\WithPagination;
 #[Title('Inquiries')]
 class Inquiries extends AdminComponent
 {
-    use WithPagination;
+    use PaginatesWithinRange, WithPagination;
 
     protected ?string $permission = 'inquiries.view';
 
@@ -107,7 +108,7 @@ class Inquiries extends AdminComponent
 
     public function render(): View
     {
-        $inquiries = Inquiry::query()
+        $inquiries = $this->paginateWithinRange(Inquiry::query()
             ->with('assignee:id,name')
             ->when(array_key_exists($this->status, Inquiry::STATUSES), fn ($q) => $q->where('status', $this->status))
             ->when($this->status === 'mine', fn ($q) => $q->where('assigned_to', auth()->id()))
@@ -116,8 +117,7 @@ class Inquiries extends AdminComponent
                 $term = '%'.str_replace(['%', '_'], ['\%', '\_'], trim($this->search)).'%';
                 $q->where(fn ($w) => $w->where('name', 'like', $term)->orWhere('phone', 'like', $term)->orWhere('location', 'like', $term));
             })
-            ->latest()
-            ->paginate(15);
+            ->latest(), 15);
 
         return view('livewire.admin.inquiries', [
             'inquiries' => $inquiries,

@@ -98,6 +98,15 @@ class Updater
      */
     public function changes(string $from, string $to): array
     {
+        // Cached so reloading the update page does not use up GitHub's hourly API allowance.
+        return Cache::remember("fdh-update-changes:{$from}:{$to}", 600, fn (): array => $this->fetchChanges($from, $to));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function fetchChanges(string $from, string $to): array
+    {
         try {
             $response = $this->github()->get("repos/{$this->repository()}/compare/{$from}...{$to}");
             if (! $response->successful()) {

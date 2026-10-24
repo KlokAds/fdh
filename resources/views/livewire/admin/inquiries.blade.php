@@ -20,7 +20,7 @@
                                     <td>{{ $inquiry->service ?: '—' }}</td>
                                     <td><span class="pill pill-{{ $inquiry->status }}">{{ \App\Models\Inquiry::STATUSES[$inquiry->status] ?? $inquiry->status }}</span></td>
                                     <td class="small">{{ $inquiry->assignee?->name ?? '—' }}</td>
-                                    <td class="nowrap">{{ $inquiry->created_at->format('d M Y, h:i A') }}</td>
+                                    <td class="nowrap">{{ $inquiry->created_at->timezone(config('fdh.display_timezone'))->format('d M Y, h:i A') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -42,7 +42,7 @@
                     <dt>Service</dt><dd>{{ $current->service ?: '—' }}</dd>
                     <dt>Location</dt><dd>{{ $current->location ?: '—' }}</dd>
                     <dt>Language</dt><dd>{{ config('fdh.locales.'.$current->locale.'.name', $current->locale) }}</dd>
-                    <dt>Received</dt><dd>{{ $current->created_at->format('d M Y, h:i A') }}</dd>
+                    <dt>Received</dt><dd>{{ $current->created_at->timezone(config('fdh.display_timezone'))->format('d M Y, h:i A') }}</dd>
                     <dt>Read</dt><dd>{{ $current->read_at ? $current->read_at->diffForHumans().' · via '.(\App\Models\Inquiry::READ_VIA[$current->read_via] ?? $current->read_via) : 'Not yet' }}</dd>
                     <dt>Email alert</dt><dd>{{ $current->emailed_at ? 'Sent '.$current->emailed_at->diffForHumans() : 'Not sent' }}</dd>
                     <dt>IP</dt><dd class="muted">{{ $current->ip }}</dd>

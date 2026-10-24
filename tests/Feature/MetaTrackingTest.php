@@ -49,7 +49,8 @@ class MetaTrackingTest extends TestCase
             $event = $request['data'][0];
 
             return str_contains($request->url(), '/1234567890123/events')
-                && str_contains($request->url(), 'access_token=test-token')
+                && ! str_contains($request->url(), 'access_token')
+                && $request['access_token'] === 'test-token'
                 && $event['event_name'] === 'Lead'
                 && str_starts_with($event['event_id'], 'lead-')
                 && $event['user_data']['ph'] === [hash('sha256', '8801712345678')]

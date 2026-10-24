@@ -82,7 +82,8 @@ class CostCalculator
         $locale ??= app()->getLocale();
         $bn = $locale === 'bn';
 
-        if ($amount >= 10_000_000) {
+        // Decide the unit after rounding, so 99.96 lakh reads as 1 crore rather than "100 lakh".
+        if (round($amount / 100_000, 1) >= 100) {
             $number = rtrim(rtrim(number_format($amount / 10_000_000, 2, '.', ''), '0'), '.');
             $text = $number.' '.($bn ? 'কোটি' : 'crore');
         } elseif ($amount >= 100_000) {

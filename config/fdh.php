@@ -3,6 +3,11 @@
 return [
 
     /*
+    | Times in the admin panel and emails are shown in Bangladesh time; the database stays in UTC.
+    */
+    'display_timezone' => 'Asia/Dhaka',
+
+    /*
     | URL prefix of the admin panel. Use a non-obvious value in production.
     */
     'admin_path' => env('FDH_ADMIN_PATH', 'fdh-admin'),

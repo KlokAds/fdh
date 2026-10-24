@@ -15,7 +15,7 @@ class LocaleController extends Controller
 
         // Only ever redirect back to a page on this site.
         $previous = url()->previous();
-        $target = str_starts_with($previous, url('/')) ? $previous : route('home');
+        $target = is_site_url($previous) ? $previous : route('home');
 
         return redirect()->to($target);
     }

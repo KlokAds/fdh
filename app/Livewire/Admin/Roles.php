@@ -53,9 +53,13 @@ class Roles extends AdminComponent
             'selected.*' => ['string', Rule::in($allPermissions)],
         ]);
 
-        // Granting user management lets a role create other admins, so only a Super Admin may grant it.
-        if (in_array('users.manage', $this->selected, true)) {
-            abort_unless(auth()->user()->isSuperAdmin(), 403, 'Only a Super Admin can grant user management.');
+        // Without Super Admin rights you can only hand out permissions you hold yourself, and never
+        // user management or website updates.
+        $actor = auth()->user();
+        if (! $actor->isSuperAdmin()) {
+            $reserved = array_intersect($this->selected, ['users.manage', 'system.update']);
+            $notHeld = array_filter($this->selected, fn (string $permission): bool => ! $actor->can($permission));
+            abort_if($reserved !== [] || $notHeld !== [], 403, 'You can only grant permissions you have yourself.');
         }
 
         $role = $this->editingId ? Role::query()->findOrFail($this->editingId) : new Role(['guard_name' => 'web']);
@@ -76,8 +80,8 @@ class Roles extends AdminComponent
      */
     public function toggleTwoFactor(int $id): void
     {
+        abort_unless(auth()->user()->isSuperAdmin(), 403, 'Only a Super Admin can change two-factor rules.');
         $role = Role::query()->findOrFail($id);
-        abort_if($role->name === config('fdh.super_role') && ! auth()->user()->isSuperAdmin(), 403, 'Only a Super Admin can change the Super Admin role.');
 
         $role->requires_two_factor = ! $role->requires_two_factor;
         $role->save();
@@ -88,7 +92,7 @@ class Roles extends AdminComponent
 
     public function delete(int $id): void
     {
-        $role = Role::query()->withCount('users')->findOrFail($id);
+        $role = Role::query()->withCount(['users' => fn ($users) => $users->where('is_hidden', false)])->findOrFail($id);
         abort_if($role->name === config('fdh.super_role'), 403);
 
         if ($role->users_count > 0) {
@@ -117,7 +121,7 @@ class Roles extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.roles', [
-            'roles' => Role::query()->where('guard_name', 'web')->with('permissions')->withCount('users')->orderBy('id')->get(),
+            'roles' => Role::query()->where('guard_name', 'web')->with('permissions')->withCount(['users' => fn ($users) => $users->where('is_hidden', false)])->orderBy('id')->get(),
             'groups' => config('fdh.permissions'),
             'superRole' => config('fdh.super_role'),
         ]);

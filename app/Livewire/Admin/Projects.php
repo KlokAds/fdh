@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Livewire\Admin\Concerns\EditsTranslations;
+use App\Livewire\Admin\Concerns\PaginatesWithinRange;
 use App\Models\ActivityLog;
 use App\Models\Project;
 use App\Support\ImageStore;
@@ -19,7 +20,7 @@ use Livewire\WithPagination;
 #[Title('Projects')]
 class Projects extends AdminComponent
 {
-    use DiscardsUploads, EditsTranslations, WithFileUploads, WithPagination;
+    use DiscardsUploads, EditsTranslations, PaginatesWithinRange, WithFileUploads, WithPagination;
 
     protected ?string $permission = 'projects.manage';
 
@@ -112,7 +113,8 @@ class Projects extends AdminComponent
                 'is_published' => 'boolean',
                 'sort' => 'integer|min:0|max:999',
                 'cover' => array_merge([$this->editingId ? 'nullable' : 'required'], ImageStore::rules()),
-                'photos' => 'array|max:12',
+                // Up to 12 per upload and 24 in the gallery overall.
+                'photos' => 'array|max:'.min(12, max(0, 24 - count($this->editingId ? (Project::query()->find($this->editingId)?->gallery ?? []) : []))),
                 'photos.*' => ImageStore::rules(),
             ],
         ), [], array_merge($this->translationAttributes('title', 'Title'), ['cover' => 'cover photo', 'photos.*' => 'gallery photo']));
@@ -126,8 +128,10 @@ class Projects extends AdminComponent
         if ($this->cover) {
             $images->delete($project->cover_image);
             $project->cover_image = $images->store($this->cover, 'projects');
-            $project->is_sample = false;
         }
+
+        // Once an admin has edited a sample project it is theirs: "Remove samples" leaves it alone.
+        $project->is_sample = false;
 
         $gallery = $project->gallery ?? [];
         foreach ($this->photos as $photo) {
@@ -145,7 +149,7 @@ class Projects extends AdminComponent
             'is_featured' => $this->is_featured,
             'is_published' => $this->is_published,
             'sort' => $this->sort,
-            'gallery' => array_slice($gallery, 0, 24),
+            'gallery' => $gallery,
         ])->save();
 
         ActivityLog::record('project.saved', 'Saved project: '.$project->getTranslation('title', 'en'));
@@ -192,7 +196,7 @@ class Projects extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.projects', [
-            'projects' => Project::query()->orderByDesc('is_featured')->orderBy('sort')->latest('id')->paginate(12),
+            'projects' => $this->paginateWithinRange(Project::query()->orderByDesc('is_featured')->orderBy('sort')->latest('id'), 12),
             'current' => $this->editingId ? Project::query()->find($this->editingId) : null,
             'categories' => Project::CATEGORIES,
         ]);

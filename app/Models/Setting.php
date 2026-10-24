@@ -41,7 +41,9 @@ class Setting extends Model
 
                 if (! empty($field['translatable'])) {
                     $decoded = is_string($value) ? json_decode($value, true) : null;
-                    $values[$key] = array_merge($default, array_filter(is_array($decoded) ? $decoded : [], fn ($v): bool => is_string($v) && $v !== ''));
+                    $saved = array_filter(is_array($decoded) ? $decoded : [], fn ($v): bool => is_string($v) && $v !== '');
+                    // Defaults only fill a field nobody has saved yet; a language cleared later falls back to English.
+                    $values[$key] = $saved !== [] ? $saved : $default;
                 } else {
                     $values[$key] = $value === null ? ($field['type'] === 'image' ? '' : $default) : (string) $value;
                 }

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Livewire\Admin\Concerns\DiscardsUploads;
 use App\Livewire\Admin\Concerns\EditsTranslations;
+use App\Livewire\Admin\Concerns\PaginatesWithinRange;
 use App\Models\ActivityLog;
 use App\Models\Testimonial;
 use App\Support\ImageStore;
@@ -17,7 +18,7 @@ use Livewire\WithPagination;
 #[Title('Testimonials')]
 class Testimonials extends AdminComponent
 {
-    use DiscardsUploads, EditsTranslations, WithFileUploads, WithPagination;
+    use DiscardsUploads, EditsTranslations, PaginatesWithinRange, WithFileUploads, WithPagination;
 
     protected ?string $permission = 'testimonials.manage';
 
@@ -136,7 +137,7 @@ class Testimonials extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.testimonials', [
-            'testimonials' => Testimonial::query()->orderBy('sort')->latest('id')->paginate(15),
+            'testimonials' => $this->paginateWithinRange(Testimonial::query()->orderBy('sort')->latest('id'), 15),
             'current' => $this->editingId ? Testimonial::query()->find($this->editingId) : null,
         ]);
     }

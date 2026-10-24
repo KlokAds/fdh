@@ -97,7 +97,9 @@ class InquiryForm extends Component
             return;
         }
 
-        $this->phone = preg_replace('/[\s\-()]/', '', $this->phone) ?? '';
+        // Bangla keyboards type ০-৯; the number is stored with Latin digits.
+        $this->phone = strtr($this->phone, ['০' => '0', '১' => '1', '২' => '2', '৩' => '3', '৪' => '4', '৫' => '5', '৬' => '6', '৭' => '7', '৮' => '8', '৯' => '9']);
+        $this->phone = preg_replace('/[\s\-()]/u', '', $this->phone) ?? '';
 
         $data = $this->validate([
             'name' => ['required', 'string', 'min:2', 'max:100', 'regex:/^[\pL\pM\s.\'-]+$/u'],
@@ -149,7 +151,7 @@ class InquiryForm extends Component
             'user_agent' => Str::limit((string) request()->userAgent(), 400, ''),
             'fbp' => Str::limit((string) request()->cookie('_fbp'), 255, '') ?: null,
             'fbc' => Str::limit((string) request()->cookie('_fbc'), 255, '') ?: null,
-            'url' => str_starts_with($previous, url('/')) ? $previous : route('contact'),
+            'url' => is_site_url($previous) ? $previous : route('contact'),
         ];
 
         defer(fn () => app(MetaConversions::class)->lead($inquiry, $eventId, $context));

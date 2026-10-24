@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Livewire\Admin\Concerns\EditsTranslations;
+use App\Livewire\Admin\Concerns\PaginatesWithinRange;
 use App\Models\ActivityLog;
 use App\Models\Faq;
 use Illuminate\Contracts\View\View;
@@ -13,7 +14,7 @@ use Livewire\WithPagination;
 #[Title('FAQs')]
 class Faqs extends AdminComponent
 {
-    use EditsTranslations, WithPagination;
+    use EditsTranslations, PaginatesWithinRange, WithPagination;
 
     protected ?string $permission = 'faqs.manage';
 
@@ -95,7 +96,7 @@ class Faqs extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.faqs', [
-            'faqs' => Faq::query()->orderBy('sort')->orderBy('id')->paginate(15),
+            'faqs' => $this->paginateWithinRange(Faq::query()->orderBy('sort')->orderBy('id'), 15),
         ]);
     }
 }

@@ -6,7 +6,7 @@
             <tbody>
                 @forelse ($logs as $log)
                     <tr wire:key="log-{{ $log->id }}">
-                        <td class="nowrap">{{ $log->created_at->format('d M Y, h:i:s A') }}</td>
+                        <td class="nowrap">{{ $log->created_at->timezone(config('fdh.display_timezone'))->format('d M Y, h:i:s A') }}</td>
                         <td><span @class(['pill', 'pill-spam' => str_contains($log->action, 'failed') || str_contains($log->action, 'locked'), 'pill-closed' => $log->action === 'login.success'])>{{ $log->action }}</span></td>
                         <td>{{ $log->description }}</td>
                         <td>{{ $log->user?->name ?? '—' }}</td>

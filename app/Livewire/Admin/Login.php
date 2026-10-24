@@ -31,11 +31,14 @@ class Login extends Component
         $email = Str::lower(trim($this->email));
         $accountKey = 'login:'.sha1($email.'|'.request()->ip());
         $ipKey = 'login-ip:'.request()->ip();
+        // Counts guesses at one account from any number of addresses.
+        $emailKey = 'login-email:'.sha1($email);
         $decay = config('fdh.login_decay_seconds');
 
         if (RateLimiter::tooManyAttempts($accountKey, config('fdh.login_max_attempts'))
-            || RateLimiter::tooManyAttempts($ipKey, config('fdh.login_ip_max_attempts'))) {
-            $seconds = max(RateLimiter::availableIn($accountKey), RateLimiter::availableIn($ipKey));
+            || RateLimiter::tooManyAttempts($ipKey, config('fdh.login_ip_max_attempts'))
+            || RateLimiter::tooManyAttempts($emailKey, config('fdh.login_max_attempts') * 4)) {
+            $seconds = max(RateLimiter::availableIn($accountKey), RateLimiter::availableIn($ipKey), RateLimiter::availableIn($emailKey));
             ActivityLog::record('login.locked', "Locked out: {$email}");
             $this->reset('password');
             $this->addError('email', 'Too many sign-in attempts. Please try again in '.ceil($seconds / 60).' minute(s).');
@@ -51,6 +54,7 @@ class Login extends Component
         if (! $user || ! $passwordMatches || ! $user->canAccessAdmin()) {
             RateLimiter::hit($accountKey, $decay);
             RateLimiter::hit($ipKey, $decay);
+            RateLimiter::hit($emailKey, $decay);
             ActivityLog::record('login.failed', "Failed sign-in: {$email}", $user?->id);
             $this->reset('password');
             $this->addError('email', 'These credentials do not match our records.');
@@ -59,6 +63,7 @@ class Login extends Component
         }
 
         RateLimiter::clear($accountKey);
+        RateLimiter::clear($emailKey);
         session()->regenerate();
 
         if ($user->hasTwoFactorEnabled()) {

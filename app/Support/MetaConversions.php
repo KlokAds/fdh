@@ -65,7 +65,8 @@ class MetaConversions
         try {
             $response = Http::timeout(8)
                 ->asJson()
-                ->post(sprintf('https://graph.facebook.com/%s/%s/events?access_token=%s', config('fdh.meta_graph_version'), self::pixelId(), urlencode(Setting::secret('meta_capi_token'))), $payload);
+                // The token goes in the body, so it never appears in a logged URL.
+                ->post(sprintf('https://graph.facebook.com/%s/%s/events', config('fdh.meta_graph_version'), self::pixelId()), $payload + ['access_token' => Setting::secret('meta_capi_token')]);
 
             if ($response->failed()) {
                 Log::warning('Meta Conversions API rejected the Lead event: '.$response->body());
