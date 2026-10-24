@@ -222,23 +222,24 @@
 
     {{-- FAQ --}}
     @if ($faqs->isNotEmpty())
-        <section class="section">
-            <div class="container split-2">
-                <div class="reveal">
+        <section class="section faq-section">
+            <div class="container faq-layout">
+                <div class="faq-intro reveal">
                     <p class="label">{{ __('FAQ') }}</p>
                     <h2>{{ site('faq_title') }}</h2>
-                    <a href="{{ route('faq') }}" wire:navigate class="link-arrow">{{ __('All questions') }} →</a>
+                    <p class="sub">{{ __('Answers to what landowners ask us most — design, approval, soil test and cost.') }}</p>
                     <div class="help-card">
                         <span class="help-icon"><x-icon name="chat" /></span>
                         <h3>{{ __('Still have a question?') }}</h3>
                         <p>{{ __('Call or send a WhatsApp message — we are happy to help with your plan.') }}</p>
                         <div class="help-actions">
-                            <a href="{{ site_phone_href() }}" class="btn btn-sm"><x-icon name="phone" /> {{ site('phone') }}</a>
+                            <a href="{{ site_phone_href() }}" class="btn btn-light btn-sm"><x-icon name="phone" /> {{ site('phone') }}</a>
                             <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-wa"><x-icon name="whatsapp" /> WhatsApp</a>
                         </div>
                     </div>
+                    <a href="{{ route('faq') }}" wire:navigate class="btn btn-outline faq-more">{{ __('See all questions') }} <x-icon name="arrow" /></a>
                 </div>
-                <x-site.faq-list :faqs="$faqs" />
+                <x-site.faq-list :faqs="$faqs" :open-first="true" />
             </div>
         </section>
     @endif

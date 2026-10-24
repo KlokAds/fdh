@@ -1,8 +1,13 @@
-@props(['faqs'])
+@props(['faqs', 'openFirst' => false])
 <div class="faq-list">
     @foreach ($faqs as $faq)
-        <details class="faq reveal" wire:key="faq-{{ $faq->id }}">
-            <summary><span>{{ $faq->question }}</span><x-icon name="plus" class="faq-icon" /></summary>
+        @php($number = str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT))
+        <details class="faq reveal" wire:key="faq-{{ $faq->id }}" @if ($openFirst && $loop->first) open @endif>
+            <summary>
+                <span class="faq-num">{{ app()->getLocale() === 'bn' ? \App\Support\CostCalculator::bnDigits($number) : $number }}</span>
+                <span class="faq-q">{{ $faq->question }}</span>
+                <x-icon name="plus" class="faq-icon" />
+            </summary>
             <div class="faq-answer">
                 {{ \App\Support\RichText::render($faq->answer) }}
             </div>
