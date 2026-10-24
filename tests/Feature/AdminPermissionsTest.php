@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Livewire\Admin\Content;
 use App\Livewire\Admin\Roles;
+use App\Livewire\Admin\TopbarAlerts;
 use App\Livewire\Admin\Users;
+use App\Models\Inquiry;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,6 +17,16 @@ use Tests\TestCase;
 class AdminPermissionsTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_top_bar_shows_unread_inquiries_only_to_inquiry_staff(): void
+    {
+        Inquiry::factory()->count(2)->create(['name' => 'Rahim Uddin']);
+
+        Livewire::actingAs($this->admin('Sales'))->test(TopbarAlerts::class)->assertSee('2 new')->assertSee('Rahim Uddin');
+        Livewire::actingAs($this->admin('Editor'))->test(TopbarAlerts::class)->assertDontSee('Rahim Uddin');
+
+        $this->actingAs($this->admin())->get(route('admin.dashboard'))->assertOk()->assertSee('Sign out')->assertSee('Notification settings');
+    }
 
     public function test_each_role_only_reaches_its_own_pages(): void
     {

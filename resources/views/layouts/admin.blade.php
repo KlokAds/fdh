@@ -66,7 +66,38 @@
             <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
                 <x-icon name="moon" class="theme-moon" /><x-icon name="sun" class="theme-sun" />
             </button>
-            <span class="who">{{ auth()->user()->name }}</span>
+            <livewire:admin.topbar-alerts />
+            @php($me = auth()->user())
+            <div class="tb-dd tb-profile" data-dropdown>
+                <button type="button" class="tb-user" data-dropdown-toggle aria-expanded="false" aria-label="Account menu">
+                    <span class="tb-avatar">{{ mb_strtoupper(mb_substr($me->name, 0, 1)) }}</span>
+                    <span class="tb-user-text"><b>{{ $me->name }}</b><small>{{ $me->roles->pluck('name')->first() }}</small></span>
+                    <x-icon name="chevron" class="tb-chevron" />
+                </button>
+                <div class="tb-panel">
+                    <div class="tb-panel-head tb-me">
+                        <span class="tb-avatar tb-avatar-lg">{{ mb_strtoupper(mb_substr($me->name, 0, 1)) }}</span>
+                        <span><b>{{ $me->name }}</b><small>{{ $me->email }}</small></span>
+                    </div>
+                    <nav class="tb-links" aria-label="Account">
+                        <a href="{{ route('admin.security') }}" wire:navigate><x-icon name="shield" /> My account &amp; security</a>
+                        @canany(['content.manage', 'settings.manage'])
+                            <a href="{{ route('admin.content') }}" wire:navigate><x-icon name="settings" /> Website settings</a>
+                        @endcanany
+                        @can('inquiries.view')
+                            <a href="{{ route('admin.notifications') }}" wire:navigate><x-icon name="bell" /> Notification settings</a>
+                        @endcan
+                        @can('users.manage')
+                            <a href="{{ route('admin.users') }}" wire:navigate><x-icon name="user" /> Users &amp; roles</a>
+                        @endcan
+                        <a href="{{ route('home') }}" target="_blank" rel="noopener"><x-icon name="external" /> View website</a>
+                    </nav>
+                    <form method="POST" action="{{ route('admin.logout') }}" class="tb-logout">
+                        @csrf
+                        <button type="submit"><x-icon name="logout" /> Sign out</button>
+                    </form>
+                </div>
+            </div>
         </header>
         <div class="admin-content">
             @if (session('status'))

@@ -68,8 +68,15 @@ document.addEventListener('click', (event) => {
         const dropdown = ddToggle.closest('[data-dropdown]');
         const open = !dropdown.classList.contains('is-open');
         dropdown.classList.toggle('is-open', open);
+        // Only one dropdown open at a time.
+        document.querySelectorAll('[data-dropdown].is-open').forEach((d) => d !== dropdown && d.classList.remove('is-open'));
         ddToggle.setAttribute('aria-expanded', String(open));
         return;
+    }
+
+    // Clicking outside an open dropdown closes it.
+    if (!event.target.closest('[data-dropdown]')) {
+        document.querySelectorAll('[data-dropdown].is-open').forEach((d) => d.classList.remove('is-open'));
     }
 
     if (event.target.closest('[data-sidebar-toggle]')) {
