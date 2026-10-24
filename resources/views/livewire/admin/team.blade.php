@@ -18,7 +18,7 @@
                     <label>LinkedIn URL<input type="url" wire:model="linkedin" maxlength="255">@error('linkedin') <span class="err">{{ $message }}</span> @enderror</label>
                 </div>
                 <div class="row">
-                    <x-admin.image-upload model="photo" label="Photo (square works best)" :upload="$photo" :current="$current?->photoUrl()" :remove-saved="$current?->photoUrl() ? 'removePhoto' : null" />
+                    <x-admin.image-upload model="photo" label="Photo" size="800 × 1000 px · portrait (4:5)" :upload="$photo" :current="$current?->photoUrl()" :remove-saved="$current?->photoUrl() ? 'removePhoto' : null" />
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                 </div>
                 <label class="check"><input type="checkbox" wire:model="is_active"> Show on website</label>

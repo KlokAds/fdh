@@ -23,9 +23,9 @@
                 </div>
                 <label>URL slug <small class="muted">(auto from English title)</small><input wire:model="slug" maxlength="150">@error('slug') <span class="err">{{ $message }}</span> @enderror</label>
 
-                <x-admin.image-upload model="cover" :label="'Cover photo'.($editingId ? '' : ' *')" :upload="$cover" :current="$current?->coverUrl()" :wide="true" />
+                <x-admin.image-upload model="cover" :label="'Cover photo'.($editingId ? '' : ' *')" size="1600 × 1200 px · landscape (4:3)" :upload="$cover" :current="$current?->coverUrl()" :wide="true" />
 
-                <x-admin.image-upload model="photos" label="Gallery photos (up to 12)" :upload="$photos" :multiple="true" hint="JPG, PNG or WebP · max 5 MB each · resized, converted to WebP and stripped of location data automatically">
+                <x-admin.image-upload model="photos" label="Gallery photos (up to 12)" size="1600 × 1200 px · landscape (4:3)" :upload="$photos" :multiple="true" hint="JPG, PNG or WebP · max 5 MB each · resized, converted to WebP and stripped of location data automatically">
                     @foreach ($current?->galleryUrls() ?? [] as $url)
                         <figure class="up-tile" wire:key="gal-{{ $loop->index }}">
                             <img src="{{ $url }}" alt="">

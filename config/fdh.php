@@ -78,6 +78,7 @@ return [
             'faqs.manage' => 'Manage FAQs',
             'testimonials.manage' => 'Manage testimonials',
             'content.manage' => 'Edit page texts (hero, about, sections…)',
+            'media.manage' => 'Media library (see all photos, delete unused ones)',
         ],
         'Administration' => [
             'settings.manage' => 'Contact info, branding, theme & SEO',
@@ -91,8 +92,8 @@ return [
     | Roles created by the seeder, with their default permissions. Editable later in the admin panel.
     */
     'default_roles' => [
-        'Admin' => ['inquiries.view', 'inquiries.manage', 'inquiries.delete', 'services.manage', 'projects.manage', 'team.manage', 'faqs.manage', 'testimonials.manage', 'content.manage', 'settings.manage', 'logs.view'],
-        'Editor' => ['services.manage', 'projects.manage', 'team.manage', 'faqs.manage', 'testimonials.manage', 'content.manage'],
+        'Admin' => ['inquiries.view', 'inquiries.manage', 'inquiries.delete', 'services.manage', 'projects.manage', 'team.manage', 'faqs.manage', 'testimonials.manage', 'content.manage', 'media.manage', 'settings.manage', 'logs.view'],
+        'Editor' => ['services.manage', 'projects.manage', 'team.manage', 'faqs.manage', 'testimonials.manage', 'content.manage', 'media.manage'],
         'Sales' => ['inquiries.view', 'inquiries.manage'],
         'Viewer' => ['inquiries.view'],
     ],

@@ -21,41 +21,35 @@
     <aside class="sidebar" id="sidebar">
         <a href="{{ route('admin.dashboard') }}" wire:navigate class="side-brand">
             <img src="{{ \App\Models\Setting::imageUrl('logo', 'images/fdh-logo.jpg') }}" alt="" width="40" height="40">
-            <div><strong>FDH Admin</strong><small>{{ \App\Models\Setting::read('site_tagline', 'en') }}</small></div>
+            <div><strong>{{ \App\Models\Setting::read('site_name', 'en') }}</strong><small>Admin panel</small></div>
         </a>
         <nav class="side-nav" aria-label="Admin">
-            <a href="{{ route('admin.dashboard') }}" wire:navigate wire:current.exact="is-active">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}" wire:navigate wire:current.exact="is-active"><x-icon name="grid" /> Dashboard</a>
             @can('inquiries.view')
-                <a href="{{ route('admin.inquiries') }}" wire:navigate wire:current="is-active">Inquiries</a>
-                <a href="{{ route('admin.notifications') }}" wire:navigate wire:current="is-active">Notifications</a>
+                <a href="{{ route('admin.inquiries') }}" wire:navigate wire:current="is-active"><x-icon name="inbox" /> Inquiries</a>
             @endcan
 
-            @canany(['content.manage', 'services.manage', 'projects.manage', 'team.manage', 'faqs.manage', 'testimonials.manage', 'settings.manage'])
+            @canany(['content.manage', 'services.manage', 'projects.manage', 'team.manage', 'faqs.manage', 'testimonials.manage', 'media.manage', 'settings.manage'])
                 <span class="side-sep">Website</span>
             @endcanany
-            @canany(['content.manage', 'settings.manage'])<a href="{{ route('admin.content') }}" wire:navigate wire:current="is-active">Content &amp; settings</a>@endcanany
-            @can('services.manage')<a href="{{ route('admin.services') }}" wire:navigate wire:current="is-active">Services</a>@endcan
-            @can('projects.manage')<a href="{{ route('admin.projects') }}" wire:navigate wire:current="is-active">Projects</a>@endcan
-            @can('team.manage')<a href="{{ route('admin.team') }}" wire:navigate wire:current="is-active">Team</a>@endcan
-            @can('faqs.manage')<a href="{{ route('admin.faqs') }}" wire:navigate wire:current="is-active">FAQs</a>@endcan
-            @can('testimonials.manage')<a href="{{ route('admin.testimonials') }}" wire:navigate wire:current="is-active">Testimonials</a>@endcan
+            @canany(['content.manage', 'settings.manage'])<a href="{{ route('admin.content') }}" wire:navigate wire:current="is-active"><x-icon name="settings" /> Content &amp; settings</a>@endcanany
+            @can('services.manage')<a href="{{ route('admin.services') }}" wire:navigate wire:current="is-active"><x-icon name="layers" /> Services</a>@endcan
+            @can('projects.manage')<a href="{{ route('admin.projects') }}" wire:navigate wire:current="is-active"><x-icon name="apartment" /> Projects</a>@endcan
+            @can('team.manage')<a href="{{ route('admin.team') }}" wire:navigate wire:current="is-active"><x-icon name="user" /> Team</a>@endcan
+            @can('faqs.manage')<a href="{{ route('admin.faqs') }}" wire:navigate wire:current="is-active"><x-icon name="help" /> FAQs</a>@endcan
+            @can('testimonials.manage')<a href="{{ route('admin.testimonials') }}" wire:navigate wire:current="is-active"><x-icon name="chat" /> Testimonials</a>@endcan
+            @can('media.manage')<a href="{{ route('admin.media') }}" wire:navigate wire:current="is-active"><x-icon name="image" /> Media library</a>@endcan
 
-            <span class="side-sep">Security</span>
+            <span class="side-sep">Administration</span>
+            @can('inquiries.view')<a href="{{ route('admin.notifications') }}" wire:navigate wire:current="is-active"><x-icon name="bell" /> Notifications</a>@endcan
             @can('users.manage')
-                <a href="{{ route('admin.users') }}" wire:navigate wire:current="is-active">Users</a>
-                <a href="{{ route('admin.roles') }}" wire:navigate wire:current="is-active">Roles &amp; permissions</a>
+                <a href="{{ route('admin.users') }}" wire:navigate wire:current="is-active"><x-icon name="users" /> Users</a>
+                <a href="{{ route('admin.roles') }}" wire:navigate wire:current="is-active"><x-icon name="shield" /> Roles &amp; permissions</a>
             @endcan
-            <a href="{{ route('admin.security') }}" wire:navigate wire:current="is-active">My account security</a>
-            @can('logs.view')<a href="{{ route('admin.activity') }}" wire:navigate wire:current="is-active">Security log</a>@endcan
-            @can('system.update')<a href="{{ route('admin.system-update') }}" wire:navigate wire:current="is-active">System update</a>@endcan
+            @can('logs.view')<a href="{{ route('admin.activity') }}" wire:navigate wire:current="is-active"><x-icon name="list" /> Security log</a>@endcan
+            @can('system.update')<a href="{{ route('admin.system-update') }}" wire:navigate wire:current="is-active"><x-icon name="refresh" /> System update</a>@endcan
         </nav>
-        <div class="side-foot">
-            <a href="{{ route('home') }}" target="_blank" rel="noopener">View website ↗</a>
-            <form method="POST" action="{{ route('admin.logout') }}">
-                @csrf
-                <button type="submit" class="link-btn">Sign out</button>
-            </form>
-        </div>
+        <a href="{{ route('home') }}" target="_blank" rel="noopener" class="side-site"><x-icon name="external" /> View website</a>
     </aside>
     <div class="sidebar-backdrop" data-sidebar-toggle></div>
 

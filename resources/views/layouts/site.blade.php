@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#0a1628">
     <link rel="canonical" href="{{ url()->current() }}">
     <link rel="icon" href="{{ $logoUrl }}">
-    @include('partials.theme-boot', ['defaultTheme' => site('default_theme')])
+    @include('partials.theme-boot', ['defaultTheme' => 'device'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Anek+Bangla:wght@500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
@@ -50,32 +50,41 @@
                     <span>{{ __('Menu') }}</span>
                     <button type="button" class="icon-btn" data-menu-toggle aria-label="{{ __('Close menu') }}"><x-icon name="close" /></button>
                 </div>
-                <a href="{{ route('home') }}" wire:navigate wire:current.exact="is-active" class="menu-link">{{ __('Home') }}</a>
-                <a href="{{ route('about') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('About') }}</a>
+                <a href="{{ route('home') }}" wire:navigate wire:current.exact="is-active" class="menu-link"><x-icon name="home" class="menu-ic" />{{ __('Home') }}</a>
                 <div class="has-dd" data-dropdown>
-                    <a href="{{ route('services') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Services') }}</a>
+                    <a href="{{ route('services') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="layers" class="menu-ic" />{{ __('Services') }}</a>
                     <button type="button" class="dd-toggle" data-dropdown-toggle aria-expanded="false" aria-label="{{ __('Show services') }}"><x-icon name="chevron" /></button>
-                    <div class="dd">
-                        @foreach ($navServices as $navService)
-                            <a href="{{ route('services.show', $navService) }}" wire:navigate class="dd-item" wire:key="nav-svc-{{ $navService->id }}">
-                                <span class="dd-num">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                <span>{{ $navService->title }}</span>
-                            </a>
-                        @endforeach
-                        <a href="{{ route('services') }}" wire:navigate class="dd-all">{{ __('All services') }} →</a>
+                    <div class="dd dd-wide">
+                        <div class="dd-grid">
+                            @foreach ($navServices as $navService)
+                                <a href="{{ route('services.show', $navService) }}" wire:navigate class="dd-item" wire:key="nav-svc-{{ $navService->id }}">
+                                    <span class="dd-ic"><x-icon :name="$navService->icon ?: 'building'" /></span>
+                                    <span class="dd-text"><b>{{ $navService->title }}</b><small>{{ \Illuminate\Support\Str::limit($navService->summary, 64) }}</small></span>
+                                </a>
+                            @endforeach
+                        </div>
+                        <a href="{{ route('services') }}" wire:navigate class="dd-all">{{ __('All services') }} <x-icon name="arrow" /></a>
                     </div>
                 </div>
-                <a href="{{ route('projects') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Projects') }}</a>
+                <a href="{{ route('projects') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="apartment" class="menu-ic" />{{ __('Projects') }}</a>
                 @if ($calculatorOn)
-                    <a href="{{ route('calculator') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Cost calculator') }}</a>
+                    <a href="{{ route('calculator') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="estimate" class="menu-ic" />{{ __('Cost calculator') }}</a>
                 @endif
-                <a href="{{ route('team') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Team') }}</a>
-                <a href="{{ route('faq') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('FAQ') }}</a>
-                <a href="{{ route('contact') }}" wire:navigate wire:current="is-active" class="menu-link">{{ __('Contact') }}</a>
+                <div class="has-dd" data-dropdown>
+                    <a href="{{ route('about') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="users" class="menu-ic" />{{ __('About') }}</a>
+                    <button type="button" class="dd-toggle" data-dropdown-toggle aria-expanded="false" aria-label="{{ __('More about us') }}"><x-icon name="chevron" /></button>
+                    <div class="dd">
+                        <a href="{{ route('about') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="building" /></span><span class="dd-text"><b>{{ __('Who we are') }}</b><small>{{ __('Our story and principal engineer') }}</small></span></a>
+                        <a href="{{ route('team') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="users" /></span><span class="dd-text"><b>{{ __('Team') }}</b><small>{{ __('Engineers and architects behind your project') }}</small></span></a>
+                        <a href="{{ route('faq') }}" wire:navigate class="dd-item"><span class="dd-ic"><x-icon name="help" /></span><span class="dd-text"><b>{{ __('FAQ') }}</b><small>{{ __('Approval, soil test, cost and timeline') }}</small></span></a>
+                    </div>
+                </div>
+                <a href="{{ route('contact') }}" wire:navigate wire:current="is-active" class="menu-link"><x-icon name="mail" class="menu-ic" />{{ __('Contact') }}</a>
 
                 <div class="menu-foot">
-                    <a href="{{ site_phone_href() }}">{{ site('phone') }}</a>
-                    <a href="mailto:{{ site('email') }}">{{ site('email') }}</a>
+                    <a href="{{ site_phone_href() }}" class="btn"><x-icon name="phone" /> {{ site('phone') }}</a>
+                    <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="btn btn-wa"><x-icon name="whatsapp" /> WhatsApp</a>
+                    <p>{{ site('office_hours') }}</p>
                 </div>
             </nav>
 
@@ -85,9 +94,6 @@
                         <a href="{{ route('locale', $code) }}" @class(['is-active' => app()->getLocale() === $code]) lang="{{ $code }}" hreflang="{{ $code }}" title="{{ $meta['name'] }}">{{ $meta['short'] }}</a>
                     @endforeach
                 </div>
-                <button type="button" class="icon-btn" data-theme-toggle aria-label="{{ __('Toggle dark mode') }}" title="{{ __('Toggle dark mode') }}">
-                    <x-icon name="moon" class="theme-moon" /><x-icon name="sun" class="theme-sun" />
-                </button>
                 <a href="{{ site_phone_href() }}" class="nav-phone" aria-label="{{ __('Call us') }} {{ site('phone') }}">
                     <span class="nav-phone-icon"><x-icon name="phone" /></span>
                     <span class="nav-phone-text"><small>{{ __('Call us') }}</small><b>{{ site('phone') }}</b></span>
@@ -107,6 +113,16 @@
 
     <footer class="footer">
         <div class="container">
+            <div class="foot-cta">
+                <div>
+                    <h2>{{ site('cta_title') }}</h2>
+                    <p>{{ site('cta_sub') }}</p>
+                </div>
+                <div class="foot-cta-actions">
+                    <a href="{{ site_phone_href() }}" class="btn btn-light"><x-icon name="phone" /> {{ site('phone') }}</a>
+                    <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="btn btn-wa"><x-icon name="whatsapp" /> WhatsApp</a>
+                </div>
+            </div>
             <div class="foot">
                 <div class="foot-brand">
                     <a href="{{ route('home') }}" wire:navigate class="foot-logo">

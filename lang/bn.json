@@ -1,7 +1,7 @@
 {
     "1 katha = 720 sq ft · 1 shotok (decimal) = 435.6 sq ft": "১ কাঠা = ৭২০ বর্গফুট · ১ শতক = ৪৩৫.৬ বর্গফুট",
     "A selection of homes, buildings and interiors we have designed and supervised.": "আমাদের ডিজাইন ও তত্ত্বাবধান করা বাড়ি, ভবন ও ইন্টেরিয়রের কিছু নমুনা।",
-    "About": "আমাদের সম্পর্কে",
+    "About": "পরিচিতি",
     "About Us": "আমাদের সম্পর্কে",
     "About our team": "আমাদের দল সম্পর্কে",
     "About the practice": "প্রতিষ্ঠান সম্পর্কে",
@@ -50,7 +50,7 @@
     "Engineers and designers who will take care of your project from start to finish.": "যে ইঞ্জিনিয়ার ও ডিজাইনাররা শুরু থেকে শেষ পর্যন্ত আপনার প্রকল্পের দায়িত্ব নেবেন।",
     "Enter a land size to see the estimate.": "হিসাব দেখতে জমির পরিমাণ লিখুন।",
     "Enter your land size, floors and finishing level for an approximate construction cost.": "জমির পরিমাণ, তলা আর ফিনিশিং দিন — আনুমানিক নির্মাণ খরচ দেখুন।",
-    "FAQ": "সচরাচর জিজ্ঞাসা",
+    "FAQ": "প্রশ্নোত্তর",
     "Fewer floors": "তলা কমান",
     "Fields marked * are required.": "* চিহ্নিত ঘরগুলো পূরণ করা আবশ্যক।",
     "Filter projects": "প্রকল্প বাছাই করুন",
@@ -185,5 +185,11 @@
     "sq ft": "বর্গফুট",
     "Quick links": "দ্রুত লিংক",
     "Step": "ধাপ",
-    "Call or send a WhatsApp message — we are happy to help with your plan.": "কল করুন বা হোয়াটসঅ্যাপে মেসেজ দিন — আপনার পরিকল্পনায় সাহায্য করতে আমরা প্রস্তুত।"
+    "Call or send a WhatsApp message — we are happy to help with your plan.": "কল করুন বা হোয়াটসঅ্যাপে মেসেজ দিন — আপনার পরিকল্পনায় সাহায্য করতে আমরা প্রস্তুত।",
+    "More about us": "আমাদের সম্পর্কে আরও",
+    "Our story and principal engineer": "আমাদের গল্প ও প্রধান প্রকৌশলী",
+    "Engineers and architects behind your project": "আপনার প্রকল্পের প্রকৌশলী ও স্থপতিরা",
+    "Approval, soil test, cost and timeline": "অনুমোদন, সয়েল টেস্ট, খরচ ও সময়",
+    "Talk to the engineer directly": "সরাসরি ইঞ্জিনিয়ারের সাথে কথা বলুন",
+    "Call or WhatsApp for a quick answer, or send your details with the form and we will call you back.": "দ্রুত উত্তরের জন্য কল বা হোয়াটসঅ্যাপ করুন, অথবা ফর্মে তথ্য দিন — আমরা আপনাকে ফোন করব।"
 }

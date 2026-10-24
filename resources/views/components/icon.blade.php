@@ -33,6 +33,27 @@
     @case('renovation')
         <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 21h18M5 21V11l6-4 6 4v3M9 21v-5h3M14.5 21l5-5a1.4 1.4 0 0 0-2-2l-5 5-.5 2.5z"/></svg>
         @break
+    @case('grid')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><rect x="3" y="3" width="7" height="8" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="15" width="7" height="6" rx="1.5"/></svg>
+        @break
+    @case('inbox')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M3 13h5l1.5 3h5L16 13h5M5.5 5h13L21 13v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z"/></svg>
+        @break
+    @case('image')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>
+        @break
+    @case('users')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg>
+        @break
+    @case('list')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>
+        @break
+    @case('refresh')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M20 11a8 8 0 0 0-14.6-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5L20 16M20 20v-4h-4"/></svg>
+        @break
+    @case('help')
+        <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></svg>
+        @break
     @case('upload')
         <svg viewBox="0 0 24 24" {{ $attributes->merge(['class' => 'icon', 'aria-hidden' => 'true']) }}><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
         @break

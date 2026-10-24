@@ -16,12 +16,13 @@
                             <x-admin.image-upload
                                 model="uploads.{{ $key }}"
                                 :label="$field['label']"
+                                :size="$field['size'] ?? null"
                                 :upload="$uploads[$key] ?? null"
                                 :current="! empty($values[$key]) ? \Illuminate\Support\Facades\Storage::disk('public')->url($values[$key]) : null"
                                 :remove-saved="! empty($values[$key]) ? 'removeImage' : null"
                                 :remove-arg="$key"
                                 empty-note="Nothing uploaded — the website uses its default image."
-                                :wide="in_array($key, ['hero_image', 'og_image'], true)"
+                                :wide="in_array($key, ['hero_image', 'about_image', 'og_image'], true)"
                             />
                             @if ($samples->isSampleImage($key))
                                 <p class="badge badge-warn">Sample photo — upload your own to replace it</p>

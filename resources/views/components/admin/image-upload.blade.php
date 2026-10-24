@@ -6,6 +6,7 @@
     'removeSaved' => null,
     'removeArg' => null,
     'hint' => 'JPG, PNG or WebP · up to 5 MB',
+    'size' => null,
     'emptyNote' => null,
     'multiple' => false,
     'wide' => false,
@@ -15,7 +16,10 @@
     $hasImage = $files->isNotEmpty() || ($current && ! $multiple);
 @endphp
 <div @class(['up', 'up-wide' => $wide])>
-    <span class="field-label">{{ $label }}</span>
+    <div class="up-head">
+        <span class="field-label">{{ $label }}</span>
+        @if ($size)<span class="up-size" title="Recommended size"><x-icon name="image" /> Best: {{ $size }}</span>@endif
+    </div>
 
     @if ($hasImage || $multiple)
         <div class="up-grid">

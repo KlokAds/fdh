@@ -24,5 +24,4 @@
     </section>
 
     <x-site.process />
-    <x-site.cta />
 </div>

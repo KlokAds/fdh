@@ -21,7 +21,7 @@
                 </div>
                 <x-admin.tr-field field="subtitle" label="Location / project" max="120" />
                 <x-admin.tr-field field="quote" label="Review" :required="true" max="1000" type="textarea" rows="3" />
-                <x-admin.image-upload model="photo" label="Photo (optional)" :upload="$photo" :current="$current?->photoUrl()" :remove-saved="$current?->photoUrl() ? 'removePhoto' : null" />
+                <x-admin.image-upload model="photo" label="Photo (optional)" size="400 × 400 px · square" :upload="$photo" :current="$current?->photoUrl()" :remove-saved="$current?->photoUrl() ? 'removePhoto' : null" />
                 <label class="check"><input type="checkbox" wire:model="is_active"> Show on website</label>
                 <div class="row-actions"><button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="save,photo">Save testimonial</button></div>
             </form>

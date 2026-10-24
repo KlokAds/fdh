@@ -5,7 +5,10 @@ import { bindPushCard } from './push';
  * without a full reload, so state is re-applied on `livewire:navigated` and clicks use event delegation.
  */
 const root = document.documentElement;
-root.classList.add('js');
+// Automated browsers (search engine renderers, page screenshots) get the page fully visible, without scroll reveals.
+if (!navigator.webdriver) {
+    root.classList.add('js');
+}
 
 /* ---------- Theme (light / dark) ---------- */
 function storedTheme() {
@@ -17,7 +20,8 @@ function storedTheme() {
 }
 
 function resolveTheme() {
-    const theme = storedTheme() || root.getAttribute('data-default-theme') || 'light';
+    const fallback = root.getAttribute('data-default-theme') || 'light';
+    const theme = fallback === 'device' ? 'system' : storedTheme() || fallback;
 
     if (theme === 'system') {
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';

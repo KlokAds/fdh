@@ -68,5 +68,4 @@
         </div>
     </section>
 
-    <x-site.cta />
 </div>

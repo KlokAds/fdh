@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Livewire\Admin\Content;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\Media;
 use App\Livewire\Admin\Projects;
 use App\Models\Project;
 use App\Models\Setting;
@@ -70,6 +71,25 @@ class SampleContentTest extends TestCase
             ->assertCount('photos', 1)
             ->call('discardUpload', 'is_published')
             ->assertForbidden();
+    }
+
+    public function test_media_library_protects_photos_in_use(): void
+    {
+        app(SampleContent::class)->install();
+        Storage::disk('public')->put('projects/orphan.webp', 'x');
+        $used = Project::query()->first()->cover_image;
+
+        $media = Livewire::actingAs($this->admin())->test(Media::class)
+            ->assertSee('Not used on any page')
+            ->call('delete', $used)
+            ->assertHasErrors('media');
+        Storage::disk('public')->assertExists($used);
+
+        $media->call('deleteAllUnused');
+        Storage::disk('public')->assertMissing('projects/orphan.webp');
+        Storage::disk('public')->assertExists($used);
+
+        $this->actingAs($this->admin('Sales'))->get(route('admin.media'))->assertForbidden();
     }
 
     public function test_remove_all_samples_keeps_real_content(): void

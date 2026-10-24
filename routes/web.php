@@ -55,6 +55,7 @@ Route::prefix(config('fdh.admin_path'))->name('admin.')->group(function (): void
             Route::livewire('/team', Admin\Team::class)->middleware('can:team.manage')->name('team');
             Route::livewire('/faqs', Admin\Faqs::class)->middleware('can:faqs.manage')->name('faqs');
             Route::livewire('/testimonials', Admin\Testimonials::class)->middleware('can:testimonials.manage')->name('testimonials');
+            Route::livewire('/media', Admin\Media::class)->middleware('can:media.manage')->name('media');
             Route::livewire('/users', Admin\Users::class)->middleware('can:users.manage')->name('users');
             Route::livewire('/roles', Admin\Roles::class)->middleware('can:users.manage')->name('roles');
             Route::livewire('/activity', Admin\Activity::class)->middleware('can:logs.view')->name('activity');
