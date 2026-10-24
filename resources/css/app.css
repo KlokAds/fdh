@@ -132,12 +132,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .icon-btn .icon { width: 18px; height: 18px; }
 
 /* ---------- Top bar ---------- */
-.topbar { background: var(--brand-dark); color: var(--on-navy-muted); font-size: .84rem; }
-.topbar-inner { display: flex; align-items: center; gap: 22px; min-height: 40px; }
-.topbar span, .topbar a { display: inline-flex; align-items: center; gap: 7px; }
-.topbar .icon, .topbar .icon-fill { width: 15px; height: 15px; color: var(--amber); }
-.topbar-end { margin-left: auto; gap: 18px !important; }
+.topbar { background: var(--brand-dark); color: #dbe4ef; font-size: .92rem; font-weight: 500; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.topbar-inner { display: flex; align-items: center; gap: 28px; min-height: 46px; }
+.topbar span, .topbar a { display: inline-flex; align-items: center; gap: 8px; }
+.topbar .icon, .topbar .icon-fill { width: 17px; height: 17px; color: var(--amber); }
+.topbar-end { margin-left: auto; gap: 20px !important; }
+.topbar a { transition: color .2s; }
 .topbar a:hover { color: #fff; }
+.topbar a[aria-label] { width: 32px; height: 32px; justify-content: center; background: rgba(255, 255, 255, .08); transition: background .2s, color .2s; }
+.topbar a[aria-label] .icon-fill { width: 16px; height: 16px; color: #fff; }
+.topbar a[aria-label]:hover { background: var(--amber); }
+.topbar a[aria-label]:hover .icon-fill { color: var(--amber-ink); }
 
 /* ---------- Header ---------- */
 .header { position: sticky; top: 0; z-index: 50; background: var(--head-bg); border-bottom: 1px solid var(--line); box-shadow: 0 10px 30px -28px rgba(10, 22, 40, .5); }
