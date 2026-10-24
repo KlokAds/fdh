@@ -13,7 +13,7 @@
     @include('partials.theme-boot', ['defaultTheme' => 'light'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&text=%E0%A7%A6%E0%A7%A7%E0%A7%A8%E0%A7%A9%E0%A7%AA%E0%A7%AB%E0%A7%AC%E0%A7%AD%E0%A7%AE%E0%A7%AF&display=swap" rel="stylesheet">
     @include('partials.brand-colors')
     @vite(['resources/css/admin.css', 'resources/js/app.js'])
@@ -37,45 +37,6 @@
                 <span><b>{{ \App\Models\Setting::read('site_name', 'en') }}</b><small>Site office</small></span>
             </a>
 
-            <nav class="cmd-nav" id="sidebar" aria-label="Admin">
-                <div class="cmd-nav-head">
-                    <b>Menu</b>
-                    <button type="button" class="cmd-close" data-sidebar-toggle aria-label="Close menu"><x-icon name="close" /></button>
-                </div>
-                <a href="{{ route('admin.dashboard') }}" wire:navigate wire:current.exact="is-active" class="cmd-link"><x-icon name="grid" /> Dashboard</a>
-                @can('inquiries.view')
-                    <a href="{{ route('admin.inquiries') }}" wire:navigate wire:current="is-active" class="cmd-link"><x-icon name="inbox" /> Inquiries</a>
-                @endcan
-                @if ($canWebsite)
-                    <div @class(['cmd-group', 'is-current' => $section === 'Website']) data-dropdown>
-                        <button type="button" class="cmd-link" data-dropdown-toggle aria-expanded="false"><x-icon name="layers" /> Website <x-icon name="chevron" class="cmd-caret" /></button>
-                        <div class="cmd-menu">
-                            @canany(['content.manage', 'settings.manage'])<a href="{{ route('admin.content') }}" wire:navigate wire:current="is-active"><x-icon name="settings" /><span><b>Content &amp; settings</b><small>Texts, logo, contact, SEO</small></span></a>@endcanany
-                            @can('services.manage')<a href="{{ route('admin.services') }}" wire:navigate wire:current="is-active"><x-icon name="layers" /><span><b>Services</b><small>What the firm offers</small></span></a>@endcan
-                            @can('projects.manage')<a href="{{ route('admin.projects') }}" wire:navigate wire:current="is-active"><x-icon name="apartment" /><span><b>Projects</b><small>Portfolio and photos</small></span></a>@endcan
-                            @can('team.manage')<a href="{{ route('admin.team') }}" wire:navigate wire:current="is-active"><x-icon name="user" /><span><b>Team</b><small>Engineers and staff</small></span></a>@endcan
-                            @can('faqs.manage')<a href="{{ route('admin.faqs') }}" wire:navigate wire:current="is-active"><x-icon name="help" /><span><b>FAQs</b><small>Questions and answers</small></span></a>@endcan
-                            @can('testimonials.manage')<a href="{{ route('admin.testimonials') }}" wire:navigate wire:current="is-active"><x-icon name="chat" /><span><b>Testimonials</b><small>Client reviews</small></span></a>@endcan
-                            @can('media.manage')<a href="{{ route('admin.media') }}" wire:navigate wire:current="is-active"><x-icon name="image" /><span><b>Media library</b><small>Every photo, used or not</small></span></a>@endcan
-                        </div>
-                    </div>
-                @endif
-                <div @class(['cmd-group', 'is-current' => $section === 'Administration']) data-dropdown>
-                    <button type="button" class="cmd-link" data-dropdown-toggle aria-expanded="false"><x-icon name="shield" /> Administration <x-icon name="chevron" class="cmd-caret" /></button>
-                    <div class="cmd-menu">
-                        @can('inquiries.view')<a href="{{ route('admin.notifications') }}" wire:navigate wire:current="is-active"><x-icon name="bell" /><span><b>Notifications</b><small>Phone alerts for inquiries</small></span></a>@endcan
-                        @can('users.manage')
-                            <a href="{{ route('admin.users') }}" wire:navigate wire:current="is-active"><x-icon name="users" /><span><b>Users</b><small>Who can sign in</small></span></a>
-                            <a href="{{ route('admin.roles') }}" wire:navigate wire:current="is-active"><x-icon name="key" /><span><b>Roles &amp; permissions</b><small>What each role may do</small></span></a>
-                        @endcan
-                        @can('logs.view')<a href="{{ route('admin.activity') }}" wire:navigate wire:current="is-active"><x-icon name="list" /><span><b>Security log</b><small>Sign-ins and changes</small></span></a>@endcan
-                        @can('system.update')<a href="{{ route('admin.system-update') }}" wire:navigate wire:current="is-active"><x-icon name="refresh" /><span><b>System update</b><small>Install the newest version</small></span></a>@endcan
-                        <a href="{{ route('admin.security') }}" wire:navigate wire:current="is-active"><x-icon name="shield" /><span><b>My account security</b><small>Password and two-factor</small></span></a>
-                    </div>
-                </div>
-                <a href="{{ route('home') }}" target="_blank" rel="noopener" class="cmd-link cmd-site"><x-icon name="external" /> View website</a>
-            </nav>
-            <div class="sidebar-backdrop" data-sidebar-toggle></div>
 
             <div class="cmd-tools">
                 <button type="button" class="cmd-tool" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
@@ -112,6 +73,46 @@
         </div>
     </header>
 
+    {{-- Admin menu as a left sidebar; a drawer on phones --}}
+    <nav class="sheet-index" id="sidebar" aria-label="Admin">
+        <div class="sheet-index-head">
+            <b>Menu</b>
+            <button type="button" class="cmd-close" data-sidebar-toggle aria-label="Close menu"><x-icon name="close" /></button>
+        </div>
+        <div class="si-group">
+            <a href="{{ route('admin.dashboard') }}" wire:navigate wire:current.exact="is-active" class="si-link"><x-icon name="grid" /><span>Dashboard</span></a>
+            @can('inquiries.view')
+                <a href="{{ route('admin.inquiries') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="inbox" /><span>Inquiries</span></a>
+            @endcan
+        </div>
+        @if ($canWebsite)
+            <div class="si-group">
+                <p class="si-label">Website</p>
+                @canany(['content.manage', 'settings.manage'])<a href="{{ route('admin.content') }}" wire:navigate wire:current="is-active" class="si-link" title="Texts, logo, contact, SEO"><x-icon name="settings" /><span>Content &amp; settings</span></a>@endcanany
+                @can('services.manage')<a href="{{ route('admin.services') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="layers" /><span>Services</span></a>@endcan
+                @can('projects.manage')<a href="{{ route('admin.projects') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="apartment" /><span>Projects</span></a>@endcan
+                @can('team.manage')<a href="{{ route('admin.team') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="user" /><span>Team</span></a>@endcan
+                @can('faqs.manage')<a href="{{ route('admin.faqs') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="help" /><span>FAQs</span></a>@endcan
+                @can('testimonials.manage')<a href="{{ route('admin.testimonials') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="chat" /><span>Testimonials</span></a>@endcan
+                @can('media.manage')<a href="{{ route('admin.media') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="image" /><span>Media library</span></a>@endcan
+            </div>
+        @endif
+        <div class="si-group">
+            <p class="si-label">Administration</p>
+            @can('inquiries.view')<a href="{{ route('admin.notifications') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="bell" /><span>Notifications</span></a>@endcan
+            @can('users.manage')
+                <a href="{{ route('admin.users') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="users" /><span>Users</span></a>
+                <a href="{{ route('admin.roles') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="key" /><span>Roles &amp; permissions</span></a>
+            @endcan
+            @can('logs.view')<a href="{{ route('admin.activity') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="list" /><span>Security log</span></a>@endcan
+            @can('system.update')<a href="{{ route('admin.system-update') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="refresh" /><span>System update</span></a>@endcan
+            <a href="{{ route('admin.security') }}" wire:navigate wire:current="is-active" class="si-link"><x-icon name="shield" /><span>My account security</span></a>
+        </div>
+        <a href="{{ route('home') }}" target="_blank" rel="noopener" class="si-site"><x-icon name="external" /> View website</a>
+    </nav>
+    <div class="sidebar-backdrop" data-sidebar-toggle></div>
+
+    <div class="admin-shell">
     {{-- Title block, like the corner of a drawing sheet --}}
     <div class="sheet-head">
         <div class="sheet-head-inner">
@@ -128,6 +129,7 @@
     <main class="admin-content">
         {{ $slot }}
     </main>
+    </div>
 
     {{-- Toasts: success and error messages from every action --}}
     <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>

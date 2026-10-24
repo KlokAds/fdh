@@ -5,6 +5,18 @@ import { bindPushCard } from './push';
  * Progressive enhancements for the public site and admin panel. Livewire's wire:navigate swaps pages
  * without a full reload, so state is re-applied on `livewire:navigated` and clicks use event delegation.
  */
+/**
+ * Run code once Livewire is available. Livewire's own script can run before this module, in which case
+ * 'livewire:init' has already fired and a plain listener would never be called.
+ */
+function onLivewire(callback) {
+    if (window.Livewire) {
+        callback(window.Livewire);
+    } else {
+        document.addEventListener('livewire:init', () => callback(window.Livewire), { once: true });
+    }
+}
+
 const root = document.documentElement;
 // Automated browsers (search engine renderers, page screenshots) get the page fully visible, without scroll reveals.
 if (!navigator.webdriver) {
@@ -138,7 +150,7 @@ function showInitialToasts() {
 document.addEventListener('DOMContentLoaded', showInitialToasts);
 document.addEventListener('livewire:navigated', showInitialToasts);
 
-document.addEventListener('livewire:init', () => {
+onLivewire(() => {
     window.Livewire.on('toast', (event) => {
         const data = Array.isArray(event) ? event[0] : event;
         toast(data?.message, data?.type || 'success');
@@ -561,7 +573,7 @@ document.addEventListener('livewire:navigated', onPageReady);
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 
 // Elements re-rendered by Livewire (e.g. filtering projects) should appear immediately.
-document.addEventListener('livewire:init', () => {
+onLivewire(() => {
     // Editors pick up values Livewire sets after a response (e.g. opening another item to edit).
     window.Livewire.hook('commit', ({ succeed }) => succeed(() => setTimeout(syncEditors, 0)));
     window.Livewire.hook('morphed', () => {

@@ -43,8 +43,9 @@ abstract class AdminComponent extends Component
     /**
      * Every "status" message an action flashes is shown as a toast.
      */
-    public function dehydrate(): void
+    public function rendering(): void
     {
+        // Runs before Livewire collects this request's events (dehydrate is too late).
         if (is_string($message = session()->pull('status'))) {
             $this->toast($message);
         }

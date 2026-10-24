@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Livewire\Admin\Content;
+use App\Livewire\Admin\Faqs;
 use App\Livewire\Admin\Projects;
 use App\Livewire\Admin\Roles;
 use App\Livewire\Site\InquiryForm;
+use App\Models\Faq;
 use App\Models\Inquiry;
 use App\Models\Project;
 use App\Models\Setting;
@@ -104,6 +106,22 @@ class ReviewFixesTest extends TestCase
             ->assertHasNoErrors();
 
         $this->assertFalse($project->fresh()->is_sample);
+    }
+
+    public function test_admin_actions_send_success_toasts(): void
+    {
+        $faq = Faq::factory()->create();
+
+        Livewire::actingAs($this->admin())->test(Faqs::class)
+            ->call('delete', $faq->id)
+            ->assertDispatched('toast', type: 'success', message: 'FAQ deleted.');
+
+        Livewire::actingAs($this->admin())->test(Faqs::class)
+            ->call('create')
+            ->set('form.question.en', 'How long does approval take?')
+            ->set('form.answer.en', '<p>Usually a few weeks.</p>')
+            ->call('save')
+            ->assertDispatched('toast', type: 'success');
     }
 
     public function test_gallery_upload_cannot_exceed_twenty_four_photos(): void
