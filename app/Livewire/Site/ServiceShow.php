@@ -3,6 +3,7 @@
 namespace App\Livewire\Site;
 
 use App\Models\Service;
+use App\Support\MetaVisitor;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -18,6 +19,7 @@ class ServiceShow extends Component
     {
         abort_unless($service->is_active, 404);
         $this->service = $service;
+        MetaVisitor::queue('ViewContent', ['content_name' => $service->getTranslation('title', 'en'), 'content_category' => 'Service']);
     }
 
     public function render(): View

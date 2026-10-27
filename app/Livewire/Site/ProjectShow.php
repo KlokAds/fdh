@@ -3,6 +3,7 @@
 namespace App\Livewire\Site;
 
 use App\Models\Project;
+use App\Support\MetaVisitor;
 use App\Support\RichText;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
@@ -19,6 +20,7 @@ class ProjectShow extends Component
     {
         abort_unless($project->is_published, 404);
         $this->project = $project;
+        MetaVisitor::queue('ViewContent', ['content_name' => $project->getTranslation('title', 'en'), 'content_category' => 'Project']);
     }
 
     public function render(): View

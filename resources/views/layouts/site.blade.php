@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? site('meta_title') }}</title>
     @php($pageDescription = \Illuminate\Support\Str::limit(trim($description ?? '') !== '' ? $description : site('meta_description'), 160))
     @php($pageImage = $image ?? \App\Models\Setting::imageUrl('og_image', 'images/fdh-logo.jpg'))
@@ -44,7 +45,7 @@
         <script type="application/ld+json" nonce="{{ \Illuminate\Support\Facades\Vite::cspNonce() }}">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) !!}</script>
     @endisset
 </head>
-<body class="site">
+<body class="site" @if (request()->attributes->has('meta_events')) data-meta-events="{{ json_encode(request()->attributes->get('meta_events')) }}" @endif>
     <a href="#main" class="skip-link">{{ __('Skip to content') }}</a>
 
     <div class="topbar">

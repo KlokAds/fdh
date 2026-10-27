@@ -2,15 +2,14 @@
 
 namespace App\Support;
 
-use App\Models\Inquiry;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 /**
- * Meta Pixel + Conversions API. The browser pixel and this server event share one event_id,
- * so Meta counts each inquiry once even when both arrive.
+ * Meta Pixel + Conversions API, sent from this server (no tag manager or third-party relay).
+ * The browser pixel and the server send every event with the same event_id, so Meta counts it once.
  */
 class MetaConversions
 {
@@ -27,38 +26,29 @@ class MetaConversions
     }
 
     /**
-     * @param  array{ip: ?string, user_agent: ?string, fbp: ?string, fbc: ?string, url: string}  $context
+     * Send events for one visitor in a single Conversions API request.
+     *
+     * @param  array<string, mixed>  $userData  from MetaVisitor::userData()
+     * @param  list<array{name: string, id: string, custom?: array<string, string>, time?: int}>  $events
      */
-    public function lead(Inquiry $inquiry, string $eventId, array $context): bool
+    public function track(array $userData, string $url, array $events): bool
     {
-        if (! $this->isConfigured()) {
+        if (! $this->isConfigured() || $events === []) {
             return false;
         }
 
-        $event = [
-            'event_name' => 'Lead',
-            'event_time' => $inquiry->created_at->getTimestamp(),
-            'event_id' => $eventId,
+        $data = array_map(fn (array $event): array => array_filter([
+            'event_name' => $event['name'],
+            'event_time' => $event['time'] ?? time(),
+            'event_id' => $event['id'],
             'action_source' => 'website',
-            'event_source_url' => $context['url'],
-            'user_data' => array_filter([
-                'ph' => [self::hash(self::normalizePhone($inquiry->phone))],
-                'em' => $inquiry->email ? [self::hash(mb_strtolower(trim($inquiry->email)))] : null,
-                'fn' => [self::hash(mb_strtolower(trim(strtok($inquiry->name, ' ') ?: $inquiry->name)))],
-                'country' => [self::hash('bd')],
-                'client_ip_address' => $context['ip'],
-                'client_user_agent' => $context['user_agent'],
-                'fbp' => $context['fbp'],
-                'fbc' => $context['fbc'],
-            ]),
-            'custom_data' => array_filter([
-                'content_name' => $inquiry->service,
-                'content_category' => 'Inquiry',
-            ]),
-        ];
+            'event_source_url' => $url,
+            'user_data' => $userData,
+            'custom_data' => ($event['custom'] ?? []) ?: null,
+        ]), $events);
 
         $payload = array_filter([
-            'data' => [$event],
+            'data' => $data,
             'test_event_code' => Setting::read('meta_test_code', 'en') ?: null,
         ]);
 
@@ -69,7 +59,7 @@ class MetaConversions
                 ->post(sprintf('https://graph.facebook.com/%s/%s/events', config('fdh.meta_graph_version'), self::pixelId()), $payload + ['access_token' => Setting::secret('meta_capi_token')]);
 
             if ($response->failed()) {
-                Log::warning('Meta Conversions API rejected the Lead event: '.$response->body());
+                Log::warning('Meta Conversions API rejected '.implode(', ', array_column($events, 'name')).': '.$response->body());
 
                 return false;
             }
@@ -94,10 +84,5 @@ class MetaConversions
         }
 
         return $digits;
-    }
-
-    private static function hash(string $value): string
-    {
-        return hash('sha256', $value);
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\EditorImageController;
 use App\Http\Controllers\InquiryEmailController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\MetaContactController;
 use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\SeoController;
 use App\Livewire\Admin;
@@ -11,15 +12,20 @@ use App\Livewire\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::livewire('/', Site\Home::class)->name('home');
-Route::livewire('/ab', Site\About::class)->name('about');
-Route::livewire('/sv', Site\Services::class)->name('services');
-Route::livewire('/sv/{service}', Site\ServiceShow::class)->name('services.show');
-Route::livewire('/pt', Site\Projects::class)->name('projects');
-Route::livewire('/pt/{project}', Site\ProjectShow::class)->name('projects.show');
-Route::livewire('/tm', Site\Team::class)->name('team');
-Route::livewire('/qa', Site\Faq::class)->name('faq');
-Route::livewire('/ct', Site\Contact::class)->name('contact');
+Route::middleware('meta')->group(function (): void {
+    Route::livewire('/', Site\Home::class)->name('home');
+    Route::livewire('/ab', Site\About::class)->name('about');
+    Route::livewire('/sv', Site\Services::class)->name('services');
+    Route::livewire('/sv/{service}', Site\ServiceShow::class)->name('services.show');
+    Route::livewire('/pt', Site\Projects::class)->name('projects');
+    Route::livewire('/pt/{project}', Site\ProjectShow::class)->name('projects.show');
+    Route::livewire('/tm', Site\Team::class)->name('team');
+    Route::livewire('/qa', Site\Faq::class)->name('faq');
+    Route::livewire('/ct', Site\Contact::class)->name('contact');
+});
+
+// Call / WhatsApp / Messenger taps, sent on to the Conversions API.
+Route::post('/mt/contact', MetaContactController::class)->middleware('throttle:30,1')->name('meta.contact');
 
 // The earlier, longer addresses keep working: shared links and search results move to the short ones.
 foreach (['about' => 'ab', 'services' => 'sv', 'projects' => 'pt', 'team' => 'tm', 'faq' => 'qa', 'contact' => 'ct'] as $old => $new) {

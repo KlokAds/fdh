@@ -544,13 +544,36 @@ function bindCounters() {
 
 
 /* ---------- Meta Pixel (loaded only when a Pixel ID is set in the admin) ---------- */
-let firstNavigation = true;
+// Every page (first load and wire:navigate) carries its events with the ids the server also sent.
 document.addEventListener('livewire:navigated', () => {
-    // The pixel already tracked the first page load; count every later wire:navigate page.
-    if (!firstNavigation && typeof window.fbq === 'function') {
-        window.fbq('track', 'PageView');
+    if (typeof window.fbq !== 'function') {
+        return;
     }
-    firstNavigation = false;
+    let events = [];
+    try {
+        events = JSON.parse(document.body.dataset.metaEvents || '[]');
+    } catch {
+        events = [];
+    }
+    events.forEach((event) => window.fbq('track', event.name, Array.isArray(event.custom) ? {} : event.custom, { eventID: event.id }));
+});
+
+// Call, WhatsApp and Messenger taps count as Contact, from the browser and from the server.
+document.addEventListener('click', (event) => {
+    const link = event.target.closest?.('a[href^="tel:"], a[href^="https://wa.me/"], a[href*="m.me/"]');
+    if (!link || typeof window.fbq !== 'function') {
+        return;
+    }
+    const href = link.getAttribute('href');
+    const channel = href.startsWith('tel:') ? 'call' : (href.includes('wa.me') ? 'whatsapp' : 'messenger');
+    const id = `co-${Array.from(crypto.getRandomValues(new Uint8Array(20)), (b) => 'abcdefghijklmnopqrstuvwxyz0123456789'[b % 36]).join('')}`;
+    window.fbq('track', 'Contact', { content_name: channel, content_category: 'Contact' }, { eventID: id });
+    fetch('/mt/contact', {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+        body: JSON.stringify({ event_id: id, channel, url: location.href }),
+    }).catch(() => {});
 });
 window.addEventListener('fdh-lead', (event) => {
     if (typeof window.fbq === 'function') {

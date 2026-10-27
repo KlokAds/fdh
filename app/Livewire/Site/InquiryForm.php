@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Setting;
 use App\Rules\EmailList;
 use App\Support\MetaConversions;
+use App\Support\MetaVisitor;
 use App\Support\PushNotifier;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
@@ -149,18 +150,20 @@ class InquiryForm extends Component
         }
 
         $eventId = 'lead-'.$inquiry->id.'-'.Str::lower(Str::random(8));
+        MetaVisitor::rememberInquiry($inquiry);
         $this->dispatch('fdh-lead', eventId: $eventId, service: (string) $inquiry->service);
 
         $previous = url()->previous();
-        $context = [
-            'ip' => request()->ip(),
-            'user_agent' => Str::limit((string) request()->userAgent(), 400, ''),
-            'fbp' => Str::limit((string) request()->cookie('_fbp'), 255, '') ?: null,
-            'fbc' => Str::limit((string) request()->cookie('_fbc'), 255, '') ?: null,
-            'url' => is_site_url($previous) ? $previous : route('contact'),
-        ];
+        $url = is_site_url($previous) ? $previous : route('contact');
+        $userData = MetaVisitor::userData(request());
+        $events = [[
+            'name' => 'Lead',
+            'id' => $eventId,
+            'time' => $inquiry->created_at->getTimestamp(),
+            'custom' => array_filter(['content_name' => (string) $inquiry->service, 'content_category' => 'Inquiry']),
+        ]];
 
-        defer(fn () => app(MetaConversions::class)->lead($inquiry, $eventId, $context));
+        defer(fn () => app(MetaConversions::class)->track($userData, $url, $events));
     }
 
     public function whatsappLink(): string

@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\MetaFirstParty;
 use App\Http\Middleware\RequireTwoFactor;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetLocale;
+use App\Support\MetaVisitor;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,12 +20,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [SetLocale::class, SecurityHeaders::class]);
 
-        // Set by the Meta Pixel in the browser; read by the server for the Conversions API.
-        $middleware->encryptCookies(except: ['_fbp', '_fbc']);
+        // Meta's cookies and our visitor id are read by the pixel and sent to the Conversions API as they are.
+        $middleware->encryptCookies(except: ['_fbp', '_fbc', MetaVisitor::VISITOR_COOKIE]);
 
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
             'two-factor' => RequireTwoFactor::class,
+            'meta' => MetaFirstParty::class,
         ]);
 
         $middleware->redirectGuestsTo(fn () => route('admin.login'));
