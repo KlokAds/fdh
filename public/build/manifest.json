@@ -1,0 +1,108 @@
+{
+  "resources/css/admin.css": {
+    "file": "assets/admin-DUiEU-mP.css",
+    "name": "admin",
+    "names": [
+      "admin.css"
+    ],
+    "src": "resources/css/admin.css",
+    "isEntry": true,
+    "assets": [
+      "assets/hind-siliguri-bn-400-rHQ7AW0H.woff2",
+      "assets/hind-siliguri-bn-500-UuhTmLlo.woff2",
+      "assets/hind-siliguri-bn-600-DLZF4s8q.woff2",
+      "assets/hind-siliguri-bn-700-FVd7rFqZ.woff2",
+      "assets/hind-siliguri-latin-ext-400-EIcpWxdl.woff2",
+      "assets/hind-siliguri-latin-ext-500-BzNTYs89.woff2",
+      "assets/hind-siliguri-latin-ext-600-BE5fbvrE.woff2",
+      "assets/hind-siliguri-latin-ext-700-DrXhL2wd.woff2",
+      "assets/hind-siliguri-latin-400-esES0U7a.woff2",
+      "assets/hind-siliguri-latin-500-S8HLIV69.woff2",
+      "assets/hind-siliguri-latin-600-DHrLfb92.woff2",
+      "assets/hind-siliguri-latin-700-DO_14aHP.woff2",
+      "assets/noto-sans-bengali-digits-D5y3H33Z.woff2"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DovAKW1R.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "assets": [
+      "assets/hind-siliguri-bn-400-rHQ7AW0H.woff2",
+      "assets/hind-siliguri-bn-500-UuhTmLlo.woff2",
+      "assets/hind-siliguri-bn-600-DLZF4s8q.woff2",
+      "assets/hind-siliguri-bn-700-FVd7rFqZ.woff2",
+      "assets/hind-siliguri-latin-ext-400-EIcpWxdl.woff2",
+      "assets/hind-siliguri-latin-ext-500-BzNTYs89.woff2",
+      "assets/hind-siliguri-latin-ext-600-BE5fbvrE.woff2",
+      "assets/hind-siliguri-latin-ext-700-DrXhL2wd.woff2",
+      "assets/hind-siliguri-latin-400-esES0U7a.woff2",
+      "assets/hind-siliguri-latin-500-S8HLIV69.woff2",
+      "assets/hind-siliguri-latin-600-DHrLfb92.woff2",
+      "assets/hind-siliguri-latin-700-DO_14aHP.woff2",
+      "assets/noto-sans-bengali-digits-D5y3H33Z.woff2"
+    ]
+  },
+  "resources/fonts/hind-siliguri-bn-400.woff2": {
+    "file": "assets/hind-siliguri-bn-400-rHQ7AW0H.woff2",
+    "src": "resources/fonts/hind-siliguri-bn-400.woff2"
+  },
+  "resources/fonts/hind-siliguri-bn-500.woff2": {
+    "file": "assets/hind-siliguri-bn-500-UuhTmLlo.woff2",
+    "src": "resources/fonts/hind-siliguri-bn-500.woff2"
+  },
+  "resources/fonts/hind-siliguri-bn-600.woff2": {
+    "file": "assets/hind-siliguri-bn-600-DLZF4s8q.woff2",
+    "src": "resources/fonts/hind-siliguri-bn-600.woff2"
+  },
+  "resources/fonts/hind-siliguri-bn-700.woff2": {
+    "file": "assets/hind-siliguri-bn-700-FVd7rFqZ.woff2",
+    "src": "resources/fonts/hind-siliguri-bn-700.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-400.woff2": {
+    "file": "assets/hind-siliguri-latin-400-esES0U7a.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-400.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-500.woff2": {
+    "file": "assets/hind-siliguri-latin-500-S8HLIV69.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-500.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-600.woff2": {
+    "file": "assets/hind-siliguri-latin-600-DHrLfb92.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-600.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-700.woff2": {
+    "file": "assets/hind-siliguri-latin-700-DO_14aHP.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-700.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-ext-400.woff2": {
+    "file": "assets/hind-siliguri-latin-ext-400-EIcpWxdl.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-ext-400.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-ext-500.woff2": {
+    "file": "assets/hind-siliguri-latin-ext-500-BzNTYs89.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-ext-500.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-ext-600.woff2": {
+    "file": "assets/hind-siliguri-latin-ext-600-BE5fbvrE.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-ext-600.woff2"
+  },
+  "resources/fonts/hind-siliguri-latin-ext-700.woff2": {
+    "file": "assets/hind-siliguri-latin-ext-700-DrXhL2wd.woff2",
+    "src": "resources/fonts/hind-siliguri-latin-ext-700.woff2"
+  },
+  "resources/fonts/noto-sans-bengali-digits.woff2": {
+    "file": "assets/noto-sans-bengali-digits-D5y3H33Z.woff2",
+    "src": "resources/fonts/noto-sans-bengali-digits.woff2"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-D4RuhKzZ.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
