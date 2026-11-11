@@ -380,6 +380,7 @@ a.service-tile:hover .service-more .icon { transform: translateX(4px); }
 .principal-photo img.principal-logo { width: 62%; height: auto; object-fit: contain; }
 .principal-photo:has(.principal-logo) { background: #fff; border: 1px solid var(--line); }
 .principal-photo:has(.principal-logo)::before { display: none; }
+.principal-caption { position: absolute; z-index: 2; left: 0; bottom: 0; max-width: 92%; padding: 10px 16px; background: rgba(10, 22, 40, .84); border-left: 4px solid var(--amber); color: #fff; font-size: .85rem; font-weight: 600; line-height: 1.4; }
 .principal-copy .btn { margin-top: 30px; }
 .pull { position: relative; margin: 0 0 26px; padding-left: 0; font-size: clamp(1.35rem, 2.3vw, 1.9rem); font-weight: 600; line-height: 1.45; color: var(--text); }
 .pull::before { content: '“'; display: block; height: .55em; font-size: 4.5em; line-height: .8; color: var(--amber); }
@@ -588,8 +589,8 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 [data-theme="dark"] .person-badge { background: #16294a; }
 
 /* Head of the team: one wide card above the rest */
-.lead-card { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); margin-bottom: clamp(28px, 4vw, 48px); background: var(--brand-dark); color: #fff; border-left: 6px solid var(--amber); }
-.lead-card.is-blank { grid-template-columns: auto minmax(0, 1fr); }
+.lead-card { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr) minmax(280px, 360px); margin-bottom: clamp(28px, 4vw, 48px); background: var(--brand-dark); color: #fff; border-left: 6px solid var(--amber); }
+.lead-card.is-blank { grid-template-columns: auto minmax(0, 1fr) minmax(280px, 360px); }
 .lead-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #132542; }
 .lead-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 .lead-blank { display: grid; place-items: center; width: clamp(170px, 22vw, 280px); border-right: 1px solid rgba(255, 255, 255, .12); }
@@ -602,12 +603,21 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 .lead-bio { margin: 0; max-width: 56ch; color: var(--on-navy-muted); }
 .lead-links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 6px 0 0; font-weight: 600; }
 .lead-links a { color: #fff; border-bottom: 2px solid var(--amber); }
+.lead-side { display: grid; align-content: center; gap: 12px; padding: clamp(24px, 3vw, 40px); border-left: 1px solid rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .035); }
+.lead-side blockquote { margin: 0 0 10px; padding-left: 16px; border-left: 4px solid var(--amber); font-size: 1.3rem; font-weight: 700; line-height: 1.4; color: #fff; }
+.lead-side p { margin: 0; font-size: .9rem; font-weight: 600; color: var(--on-navy-muted); }
+.lead-side .btn { width: 100%; justify-content: center; }
+@media (max-width: 1100px) {
+    .lead-card, .lead-card.is-blank { grid-template-columns: auto minmax(0, 1fr); }
+    .lead-side { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; align-items: center; border-left: 0; border-top: 1px solid rgba(255, 255, 255, .12); }
+    .lead-side blockquote, .lead-side p { grid-column: 1 / -1; }
+}
 [data-theme="dark"] .lead-card { background: #132542; }
 .sec-head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 @media (max-width: 760px) {
-    .lead-card { grid-template-columns: 1fr; }
+    .lead-card, .lead-card.is-blank { grid-template-columns: 1fr; }
     .lead-photo { aspect-ratio: 4 / 3; }
-    .lead-card.is-blank { grid-template-columns: 1fr; }
+    .lead-side { grid-template-columns: 1fr; }
     .lead-blank { width: auto; height: 132px; place-items: center start; padding-left: 24px; border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, .12); }
 }
 /* Phones: one profile per row, the badge beside the text */

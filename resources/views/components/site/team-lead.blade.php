@@ -26,4 +26,11 @@
             </p>
         @endif
     </div>
+    {{-- The firm's promise in the head's own words, and the two quickest ways to reach them. --}}
+    <aside class="lead-side">
+        <blockquote>{{ site('why_title') }}</blockquote>
+        <p>{{ __('Talk to the engineer directly') }}</p>
+        <a href="{{ site_phone_href() }}" class="btn btn-amber"><x-icon name="phone" /> {{ site('phone') }}</a>
+        <a href="https://wa.me/{{ site('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="btn btn-wa"><x-icon name="whatsapp" /> {{ __('Free consultation') }}</a>
+    </aside>
 </article>
