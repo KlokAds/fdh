@@ -4,7 +4,8 @@
         @if ($member->photoUrl())
             <x-site.photo :path="$member->photo" :src="$member->photoUrl()" :alt="$member->name" loading="lazy" sizes="(max-width: 760px) 50vw, 25vw" />
         @else
-            <span class="person-initial" aria-hidden="true">{{ $member->initials() }}</span>
+            {{-- No photo yet: a drawn avatar on the drawing-grid background, until a real one is uploaded. --}}
+            <svg class="person-avatar" viewBox="0 0 120 150" aria-hidden="true"><circle cx="60" cy="58" r="26" /><path d="M14 150c0-30 20.6-50 46-50s46 20 46 50z" /></svg>
         @endif
     </div>
     <h3>{{ $member->name }}</h3>
