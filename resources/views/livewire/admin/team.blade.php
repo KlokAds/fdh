@@ -22,6 +22,7 @@
                     <label>Order<input type="number" wire:model="sort" min="0" max="999"></label>
                 </div>
                 <label class="check"><input type="checkbox" wire:model="is_active"> Show on website</label>
+                <label class="check"><input type="checkbox" wire:model="is_lead"> Head of the team — shown first, in a large card</label>
                 <div class="row-actions"><button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="save,photo">Save team member</button> <button type="button" class="btn btn-ghost" wire:click="cancel">Cancel</button></div>
             </form>
         </section>

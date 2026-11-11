@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 
-#[Fillable(['name', 'designation', 'bio', 'photo', 'phone', 'email', 'facebook', 'linkedin', 'sort', 'is_active'])]
+#[Fillable(['name', 'designation', 'bio', 'photo', 'phone', 'email', 'facebook', 'linkedin', 'sort', 'is_active', 'is_lead'])]
 class TeamMember extends Model
 {
     /** @use HasFactory<TeamMemberFactory> */
@@ -21,7 +21,7 @@ class TeamMember extends Model
 
     protected function casts(): array
     {
-        return ['is_active' => 'boolean', 'sort' => 'integer'];
+        return ['is_active' => 'boolean', 'is_lead' => 'boolean', 'sort' => 'integer'];
     }
 
     /**
@@ -29,7 +29,8 @@ class TeamMember extends Model
      */
     public function scopeActive(Builder $query): void
     {
-        $query->where('is_active', true)->orderBy('sort')->orderBy('id');
+        // The head of the team always comes first, whatever the order numbers say.
+        $query->where('is_active', true)->orderByDesc('is_lead')->orderBy('sort')->orderBy('id');
     }
 
     public function photoUrl(): ?string

@@ -47,6 +47,8 @@ class Team extends AdminComponent
 
     public bool $is_active = true;
 
+    public bool $is_lead = false;
+
     /** @var TemporaryUploadedFile|null */
     public $photo = null;
 
@@ -74,6 +76,7 @@ class Team extends AdminComponent
         $this->linkedin = (string) $member->linkedin;
         $this->sort = $member->sort;
         $this->is_active = $member->is_active;
+        $this->is_lead = $member->is_lead;
         $this->showForm = true;
     }
 
@@ -90,6 +93,7 @@ class Team extends AdminComponent
                 'linkedin' => 'nullable|url:https|max:255',
                 'sort' => 'integer|min:0|max:999',
                 'is_active' => 'boolean',
+                'is_lead' => 'boolean',
                 'photo' => array_merge(['nullable'], ImageStore::rules()),
             ],
         ), [], array_merge($this->translationAttributes('name', 'Name'), $this->translationAttributes('designation', 'Designation')));
@@ -111,6 +115,7 @@ class Team extends AdminComponent
             'linkedin' => $this->linkedin ?: null,
             'sort' => $this->sort,
             'is_active' => $this->is_active,
+            'is_lead' => $this->is_lead,
         ])->save();
 
         ActivityLog::record('team.saved', 'Saved team member: '.$member->getTranslation('name', 'en'));
@@ -143,7 +148,7 @@ class Team extends AdminComponent
 
     private function resetForm(): void
     {
-        $this->reset('editingId', 'showForm', 'phone', 'email', 'facebook', 'linkedin', 'sort', 'is_active', 'photo');
+        $this->reset('editingId', 'showForm', 'phone', 'email', 'facebook', 'linkedin', 'sort', 'is_active', 'is_lead', 'photo');
         $this->form = $this->blankTranslations(self::TRANSLATABLE);
         $this->resetErrorBag();
     }
@@ -151,7 +156,7 @@ class Team extends AdminComponent
     public function render(): View
     {
         return view('livewire.admin.team', [
-            'members' => $this->paginateWithinRange(TeamMember::query()->orderBy('sort')->orderBy('id'), 16),
+            'members' => $this->paginateWithinRange(TeamMember::query()->orderByDesc('is_lead')->orderBy('sort')->orderBy('id'), 16),
             'current' => $this->editingId ? TeamMember::query()->find($this->editingId) : null,
         ]);
     }

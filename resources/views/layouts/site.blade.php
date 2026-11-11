@@ -38,7 +38,7 @@
             'telephone' => site('phone'),
             'email' => site('email'),
             'address' => ['@type' => 'PostalAddress', 'streetAddress' => site('rangpur_address'), 'addressLocality' => 'Rangpur', 'addressCountry' => 'BD'],
-            'sameAs' => array_values(array_filter([site('facebook'), site('youtube'), site('linkedin')])),
+            'sameAs' => array_values(array_filter([site('facebook'), site('facebook_interior'), site('youtube'), site('linkedin')])),
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) !!}
     </script>
     @isset($schema)
@@ -182,6 +182,9 @@
                     @endif
                     @if (site('office_hours'))
                         <p><x-icon name="clock" /><span>{{ site('office_hours') }}</span></p>
+                    @endif
+                    @if (site('facebook_interior'))
+                        <a href="{{ site('facebook_interior') }}" target="_blank" rel="noopener noreferrer"><x-icon name="facebook" /><span>{{ __('FDH Interior on Facebook') }}</span></a>
                     @endif
                 </div>
             </div>

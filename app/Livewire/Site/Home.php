@@ -20,7 +20,7 @@ class Home extends Component
         return view('livewire.site.home', [
             'services' => Service::query()->active()->get(),
             'projects' => Project::query()->published()->limit(6)->get(),
-            'members' => TeamMember::query()->active()->limit(4)->get(),
+            'members' => TeamMember::query()->active()->where('is_lead', false)->limit(4)->get(),
             'testimonials' => Testimonial::query()->active()->limit(6)->get(),
             'faqs' => Faq::query()->active()->limit(5)->get(),
         ])->title(site('meta_title'))->layoutData(['heroPreload' => Setting::raw()['hero_image'] ?? null]);

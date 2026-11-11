@@ -6,8 +6,11 @@
             @if ($members->isEmpty())
                 <div class="empty reveal"><h2>{{ __('Team profiles coming soon') }}</h2></div>
             @else
+                @foreach ($members->where('is_lead', true) as $lead)
+                    <x-site.team-lead :member="$lead" wire:key="tl-{{ $lead->id }}" />
+                @endforeach
                 <div class="people">
-                    @foreach ($members as $member)
+                    @foreach ($members->where('is_lead', false) as $member)
                         <x-site.team-card :member="$member" wire:key="tm-{{ $member->id }}" />
                     @endforeach
                 </div>

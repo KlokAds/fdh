@@ -565,17 +565,64 @@ a.contact-card:hover .cc-go { color: var(--amber); transform: translateX(4px); }
 
 /* ---------- Team ---------- */
 .people { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 24px; }
-.person-photo { position: relative; aspect-ratio: 4 / 5; margin-bottom: 18px; overflow: hidden; background: var(--bg-alt); display: grid; place-items: center; border-bottom: 4px solid var(--amber); }
+/* A profile card: portrait on top when there is one, otherwise a drawing-sheet band with a badge */
+.person { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); transition: border-color .25s, box-shadow .25s; }
+.person:hover { border-color: var(--amber); box-shadow: 0 26px 44px -30px rgba(10, 22, 40, .55); }
+.person-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-alt); border-bottom: 4px solid var(--amber); }
 .person-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
 .person:hover .person-photo img { transform: scale(1.04); }
-.person-photo:has(.person-avatar) { background-color: var(--bg-alt); background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; place-items: end center; }
-.person-avatar { width: 72%; height: auto; fill: color-mix(in srgb, var(--brand-dark) 22%, var(--bg-alt)); }
-[data-theme="dark"] .person-avatar { fill: color-mix(in srgb, #fff 16%, var(--bg-alt)); }
-.person h3 { font-size: 1.15rem; }
-.person-role { margin: 2px 0 10px; font-size: .9rem; font-weight: 600; color: var(--link); }
-.person-bio { font-size: .92rem; color: var(--text-2); }
-.person-links { display: flex; gap: 14px; flex-wrap: wrap; font-size: .88rem; font-weight: 600; }
+.person-band, .lead-blank { position: relative; background-color: var(--brand-dark); background-image: linear-gradient(rgba(255, 255, 255, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .06) 1px, transparent 1px); background-size: 22px 22px; }
+.person-band { height: 112px; border-bottom: 4px solid var(--amber); }
+.person-band::before { content: ''; position: absolute; right: 14px; top: 14px; width: 22px; height: 22px; border-top: 2px solid var(--amber); border-right: 2px solid var(--amber); opacity: .8; }
+.person-badge { display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%; background: var(--brand-dark); border: 3px solid var(--amber); box-shadow: 0 0 0 6px var(--surface); }
+.person-badge svg { width: 50px; height: 50px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.person-band .person-badge { position: absolute; left: 20px; bottom: -48px; }
+.person-body { display: grid; align-content: start; gap: 4px; padding: 22px 20px 24px; }
+.person.is-blank .person-body { padding-top: 64px; }
+.person h3 { font-size: 1.12rem; line-height: 1.35; }
+.person-role { margin: 0; font-size: .9rem; font-weight: 600; color: var(--link); }
+.person-bio { margin: 8px 0 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: .88rem; line-height: 1.6; color: var(--text-2); }
+.person-links { display: flex; gap: 14px; flex-wrap: wrap; margin: 10px 0 0; font-size: .88rem; font-weight: 600; }
 .person-links a { border-bottom: 2px solid var(--amber); }
+[data-theme="dark"] .person-band, [data-theme="dark"] .lead-blank { background-color: #16294a; }
+[data-theme="dark"] .person-badge { background: #16294a; }
+
+/* Head of the team: one wide card above the rest */
+.lead-card { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); margin-bottom: clamp(28px, 4vw, 48px); background: var(--brand-dark); color: #fff; border-left: 6px solid var(--amber); }
+.lead-card.is-blank { grid-template-columns: auto minmax(0, 1fr); }
+.lead-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #132542; }
+.lead-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+.lead-blank { display: grid; place-items: center; width: clamp(170px, 22vw, 280px); border-right: 1px solid rgba(255, 255, 255, .12); }
+.lead-blank .person-badge { width: clamp(104px, 11vw, 148px); height: clamp(104px, 11vw, 148px); background: #132542; box-shadow: 0 0 0 8px rgba(255, 255, 255, .05); }
+.lead-blank .person-badge svg { width: 54%; height: 54%; }
+.lead-copy { display: grid; align-content: center; gap: 12px; padding: clamp(26px, 4vw, 52px); }
+.lead-copy .label { margin: 0; color: var(--amber); }
+.lead-copy h3 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); color: #fff; }
+.lead-role { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--amber); }
+.lead-bio { margin: 0; max-width: 56ch; color: var(--on-navy-muted); }
+.lead-links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 6px 0 0; font-weight: 600; }
+.lead-links a { color: #fff; border-bottom: 2px solid var(--amber); }
+[data-theme="dark"] .lead-card { background: #132542; }
+.sec-head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+@media (max-width: 760px) {
+    .lead-card { grid-template-columns: 1fr; }
+    .lead-photo { aspect-ratio: 4 / 3; }
+    .lead-card.is-blank { grid-template-columns: 1fr; }
+    .lead-blank { width: auto; height: 132px; place-items: center start; padding-left: 24px; border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, .12); }
+}
+/* Phones: one profile per row, the badge beside the text */
+@media (max-width: 560px) {
+    .people { grid-template-columns: 1fr !important; gap: 14px !important; }
+    .person.is-blank { display: grid; grid-template-columns: 96px minmax(0, 1fr); }
+    .person.is-blank .person-band { height: auto; border-bottom: 0; border-right: 4px solid var(--amber); display: grid; place-items: center; }
+    .person.is-blank .person-band::before { display: none; }
+    .person.is-blank .person-band .person-badge { position: static; width: 64px; height: 64px; box-shadow: none; }
+    .person.is-blank .person-badge svg { width: 34px; height: 34px; }
+    .person.is-blank .person-body { padding: 16px 16px 18px; }
+    .person:not(.is-blank) { display: grid; grid-template-columns: 120px minmax(0, 1fr); }
+    .person:not(.is-blank) .person-photo { aspect-ratio: auto; height: 100%; min-height: 150px; border-bottom: 0; border-right: 4px solid var(--amber); }
+    .person:not(.is-blank) .person-body { padding: 16px 16px 18px; }
+}
 
 /* ---------- Footer ---------- */
 .footer { background: #050c18; color: var(--on-navy); }

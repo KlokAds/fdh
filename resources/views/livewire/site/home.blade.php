@@ -18,6 +18,7 @@
                     <li><x-icon name="check" /> {{ __('BNBC-compliant design') }}</li>
                     <li><x-icon name="check" /> {{ __('RAJUK / City Corp approval') }}</li>
                     <li><x-icon name="check" /> {{ __('Engineer on site') }}</li>
+                    <li><x-icon name="check" /> {{ __('RAJUK-enlisted structural engineer') }}</li>
                 </ul>
             </div>
 
@@ -183,6 +184,27 @@
             </div>
         </div>
     </section>
+
+    {{-- TEAM: the people working under the principal above --}}
+    @if ($members->isNotEmpty())
+        <section class="section">
+            <div class="container">
+                <header class="sec-head sec-head-row reveal">
+                    <div>
+                        <p class="label">{{ __('Team') }}</p>
+                        <h2>{{ __('One team, led by :name', ['name' => site('md_name')]) }}</h2>
+                        <p class="sub">{{ __('Our team includes a RAJUK-enlisted structural engineer, an architect and site engineers.') }}</p>
+                    </div>
+                    <a href="{{ route('team') }}" wire:navigate class="btn btn-outline">{{ __('Meet the team') }} <x-icon name="arrow" /></a>
+                </header>
+                <div class="people">
+                    @foreach ($members as $member)
+                        <x-site.team-card :member="$member" wire:key="home-tm-{{ $member->id }}" />
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     {{-- TESTIMONIALS (only real ones added by the admin) --}}
     @if ($testimonials->isNotEmpty())
