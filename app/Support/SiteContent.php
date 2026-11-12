@@ -107,7 +107,7 @@ class SiteContent
                     ['Consultation', 'We listen to your needs, budget and timeline — and visit your land.', 'পরামর্শ', 'আপনার চাহিদা, বাজেট ও সময়সীমা শুনি — এবং আপনার জমি পরিদর্শন করি।'],
                     ['Survey & Soil Test', 'Digital land survey and soil investigation for a safe foundation.', 'সার্ভে ও সয়েল টেস্ট', 'নিরাপদ ফাউন্ডেশনের জন্য ডিজিটাল ভূমি জরিপ ও মাটি পরীক্ষা।'],
                     ['Design', 'Architectural, structural, interior, electrical & plumbing drawings.', 'ডিজাইন', 'আর্কিটেকচারাল, স্ট্রাকচারাল, ইন্টেরিয়র, ইলেকট্রিক্যাল ও প্লাম্বিং নকশা।'],
-                    ['Estimate & Approval', 'Detailed cost estimate and Rangpur Development Authority / City Corp / RAJUK / Upazila approval sheet.', 'খরচ ও অনুমোদন', 'বিস্তারিত খরচের হিসাব এবং রংপুর উন্নয়ন কর্তৃপক্ষ / সিটি কর্পোরেশন / রাজউক / উপজেলা অনুমোদন নকশা।'],
+                    ['Estimate & Approval', 'Detailed cost estimate and Rangpur Development Authority / RAJUK / City Corp / Pourashava approval sheet.', 'খরচ ও অনুমোদন', 'বিস্তারিত খরচের হিসাব এবং রংপুর উন্নয়ন কর্তৃপক্ষ / রাজউক / সিটি কর্পোরেশন / পৌরসভা অনুমোদন নকশা।'],
                     ['Build & Supervise', 'On-site construction management until your dream home is ready.', 'নির্মাণ ও তত্ত্বাবধান', 'স্বপ্নের বাড়ি তৈরি না হওয়া পর্যন্ত সাইটে নির্মাণ ব্যবস্থাপনা।'],
                 ]),
             ],
@@ -148,7 +148,7 @@ class SiteContent
                 'permission' => 'settings.manage',
                 'fields' => [
                     'meta_title' => self::tr('Home page title (browser tab & Google)', 'Friends Dream Home — Design & Consultancy in Rangpur & Dhaka', 'ফ্রেন্ডস ড্রিম হোম — রংপুর ও ঢাকায় ডিজাইন ও কনসালটেন্সি'),
-                    'meta_description' => self::tr('Meta description (Google snippet)', 'Building design, Rangpur Development Authority / City Corporation / RAJUK approval, construction supervision, digital survey, soil test and cost estimation in Rangpur and Dhaka.', 'রংপুর ও ঢাকায় বিল্ডিং ডিজাইন, রংপুর উন্নয়ন কর্তৃপক্ষ / সিটি কর্পোরেশন / রাজউক অনুমোদন, নির্মাণ তত্ত্বাবধান, ডিজিটাল সার্ভে, সয়েল টেস্ট ও খরচ নির্ধারণ।', 'textarea'),
+                    'meta_description' => self::tr('Meta description (Google snippet)', 'Building design, Rangpur Development Authority / RAJUK / City Corporation / Pourashava approval, construction supervision, digital survey, soil test and cost estimation in Rangpur and Dhaka.', 'রংপুর ও ঢাকায় বিল্ডিং ডিজাইন, রংপুর উন্নয়ন কর্তৃপক্ষ / রাজউক / সিটি কর্পোরেশন / পৌরসভা অনুমোদন, নির্মাণ তত্ত্বাবধান, ডিজিটাল সার্ভে, সয়েল টেস্ট ও খরচ নির্ধারণ।', 'textarea'),
                     'og_image' => ['type' => 'image', 'label' => 'Social share image (Facebook preview)', 'size' => '1200 × 630 px · landscape', 'default' => ''],
                     'footer_about' => self::tr('Footer — short about', 'Building design, approval, supervision, survey and cost estimation — from the first sketch to the final brick.', 'বিল্ডিং ডিজাইন, অনুমোদন, তত্ত্বাবধান, সার্ভে ও খরচ নির্ধারণ — প্রথম স্কেচ থেকে শেষ ইট পর্যন্ত।', 'textarea'),
                     'footer_tagline' => self::tr('Footer — slogan', '❤️ Make Your Dream With Us ❤️', '❤️ আমাদের সাথে আপনার স্বপ্ন গড়ুন ❤️'),

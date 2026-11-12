@@ -33,13 +33,16 @@ class ClientWordingUpdateTest extends TestCase
         $update = require database_path('migrations/2026_11_12_090000_show_rangpur_authority_and_plain_director_title.php');
         $update->up();
         $update->up();
+        $authorities = require database_path('migrations/2026_11_12_100000_add_pourashava_to_approval_authorities.php');
+        $authorities->up();
+        $authorities->up();
 
         $this->assertSame('ব্যবস্থাপনা পরিচালক', Setting::read('md_title', 'bn'));
         $this->assertSame('Managing Director', Setting::read('md_title', 'en'));
-        $this->assertSame('বিস্তারিত খরচের হিসাব এবং রংপুর উন্নয়ন কর্তৃপক্ষ / সিটি কর্পোরেশন / রাজউক / উপজেলা অনুমোদন নকশা।', Setting::read('process_4_text', 'bn'));
+        $this->assertSame('বিস্তারিত খরচের হিসাব এবং রংপুর উন্নয়ন কর্তৃপক্ষ / রাজউক / সিটি কর্পোরেশন / পৌরসভা অনুমোদন নকশা।', Setting::read('process_4_text', 'bn'));
         $this->assertSame('৫', Setting::read('stat_3_value', 'bn'));
         $this->assertSame('রংপুরে ফ্রি পরামর্শ নিন', Setting::read('hero_cta', 'bn'));
-        $this->assertSame('রংপুর উন্নয়ন কর্তৃপক্ষ, রাজউক, সিটি কর্পোরেশন, উপজেলা', Service::query()->where('slug', 'approval-sheet')->firstOrFail()->getTranslation('features', 'bn'));
+        $this->assertSame('রংপুর উন্নয়ন কর্তৃপক্ষ, রাজউক, সিটি কর্পোরেশন, পৌরসভা, উপজেলা', Service::query()->where('slug', 'approval-sheet')->firstOrFail()->getTranslation('features', 'bn'));
         $this->assertSame([], $director->fresh()->getTranslations('bio'));
         $this->assertSame('BSc in Civil Engineering, BUET · MIEB', $engineer->fresh()->getTranslation('bio', 'en'));
     }
