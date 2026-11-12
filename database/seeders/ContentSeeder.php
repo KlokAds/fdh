@@ -20,7 +20,6 @@ class ContentSeeder extends Seeder
             TeamMember::query()->create([
                 'name' => ['en' => 'Engr. Noman', 'bn' => 'ইঞ্জি. নোমান'],
                 'designation' => ['en' => 'Managing Director', 'bn' => 'ব্যবস্থাপনা পরিচালক'],
-                'bio' => ['en' => 'BSc in Civil Engineering (IEB).', 'bn' => 'বিএসসি ইন সিভিল ইঞ্জিনিয়ারিং (আইইবি)।'],
                 'phone' => '01786-852453',
                 'email' => 'engr.nomanbabu@gmail.com',
                 'sort' => 1,
@@ -52,10 +51,10 @@ class ContentSeeder extends Seeder
                 'title' => ['en' => 'Approval Sheet', 'bn' => 'অনুমোদন নকশা'],
                 'summary' => ['en' => 'Drawings prepared to authority standards and full support until your plan is approved.', 'bn' => 'কর্তৃপক্ষের মান অনুযায়ী নকশা প্রস্তুত এবং অনুমোদন না হওয়া পর্যন্ত পূর্ণ সহায়তা।'],
                 'description' => [
-                    'en' => "Getting a building plan approved can be slow and confusing. We prepare approval drawings to the standards of RAJUK, City Corporation and Upazila authorities, and guide you through the documents and steps involved.\n\nCorrect drawings the first time mean fewer objections and a faster approval.",
-                    'bn' => "ভবনের নকশা অনুমোদন করানো সময়সাপেক্ষ ও জটিল হতে পারে। আমরা রাজউক, সিটি কর্পোরেশন ও উপজেলা কর্তৃপক্ষের মান অনুযায়ী অনুমোদন নকশা প্রস্তুত করি এবং প্রয়োজনীয় কাগজপত্র ও ধাপগুলোতে আপনাকে সহায়তা করি।\n\nপ্রথমবারেই সঠিক নকশা মানে কম আপত্তি এবং দ্রুত অনুমোদন।",
+                    'en' => "Getting a building plan approved can be slow and confusing. We prepare approval drawings to the standards of Rangpur Development Authority, RAJUK, City Corporation and Upazila authorities, and guide you through the documents and steps involved.\n\nCorrect drawings the first time mean fewer objections and a faster approval.",
+                    'bn' => "ভবনের নকশা অনুমোদন করানো সময়সাপেক্ষ ও জটিল হতে পারে। আমরা রংপুর উন্নয়ন কর্তৃপক্ষ, রাজউক, সিটি কর্পোরেশন ও উপজেলা কর্তৃপক্ষের মান অনুযায়ী অনুমোদন নকশা প্রস্তুত করি এবং প্রয়োজনীয় কাগজপত্র ও ধাপগুলোতে আপনাকে সহায়তা করি।\n\nপ্রথমবারেই সঠিক নকশা মানে কম আপত্তি এবং দ্রুত অনুমোদন।",
                 ],
-                'features' => ['en' => 'RAJUK, City Corporation, Upazila', 'bn' => 'রাজউক, সিটি কর্পোরেশন, উপজেলা'],
+                'features' => ['en' => 'Rangpur Development Authority, RAJUK, City Corporation, Upazila', 'bn' => 'রংপুর উন্নয়ন কর্তৃপক্ষ, রাজউক, সিটি কর্পোরেশন, উপজেলা'],
             ],
             [
                 'slug' => 'construction-management',
@@ -102,11 +101,11 @@ class ContentSeeder extends Seeder
         $faqs = [
             [
                 ['en' => 'What services does Friends Dream Home provide?', 'bn' => 'ফ্রেন্ডস ড্রিম হোম কী কী সেবা দেয়?'],
-                ['en' => 'We provide complete building design (architectural, structural, interior, electrical and plumbing), approval drawings for RAJUK, City Corporation and Upazila, construction management and supervision, digital survey and soil test, and cost estimation.', 'bn' => 'আমরা সম্পূর্ণ বিল্ডিং ডিজাইন (আর্কিটেকচারাল, স্ট্রাকচারাল, ইন্টেরিয়র, ইলেকট্রিক্যাল ও প্লাম্বিং), রাজউক, সিটি কর্পোরেশন ও উপজেলার অনুমোদন নকশা, নির্মাণ ব্যবস্থাপনা ও তত্ত্বাবধান, ডিজিটাল সার্ভে ও সয়েল টেস্ট এবং খরচ নির্ধারণ সেবা দিই।'],
+                ['en' => 'We provide complete building design (architectural, structural, interior, electrical and plumbing), approval drawings for Rangpur Development Authority, RAJUK, City Corporation and Upazila, construction management and supervision, digital survey and soil test, and cost estimation.', 'bn' => 'আমরা সম্পূর্ণ বিল্ডিং ডিজাইন (আর্কিটেকচারাল, স্ট্রাকচারাল, ইন্টেরিয়র, ইলেকট্রিক্যাল ও প্লাম্বিং), রংপুর উন্নয়ন কর্তৃপক্ষ, রাজউক, সিটি কর্পোরেশন ও উপজেলার অনুমোদন নকশা, নির্মাণ ব্যবস্থাপনা ও তত্ত্বাবধান, ডিজিটাল সার্ভে ও সয়েল টেস্ট এবং খরচ নির্ধারণ সেবা দিই।'],
             ],
             [
                 ['en' => 'Can you help me get my building plan approved?', 'bn' => 'আমার ভবনের নকশা অনুমোদনে কি আপনারা সাহায্য করতে পারবেন?'],
-                ['en' => 'Yes. We prepare approval drawings to the standards of RAJUK, City Corporation and Upazila authorities and guide you through the required documents and steps.', 'bn' => 'হ্যাঁ। আমরা রাজউক, সিটি কর্পোরেশন ও উপজেলা কর্তৃপক্ষের মান অনুযায়ী অনুমোদন নকশা প্রস্তুত করি এবং প্রয়োজনীয় কাগজপত্র ও ধাপগুলোতে আপনাকে সহায়তা করি।'],
+                ['en' => 'Yes. We prepare approval drawings to the standards of Rangpur Development Authority, RAJUK, City Corporation and Upazila authorities and guide you through the required documents and steps.', 'bn' => 'হ্যাঁ। আমরা রংপুর উন্নয়ন কর্তৃপক্ষ, রাজউক, সিটি কর্পোরেশন ও উপজেলা কর্তৃপক্ষের মান অনুযায়ী অনুমোদন নকশা প্রস্তুত করি এবং প্রয়োজনীয় কাগজপত্র ও ধাপগুলোতে আপনাকে সহায়তা করি।'],
             ],
             [
                 ['en' => 'Why do I need a soil test before designing?', 'bn' => 'ডিজাইনের আগে সয়েল টেস্ট কেন প্রয়োজন?'],

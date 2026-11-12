@@ -16,7 +16,7 @@
                 </div>
                 <ul class="hero-trust reveal">
                     <li><x-icon name="check" /> {{ __('BNBC-compliant design') }}</li>
-                    <li><x-icon name="check" /> {{ __('RAJUK / City Corp approval') }}</li>
+                    <li><x-icon name="check" /> {{ __('Rangpur Development Authority approval') }}</li>
                     <li><x-icon name="check" /> {{ __('Engineer on site') }}</li>
                     <li><x-icon name="check" /> {{ __('RAJUK-enlisted structural engineer') }}</li>
                 </ul>
