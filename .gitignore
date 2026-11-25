@@ -1,0 +1,12 @@
+# The "release" branch holds the built website. What the server writes itself is never part of it.
+/.env
+/public/storage
+/storage/*.key
+/storage/app/*
+!/storage/app/.gitignore
+!/storage/app/public/
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/database/*.sqlite

@@ -1,0 +1,75 @@
+{
+    "name": "spatie/laravel-translatable",
+    "description": "A trait to make an Eloquent model hold translations",
+    "keywords": [
+        "spatie",
+        "laravel-translatable",
+        "translate",
+        "eloquent",
+        "model",
+        "i8n",
+        "multilingual"
+    ],
+    "homepage": "https://github.com/spatie/laravel-translatable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        },
+        {
+            "name": "Sebastian De Deyne",
+            "email": "sebastian@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "illuminate/database": "^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0",
+        "spatie/laravel-package-tools": "^1.93.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.32",
+        "mockery/mockery": "^1.6.12",
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^4.7|^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\Translatable\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\Translatable\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\Translatable\\TranslatableServiceProvider"
+            ]
+        },
+        "aliases": {
+            "Translatable": "Spatie\\Translatable\\Facades\\Translatable"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
