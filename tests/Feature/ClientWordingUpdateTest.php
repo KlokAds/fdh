@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Faq;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\TeamMember;
@@ -56,5 +57,30 @@ class ClientWordingUpdateTest extends TestCase
             ->assertSee('রংপুর উন্নয়ন কর্তৃপক্ষের অনুমোদন')
             ->assertDontSee('আইইবি');
         $this->get(route('about'))->assertOk()->assertDontSee('আইইবি');
+    }
+
+    public function test_the_rangpur_office_address_follows_the_move_to_nilkontho_road(): void
+    {
+        $this->seed(ContentSeeder::class);
+
+        // A site installed while the office was on Thana Road.
+        Setting::write([
+            'rangpur_address' => ['en' => 'House-229, Road-3, Thana Road, Rangpur', 'bn' => 'বাড়ি-২২৯, রোড-৩, থানা রোড, রংপুর'],
+            'dhaka_address' => ['en' => 'House-31, Road-10, Block-L, South Banasree, Dhaka', 'bn' => 'বাড়ি-৩১, রোড-১০, ব্লক-এল, দক্ষিণ বনশ্রী, ঢাকা'],
+        ]);
+        $offices = Faq::query()->get()->firstOrFail(fn (Faq $faq): bool => str_contains($faq->getTranslation('question', 'en'), 'offices'));
+        $offices->setTranslation('answer', 'bn', 'আমাদের প্রধান অফিস রংপুরের থানা রোডে, এছাড়া ঢাকার দক্ষিণ বনশ্রীতেও অফিস রয়েছে।')->save();
+
+        $move = require database_path('migrations/2026_11_25_061000_move_rangpur_office_to_nilkontho_road.php');
+        $move->up();
+        $move->up();
+
+        $this->assertSame('নীলকণ্ঠ রোড, পাকার মাথা, সদর, রংপুর ৫৪০১', Setting::read('rangpur_address', 'bn'));
+        $this->assertSame('Nilkontho Road, Pakar Matha, Sadar, Rangpur 5401', Setting::read('rangpur_address', 'en'));
+        $this->assertSame('বাড়ি-৩১, রোড-১০, ব্লক-এল, দক্ষিণ বনশ্রী, ঢাকা', Setting::read('dhaka_address', 'bn'));
+        $this->assertSame('আমাদের প্রধান অফিস রংপুরের পাকার মাথায়, নীলকণ্ঠ রোডে, এছাড়া ঢাকার দক্ষিণ বনশ্রীতেও অফিস রয়েছে।', $offices->fresh()->getTranslation('answer', 'bn'));
+
+        app()->setLocale('bn');
+        $this->get(route('contact'))->assertOk()->assertSee('নীলকণ্ঠ রোড, পাকার মাথা, সদর, রংপুর ৫৪০১')->assertDontSee('থানা রোড');
     }
 }

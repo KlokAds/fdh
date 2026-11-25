@@ -117,7 +117,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 ['en' => 'Where are your offices?', 'bn' => 'আপনাদের অফিস কোথায়?'],
-                ['en' => 'Our head office is on Thana Road, Rangpur, and we also have an office in South Banasree, Dhaka. Full addresses are on the Contact page.', 'bn' => 'আমাদের প্রধান অফিস রংপুরের থানা রোডে, এছাড়া ঢাকার দক্ষিণ বনশ্রীতেও অফিস রয়েছে। পূর্ণ ঠিকানা যোগাযোগ পাতায় দেওয়া আছে।'],
+                ['en' => 'Our head office is on Nilkontho Road, Pakar Matha, Rangpur, and we also have an office in South Banasree, Dhaka. Full addresses are on the Contact page.', 'bn' => 'আমাদের প্রধান অফিস রংপুরের পাকার মাথায়, নীলকণ্ঠ রোডে, এছাড়া ঢাকার দক্ষিণ বনশ্রীতেও অফিস রয়েছে। পূর্ণ ঠিকানা যোগাযোগ পাতায় দেওয়া আছে।'],
             ],
         ];
 

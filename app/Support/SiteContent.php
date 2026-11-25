@@ -39,7 +39,7 @@ class SiteContent
                     'whatsapp' => ['type' => 'text', 'label' => 'WhatsApp (country code + number, digits only)', 'default' => '8801786852453', 'rules' => 'required|digits_between:10,15'],
                     'email' => ['type' => 'email', 'label' => 'Email', 'default' => 'engr.nomanbabu@gmail.com', 'rules' => 'required|email|max:150'],
                     'office_hours' => self::tr('Office hours', 'Sat – Thu, 10:00 AM – 7:00 PM', 'শনি – বৃহস্পতি, সকাল ১০টা – সন্ধ্যা ৭টা'),
-                    'rangpur_address' => self::tr('Rangpur office address', 'House-229, Road-3, Thana Road, Rangpur', 'বাড়ি-২২৯, রোড-৩, থানা রোড, রংপুর'),
+                    'rangpur_address' => self::tr('Rangpur office address', 'Nilkontho Road, Pakar Matha, Sadar, Rangpur 5401', 'নীলকণ্ঠ রোড, পাকার মাথা, সদর, রংপুর ৫৪০১'),
                     'dhaka_address' => self::tr('Dhaka office address', 'House-31, Road-10, Block-L, South Banasree, Dhaka', 'বাড়ি-৩১, রোড-১০, ব্লক-এল, দক্ষিণ বনশ্রী, ঢাকা'),
                     'facebook' => ['type' => 'url', 'label' => 'Facebook page URL', 'default' => 'https://www.facebook.com/FriendsDreamhome', 'rules' => 'nullable|url:https|max:255'],
                     'facebook_interior' => ['type' => 'url', 'label' => 'FDH Interior Facebook page URL', 'default' => '', 'rules' => 'nullable|url:https|max:255'],
